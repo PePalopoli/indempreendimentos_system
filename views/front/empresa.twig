@@ -1,0 +1,218 @@
+{% set menu_pagina = 'empresa' %}
+{% extends 'front/layout.twig' %}
+
+{% block content %}
+<!-- Empresa Hero Section -->
+    <section class="empresa-hero-section">
+        <div class="container">
+            <div class="empresa-hero-content">
+                <h2 class="empresa-intro-text">Prazer, somos a</h2>
+                <h1 class="empresa-main-title">Booster.</h1>
+                <p class="empresa-description">
+                    Uma AdTech, unidade de negócios da Foregon SA, fundada em 2023 com a missão de conectar bilhões de pessoas a marcas que fazem a diferença no mundo.
+                </p>
+                <a href="{{path('web_contato')}}" class="btn btn-primary empresa-hero-btn">ENTRE EM CONTATO</a>
+            </div>
+        </div>
+        <!-- Estrelas serão adicionadas aqui via JS -->
+    </section>
+
+    <!-- Sobre Nós Section -->
+    <section class="empresa-sobre-section">
+        <div class="container">
+            <div class="empresa-sobre-header">
+                <h2 class="empresa-sobre-title" data-aos="fade-up" data-aos-duration="1000">Sobre nós</h2>
+                {{sobre.body|raw}}
+            </div>
+            <div class="empresa-video-container">
+                <a href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID" class="video-link" target="_blank">
+                    <div class="video-wrapper">
+                        <img class="video-thumbnail">
+                        <div class="play-button">
+                            <i class="fa fa-play-circle"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Depoimento Section -->
+    <section class="depoimento-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7 depoimento-text-col">
+                    <h2 class="depoimento-title" data-aos="fade-up" data-aos-duration="1000">Depoimento</h2>
+                    {{depoimento.body|raw}}
+                    
+                    <a href="{{path('web_contato')}}" class="btn btn-primary depoimento-btn" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">FALE COM A GENTE</a>
+                </div>
+                <div class="col-lg-5 depoimento-image-col">
+                    <div class="depoimento-image-wrapper">
+                        <img src="{{asset('imgs/depoimento-image.jpg')}}" alt="Depoimento Booster" class="depoimento-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <h2 class="stats-title" data-aos="fade-up" data-aos-duration="1000">
+                <span>Nossos números</span> não mentem. Validam.
+            </h2>
+            
+            <div class="stats-container">
+                
+                {% for item in nossos_numeros %}
+
+                <div class="stats-column" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <h3>{{item.title|raw}}</h3>
+                    {{item.body|raw}}
+                </div>
+                
+                {% if not loop.last %}                    
+                    <div class="divider" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300"></div>
+                {% endif %}
+                    
+                {% endfor %}
+
+                
+            </div>
+            
+            <div class="stats-cta" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="800">
+                <a href="{{path('web_contato')}}" class="btn-outline">Entre em contato</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- História Section -->
+    <section class="historia-section">
+        <div class="container">
+            <div class="historia-header">
+                <div class="titulo-controles">
+                    <h2 class="historia-title" data-aos="fade-up" data-aos-duration="1000">
+                        Nossa<br>
+                        <span>História</span>
+                    </h2>
+                    <div class="historia-controls">
+                        <button class="control-btn prev-btn" aria-label="Anterior">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="11.5" stroke="white"/>
+                                <path d="M14 8L10 12L14 16" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <button class="control-btn next-btn" aria-label="Próximo">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="11.5" stroke="white"/>
+                                <path d="M10 8L14 12L10 16" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="timeline-bar">
+                    <div class="timeline-progress"></div>
+                </div>
+            </div>
+            
+            <div class="historia-carousel" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                <div class="historia-track">
+
+                    {% for item in historia %}
+                        <div class="historia-item">
+                            <div class="historia-year">{{item.title|raw}}</div>
+                            {{item.body|raw}}
+                        </div>                    
+                    {% endfor %}
+
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Valores Section -->
+    <section class="valores-section">
+        <div class="container" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+            <h2 class="valores-title">Nossos Valores</h2>
+            
+            <div class="valores-container">
+                <div class="valores-row">
+
+
+                    {% for item in valores %}
+
+                        <div class="valor-item">
+                            <div class="valor-marker"></div>
+                            <h3 class="valor-title">{{item.title|raw}}</h3>
+                            {{item.body|raw}}
+                        </div>
+                        
+                        {% if not loop.last %}                            
+                            <div class="valor-divider"></div>
+                        {% endif %}
+                        
+                    {% endfor %}
+
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- Seção de Cases -->
+     <section class="cases-section">
+        <div class="back-img">
+            <img src="{{asset('imgs/strokeicon.png')}}" alt="Cases Illustration" class="cases-illustration">
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 class="cases-title" data-aos="fade-up" data-aos-duration="1000">O que nossos<br> clientes dizem.</h2>
+                    <div class="cases-carousel-container">
+                        <div class="cases-carousel">
+                            {% for item in depoimentos %}
+                                <div class="case-card">
+                                    <h3 class="case-card-title">{{item.title|raw}}</h3>
+                                    <p class="case-card-text">{{item.body|raw}}</p>
+                                    <div class="case-card-divider"></div>
+                                    <img src="{{path('imagem',{'path':'depoimentos','imagem':item.image})}}" alt="{{item.title|raw}}" class="case-card-image">
+                                </div>                                
+                            {% endfor %}  
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Section -->
+    <section class="final-empresa-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 final-content-col">
+                    <h2 class="final-title" data-aos="fade-up" data-aos-duration="1000">Quer trabalhar com a gente?</h2>
+                    <div class="final-divider"></div>
+                    <p class="final-text" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                        Acreditamos que resultados extraordinários vêm de pessoas extraordinárias. 
+                        <br><br>
+                        Valorizamos a diversidade de ideias e talentos, que nos impulsionam a sermos inovadores e disruptivos.
+                        Estamos prontos para ajudar você a alcançar seus objetivos de marketing digital com soluções personalizadas e eficientes.
+                    </p>
+                    <a href="{{path('web_contato')}}" class="btn btn-primary final-btn">FALE COM A GENTE</a>
+                </div>
+                <div class="col-lg-6 final-images-col">
+                    <div class="images-wrapper">
+                        <img src="{{asset('imgs/icone-linha-astronauta.png')}}" alt="Background Image" class="final-bg-image">
+                        <img src="{{asset('imgs/astronauta.png')}}" alt="Front Image" class="final-front-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

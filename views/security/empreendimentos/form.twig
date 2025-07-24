@@ -1,0 +1,711 @@
+{% extends 'security/empreendimentos/theme.twig' %}
+
+{% block stylesheet %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+	<!-- Summernote -->
+	<link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
+	<!-- Select2 -->
+	<link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+	
+	<style>
+		/* Estilos para galeria de imagens */
+		.marked-for-removal {
+			position: relative;
+		}
+		
+		.marked-for-removal::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-color: rgba(220, 53, 69, 0.1);
+			border: 2px dashed #dc3545;
+			border-radius: 0.25rem;
+			z-index: 1;
+		}
+		
+		.card-body .text-danger {
+			z-index: 2;
+			position: relative;
+			background-color: rgba(255, 255, 255, 0.9);
+			padding: 2px 5px;
+			border-radius: 3px;
+			margin-top: 5px;
+		}
+		
+		/* Efeito hover para imagens */
+		.card img:hover {
+			transform: scale(1.02);
+			transition: transform 0.2s ease-in-out;
+		}
+		
+		/* Drag and drop area */
+		.border-primary.bg-light {
+			border-style: dashed !important;
+			border-width: 2px !important;
+		}
+		
+		/* Preview container */
+		#preview-container {
+			border: 1px solid #dee2e6;
+			border-radius: 0.375rem;
+			padding: 15px;
+			background-color: #f8f9fa;
+		}
+		
+		/* Loading states */
+		.btn:disabled {
+			opacity: 0.6;
+		}
+		
+		/* Contador de imagens */
+		.image-counter {
+			background-color: #17a2b8;
+			color: white;
+			padding: 2px 8px;
+			border-radius: 12px;
+			font-size: 0.875rem;
+			font-weight: bold;
+		}
+		
+		/* Botão de remoção de imagem */
+		.btn-remove-image {
+			opacity: 0.8;
+			transition: opacity 0.2s ease-in-out;
+			border-radius: 50%;
+			width: 30px;
+			height: 30px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+		}
+		
+		.btn-remove-image:hover {
+			opacity: 1;
+			transform: scale(1.1);
+		}
+		
+		/* Container da imagem com hover */
+		.position-relative:hover .btn-remove-image {
+			opacity: 1;
+		}
+		
+		/* Badge contador */
+		.badge-info {
+			background-color: #17a2b8;
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+
+	{% block form_title %}{% endblock form_title %}
+
+	<!-- Adicionar no início do formulário -->
+	<div class="alert alert-info">
+		<i class="fas fa-info-circle"></i>
+		<strong>Limite de upload:</strong>
+		Tamanho máximo permitido:
+		<?php echo ini_get('upload_max_filesize'); ?>
+	</div>
+
+	<!-- Main content -->
+	<section class="content">
+		<div class="container-fluid">
+
+			{{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+
+			<div class="row">
+				<div
+					class="col-md-8">
+					<!-- Dados Básicos -->
+					<div class="card card-info">
+						<div class="card-header">
+							<h3 class="card-title">Dados Básicos do Empreendimento</h3>
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool" data-card-widget="collapse">
+									<i class="fas fa-minus"></i>
+								</button>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										{{ form_label(form.nome) }}
+										{{ form_errors(form.nome) }}
+										{{ form_widget(form.nome, { attr: { 'class': 'form-control' }}) }}
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										{{ form_label(form.cidade_estado) }}
+										{{ form_errors(form.cidade_estado) }}
+										{{ form_widget(form.cidade_estado, { attr: { 'class': 'form-control' }}) }}
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+
+
+								<div class="form-group col-md-6">
+									{{ form_label(form.etapa_id) }}
+									{{ form_errors(form.etapa_id) }}
+									{{ form_widget(form.etapa_id, { attr: { 'class': 'form-control select2' }}) }}
+								</div>
+
+
+								<div class="form-group col-md-6">
+									{{ form_label(form.slug) }}
+									{{ form_errors(form.slug) }}
+									{{ form_widget(form.slug, { attr: { 'class': 'form-control' }}) }}
+									<small class="form-text text-muted">URL amigável (será gerada automaticamente se deixar em branco)</small>
+								</div>
+							</div>
+
+							<div class="form-group">
+								{{ form_label(form.descricao) }}
+								{{ form_errors(form.descricao) }}
+								{{ form_widget(form.descricao, { attr: { 'class': 'form-control editor-content' }}) }}
+							</div>
+						</div>
+					</div>
+
+					<!-- SEO -->
+					<div class="card card-secondary">
+						<div class="card-header">
+							<h3 class="card-title">SEO</h3>
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool" data-card-widget="collapse">
+									<i class="fas fa-minus"></i>
+								</button>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								{{ form_label(form.meta_title) }}
+								{{ form_errors(form.meta_title) }}
+								{{ form_widget(form.meta_title, { attr: { 'class': 'form-control' }}) }}
+								<div class="text-muted small">
+									<span id="meta-title-count">0</span>/160 caracteres
+								</div>
+							</div>
+
+							<div class="form-group">
+								{{ form_label(form.meta_description) }}
+								{{ form_errors(form.meta_description) }}
+								{{ form_widget(form.meta_description, { attr: { 'class': 'form-control' }}) }}
+								<div class="text-muted small">
+									<span id="meta-desc-count">0</span>/255 caracteres
+								</div>
+							</div>
+
+							<div class="form-group">
+								{{ form_label(form.meta_keywords) }}
+								{{ form_errors(form.meta_keywords) }}
+								{{ form_widget(form.meta_keywords, { attr: { 'class': 'form-control' }}) }}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div
+					class="col-md-4">
+					<!-- Status e Configurações -->
+					<div class="card card-primary">
+						<div class="card-header">
+							<h3 class="card-title">Status e Configurações</h3>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								{{ form_label(form.enabled) }}
+								{{ form_errors(form.enabled) }}
+								{{ form_widget(form.enabled, { attr: { 'class': 'form-control select2' }}) }}
+							</div>
+
+							<div class="form-group">
+								{{ form_label(form.destaque) }}
+								<div class="form-check">
+									{{ form_widget(form.destaque) }}
+									{{ form_label(form.destaque, 'Empreendimento em destaque', {'label_attr': {'class': 'form-check-label'}}) }}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Imagens -->
+					<div class="card card-warning">
+						<div class="card-header">
+							<h3 class="card-title">Imagens</h3>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								{{ form_label(form.logo_empreendimento) }}
+								{{ form_errors(form.logo_empreendimento) }}
+								{{ form_widget(form.logo_empreendimento, { attr: { 'class': 'form-control' }}) }}
+								<small class="form-text text-muted">Logo do empreendimento</small>
+							</div>
+
+							<div class="form-group">
+								{{ form_label(form.img_capa) }}
+								{{ form_errors(form.img_capa) }}
+								{{ form_widget(form.img_capa, { attr: { 'class': 'form-control' }}) }}
+								<small class="form-text text-muted">Imagem principal de capa</small>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- NOVA SEÇÃO: GALERIA DE IMAGENS -->
+			<div class="card card-info">
+				<div class="card-header">
+					<h3 class="card-title">
+						<i class="fas fa-images"></i>
+						Galeria de Imagens
+					</h3>
+					<div class="card-tools">
+						<button type="button" class="btn btn-tool" data-card-widget="collapse">
+							<i class="fas fa-minus"></i>
+						</button>
+					</div>
+				</div>
+				<div class="card-body">
+					<!-- Upload múltiplo de novas imagens -->
+					<div class="form-group">
+						{{ form_label(form.galeria_imagens) }}
+						{{ form_errors(form.galeria_imagens) }}
+						{{ form_widget(form.galeria_imagens, { 
+							attr: { 
+								'class': 'form-control-file',
+								'multiple': true,
+								'accept': 'image/*',
+								'id': 'galeria_imagens_input'
+							}
+						}) }}
+						<small class="form-text text-muted">
+							<i class="fas fa-info-circle"></i>
+							<strong>Limites:</strong> Máximo 20 arquivos, 10MB cada, 80MB total. Formatos: JPG, PNG, GIF, WEBP
+						</small>
+					</div>
+
+					<!-- Preview das novas imagens selecionadas -->
+					<div id="preview-container" class="mt-3" style="display: none;">
+						<h6><i class="fas fa-eye"></i> Prévia das novas imagens:</h6>
+						<div id="preview-images" class="row"></div>
+					</div>
+
+					{% if galeria_existente is defined and galeria_existente|length > 0 %}
+					<!-- Galeria existente (apenas na edição) -->
+					<div class="mt-4">
+						<h6><i class="fas fa-folder-open"></i> Imagens atuais na galeria ({{ galeria_existente|length }}):</h6>
+						<div class="row">
+							{% for imagem in galeria_existente %}
+							<div class="col-md-4 col-sm-6 mb-3" id="galeria-item-{{ imagem.id }}">
+								<div class="card">
+									<img src="{{ asset('upload/empreendimentos/galeria/' ~ imagem.imagem) }}" 
+										 class="card-img-top" 
+										 style="height: 150px; object-fit: cover; cursor: pointer;"
+										 alt="{{ imagem.titulo }}"
+										 data-toggle="modal" 
+										 data-target="#imageModal"
+										 data-src="{{ asset('upload/empreendimentos/galeria/' ~ imagem.imagem) }}">
+									<div class="card-body p-2">
+										<p class="card-text small mb-1">
+											<strong>{{ imagem.titulo }}</strong>
+										</p>
+										<p class="card-text small text-muted mb-2">
+											Tipo: {{ imagem.tipo|capitalize }}
+										</p>
+										<button type="button" 
+												class="btn btn-danger btn-sm btn-block btn-mark-remove" 
+												data-image-id="{{ imagem.id }}"
+												data-titulo="{{ imagem.titulo }}">
+											<i class="fas fa-trash"></i> Remover
+										</button>
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal para visualizar imagem -->
+		<div class="modal fade" id="imageModal" tabindex="-1">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Visualizar Imagem</h5>
+						<button type="button" class="close" data-dismiss="modal">
+							<span>&times;</span>
+						</button>
+					</div>
+					<div class="modal-body text-center">
+						<img id="modalImage" src="" class="img-fluid" alt="Imagem">
+					</div>
+				</div>
+			</div>
+		</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-footer">
+							<button type="submit" class="btn btn-info float-right">{{ btn_acao }}</button>
+							<a href="{{ path('s_empreendimentos') }}" class="btn btn-default float-left">Voltar</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{{ form_end(form) }}
+		</div>
+	</section>
+	<!-- END Main content -->
+{% endblock content %}
+
+{% block script %}
+	{{ parent() }}
+	<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+	<script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+	<script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
+	<script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+
+	<script>
+		$(function () { // Summernote
+$('.editor-content').summernote({
+height: 200,
+toolbar: [
+[
+'style', ['style']
+],
+[
+'font',
+[
+'bold', 'italic', 'underline', 'clear'
+]
+],
+[
+'color', ['color']
+],
+[
+'para',
+[
+'ul', 'ol', 'paragraph'
+]
+],
+[
+'table', ['table']
+],
+[
+'insert',
+[
+'link', 'picture', 'video'
+]
+],
+[
+'view',
+[
+'fullscreen', 'codeview', 'help'
+]
+]
+]
+});
+
+// Select2
+$('.select2').select2({theme: 'bootstrap4'});
+
+// Auto-generate slug from nome
+$('#empreendimentos_nome').on('input', function () {
+var nome = $(this).val();
+var slug = nome.toLowerCase().replace(/[áàãäâ]/g, 'a').replace(/[éèëê]/g, 'e').replace(/[íìïî]/g, 'i').replace(/[óòõöô]/g, 'o').replace(/[úùüû]/g, 'u').replace(/[ç]/g, 'c').replace(/[ñ]/g, 'n').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, '-').replace(/^-+|-+$/g, '');
+
+if ($('#empreendimentos_slug').val() === '' || $('#empreendimentos_slug').data('auto-generated')) {
+$('#empreendimentos_slug').val(slug).data('auto-generated', true);
+}
+});
+
+// Stop auto-generation if user manually edits slug
+$('#empreendimentos_slug').on('input', function () {
+$(this).data('auto-generated', false);
+});
+
+// Character counters for SEO fields
+function updateCharCount(fieldId, counterId, maxLength) {
+var $field = $('#' + fieldId);
+var $counter = $('#' + counterId);
+
+function updateCount() {
+var length = $field.val().length;
+$counter.text(length);
+
+if (length > maxLength) {
+$counter.addClass('text-danger');
+} else if (length > maxLength * 0.8) {
+$counter.removeClass('text-danger').addClass('text-warning');
+} else {
+$counter.removeClass('text-danger text-warning');
+}
+}
+
+$field.on('input', updateCount);
+updateCount(); // Initial count
+}
+
+updateCharCount('empreendimentos_meta_title', 'meta-title-count', 160);
+updateCharCount('empreendimentos_meta_description', 'meta-desc-count', 255);
+
+// ==============================================
+// VERSÃO SIMPLIFICADA PARA DEBUG
+// ==============================================
+
+console.log('🚀 Iniciando sistema de galeria SIMPLIFICADO...');
+
+// Array para controlar as imagens selecionadas
+var galeriaFiles = [];
+
+$(document).ready(function() {
+	// Aguardar um pouco para garantir que o DOM está pronto
+	setTimeout(function() {
+		console.log('🔍 Procurando campo de galeria...');
+		
+		// Tentar múltiplos seletores
+		var field = null;
+		var selectors = [
+			'#galeria_imagens_input',
+			'#empreendimentos_galeria_imagens',
+			'input[name*="galeria_imagens"]',
+			'input[name="empreendimentos[galeria_imagens][]"]',
+			'input[name="empreendimentos[galeria_imagens]"]'
+		];
+		
+		for (var i = 0; i < selectors.length; i++) {
+			field = $(selectors[i]);
+			console.log('🎯 Testando seletor "' + selectors[i] + '":', field.length > 0);
+			if (field.length > 0) {
+				console.log('✅ Campo encontrado com seletor:', selectors[i]);
+				console.log('📝 Nome do campo:', field.attr('name'));
+				console.log('🆔 ID do campo:', field.attr('id'));
+				break;
+			}
+		}
+		
+		if (field && field.length > 0) {
+			// Garantir que tem ID
+			if (!field.attr('id')) {
+				field.attr('id', 'galeria_imagens_input');
+				console.log('🔧 ID adicionado ao campo');
+			}
+			
+			// Adicionar instruções visuais
+			$('#galeria_imagens_input').after(
+				'<div class="text-muted small mt-2">' +
+				'<i class="fas fa-lightbulb"></i> <strong>Dicas:</strong><br>' +
+				'• Você pode arrastar e soltar imagens diretamente na área acima<br>' +
+				'• Selecione múltiplas imagens segurando Ctrl e clicando<br>' +
+				'• Para muitas imagens grandes, reduza a qualidade antes do upload<br>' +
+				'• As imagens serão salvas apenas quando você clicar em "Salvar"' +
+				'</div>'
+			);
+
+			// Evento de seleção de arquivos
+			field.on('change', function(e) {
+				console.log('🔥 FUNCIONOU! Arquivo selecionado!');
+				console.log('📁 Número de arquivos:', e.target.files.length);
+				
+				// VALIDAÇÕES ANTES DE PROCESSAR
+				var totalSize = 0;
+				var invalidFiles = [];
+				var oversizedFiles = [];
+				var maxFileSize = 10 * 1024 * 1024; // 10MB
+				var maxTotalSize = 80 * 1024 * 1024; // 80MB (deixar margem)
+				var maxFiles = 20;
+				
+				// Verificar limite de arquivos
+				if (e.target.files.length > maxFiles) {
+					alert('⚠️ Máximo de ' + maxFiles + ' arquivos permitidos. Você selecionou ' + e.target.files.length + ' arquivos.');
+					return;
+				}
+				
+				// Adicionar novos arquivos ao array (sem duplicar)
+				for (var i = 0; i < e.target.files.length; i++) {
+					var file = e.target.files[i];
+					
+					// Validar tipo
+					if (!file.type.startsWith('image/')) {
+						invalidFiles.push(file.name);
+						continue;
+					}
+					
+					// Validar tamanho individual
+					if (file.size > maxFileSize) {
+						oversizedFiles.push(file.name + ' (' + (file.size / 1024 / 1024).toFixed(1) + 'MB)');
+						continue;
+					}
+					
+					totalSize += file.size;
+					
+					// Criar objeto único para cada arquivo
+					var fileObj = {
+						file: file,
+						id: 'img_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+						name: file.name,
+						size: file.size
+					};
+					galeriaFiles.push(fileObj);
+					console.log('📄 Arquivo adicionado:', file.name);
+				}
+				
+				// Mostrar avisos se necessário
+				if (invalidFiles.length > 0) {
+					alert('⚠️ Arquivos inválidos (apenas imagens são aceitas):\n• ' + invalidFiles.join('\n• '));
+				}
+				
+				if (oversizedFiles.length > 0) {
+					alert('⚠️ Arquivos muito grandes (máximo 10MB cada):\n• ' + oversizedFiles.join('\n• '));
+				}
+				
+				// Verificar tamanho total
+				if (totalSize > maxTotalSize) {
+					alert('⚠️ Tamanho total muito grande!\nTotal: ' + (totalSize / 1024 / 1024).toFixed(1) + 'MB\nMáximo permitido: ' + (maxTotalSize / 1024 / 1024) + 'MB\n\nRemova algumas imagens ou reduza a qualidade.');
+					// Limpar seleção se exceder limite
+					galeriaFiles = [];
+				}
+				
+				// Atualizar preview
+				updateGaleriaPreview();
+				updateFileInput();
+			});
+			
+			console.log('✅ Evento de mudança anexado com sucesso');
+			
+		} else {
+			console.error('❌ NENHUM CAMPO DE GALERIA ENCONTRADO!');
+			console.log('🔍 Listando todos os campos file na página:');
+			$('input[type="file"]').each(function() {
+				console.log('📁 Campo file:', $(this).attr('name'), $(this).attr('id'));
+			});
+		}
+		
+	}, 500);
+});
+
+// Atualizar preview da galeria
+function updateGaleriaPreview() {
+	var container = $('#preview-images');
+	container.empty();
+	
+	if (galeriaFiles.length > 0) {
+		$('#preview-container').show();
+		
+		galeriaFiles.forEach(function(fileObj, index) {
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				var preview = $(`
+					<div class="col-md-3 col-sm-6 mb-3" data-file-id="${fileObj.id}">
+						<div class="card">
+							<div class="position-relative">
+								<img src="${e.target.result}" 
+									 class="card-img-top" 
+									 style="height:150px;object-fit:cover;" 
+									 alt="${fileObj.name}">
+								<button type="button" 
+										class="btn btn-danger btn-sm position-absolute btn-remove-image" 
+										data-file-id="${fileObj.id}"
+										style="top: 5px; right: 5px; padding: 2px 6px;">
+									<i class="fas fa-trash"></i>
+								</button>
+							</div>
+							<div class="card-body p-2">
+								<p class="card-text small mb-1">
+									<strong>${fileObj.name}</strong>
+								</p>
+								<p class="card-text small text-muted mb-0">
+									${(fileObj.size / 1024 / 1024).toFixed(2)} MB
+								</p>
+							</div>
+						</div>
+					</div>
+				`);
+				container.append(preview);
+			};
+			reader.readAsDataURL(fileObj.file);
+		});
+		
+		// Atualizar contador
+		$('#preview-container h6').html(
+			'<i class="fas fa-eye"></i> Prévia das novas imagens: <span class="badge badge-info">' + galeriaFiles.length + '</span>'
+		);
+	} else {
+		$('#preview-container').hide();
+	}
+}
+
+// Atualizar o input file com as imagens restantes
+function updateFileInput() {
+	var dt = new DataTransfer();
+	
+	galeriaFiles.forEach(function(fileObj) {
+		dt.items.add(fileObj.file);
+	});
+	
+	var inputElement = document.getElementById('galeria_imagens_input') || 
+					   document.querySelector('input[name*="galeria_imagens"]');
+	
+	if (inputElement) {
+		inputElement.files = dt.files;
+		console.log('✅ Input atualizado com', dt.files.length, 'arquivos');
+	}
+}
+
+// Evento para remover imagem individual
+$(document).on('click', '.btn-remove-image', function(e) {
+	e.preventDefault();
+	var fileId = $(this).data('file-id');
+	var fileName = $(this).closest('.card').find('strong').text();
+	
+	if (confirm('Remover a imagem "' + fileName + '"?')) {
+		console.log('🗑️ Removendo imagem:', fileName);
+		
+		// Remover do array
+		galeriaFiles = galeriaFiles.filter(function(fileObj) {
+			return fileObj.id !== fileId;
+		});
+		
+		// Remover do DOM com animação
+		$('[data-file-id="' + fileId + '"]').fadeOut(300, function() {
+			$(this).remove();
+			
+			// Atualizar input e preview
+			updateFileInput();
+			
+			// Atualizar contador ou ocultar se vazio
+			if (galeriaFiles.length === 0) {
+				$('#preview-container').hide();
+			} else {
+				$('#preview-container h6').html(
+					'<i class="fas fa-eye"></i> Prévia das novas imagens: <span class="badge badge-info">' + galeriaFiles.length + '</span>'
+				);
+			}
+		});
+	}
+});
+
+// Backup dos arrays originais
+var selectedImages = [];
+var imagesToRemove = [];
+
+	}); // Fechamento da função principal $(function () {
+	</script>
+{% endblock script %}

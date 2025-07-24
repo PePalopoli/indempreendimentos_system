@@ -1,0 +1,280 @@
+{% extends 'security/empreendimentos/theme.twig' %}
+
+{% block stylesheet %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+{% endblock %}
+
+{% block content %}
+
+	{% block form_title %}{% endblock form_title %}
+
+	<!-- Adicionar no início do formulário -->
+	<div class="alert alert-info">
+		<i class="fas fa-info-circle"></i>
+		<strong>Limite de upload:</strong>
+		Tamanho máximo permitido:
+		<?php echo ini_get('upload_max_filesize'); ?>
+	</div>
+
+	<!-- Main content -->
+	<section class="content">
+		<div class="container-fluid">
+
+			{{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+
+			<div class="row">
+				<div
+					class="col-md-8">
+					<!-- Dados Básicos -->
+					<div class="card card-info">
+						<div class="card-header">
+							<h3 class="card-title">Dados Básicos do Empreendimento</h3>
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool" data-card-widget="collapse">
+									<i class="fas fa-minus"></i>
+								</button>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										{{ form_label(form.nome) }}
+										{{ form_errors(form.nome) }}
+										{{ form_widget(form.nome, { attr: { 'class': 'form-control' }}) }}
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										{{ form_label(form.cidade_estado) }}
+										{{ form_errors(form.cidade_estado) }}
+										{{ form_widget(form.cidade_estado, { attr: { 'class': 'form-control' }}) }}
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+
+
+								<div class="form-group col-md-6">
+									{{ form_label(form.etapa_id) }}
+									{{ form_errors(form.etapa_id) }}
+									{{ form_widget(form.etapa_id, { attr: { 'class': 'form-control select2' }}) }}
+								</div>
+
+
+								<div class="form-group col-md-6">
+									{{ form_label(form.slug) }}
+									{{ form_errors(form.slug) }}
+									{{ form_widget(form.slug, { attr: { 'class': 'form-control' }}) }}
+									<small class="form-text text-muted">URL amigável (será gerada automaticamente se deixar em branco)</small>
+								</div>
+							</div>
+
+							<div class="form-group">
+								{{ form_label(form.descricao) }}
+								{{ form_errors(form.descricao) }}
+								{{ form_widget(form.descricao, { attr: { 'class': 'form-control editor-content' }}) }}
+							</div>
+						</div>
+					</div>
+
+					<!-- SEO -->
+					<div class="card card-secondary">
+						<div class="card-header">
+							<h3 class="card-title">SEO</h3>
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool" data-card-widget="collapse">
+									<i class="fas fa-minus"></i>
+								</button>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								{{ form_label(form.meta_title) }}
+								{{ form_errors(form.meta_title) }}
+								{{ form_widget(form.meta_title, { attr: { 'class': 'form-control' }}) }}
+								<div class="text-muted small">
+									<span id="meta-title-count">0</span>/160 caracteres
+								</div>
+							</div>
+
+							<div class="form-group">
+								{{ form_label(form.meta_description) }}
+								{{ form_errors(form.meta_description) }}
+								{{ form_widget(form.meta_description, { attr: { 'class': 'form-control' }}) }}
+								<div class="text-muted small">
+									<span id="meta-desc-count">0</span>/255 caracteres
+								</div>
+							</div>
+
+							<div class="form-group">
+								{{ form_label(form.meta_keywords) }}
+								{{ form_errors(form.meta_keywords) }}
+								{{ form_widget(form.meta_keywords, { attr: { 'class': 'form-control' }}) }}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div
+					class="col-md-4">
+					<!-- Status e Configurações -->
+					<div class="card card-primary">
+						<div class="card-header">
+							<h3 class="card-title">Status e Configurações</h3>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								{{ form_label(form.enabled) }}
+								{{ form_errors(form.enabled) }}
+								{{ form_widget(form.enabled, { attr: { 'class': 'form-control select2' }}) }}
+							</div>
+
+							<div class="form-group">
+								{{ form_label(form.destaque) }}
+								<div class="form-check">
+									{{ form_widget(form.destaque) }}
+									{{ form_label(form.destaque, 'Empreendimento em destaque', {'label_attr': {'class': 'form-check-label'}}) }}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Imagens -->
+					<div class="card card-warning">
+						<div class="card-header">
+							<h3 class="card-title">Imagens</h3>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								{{ form_label(form.logo_empreendimento) }}
+								{{ form_errors(form.logo_empreendimento) }}
+								{{ form_widget(form.logo_empreendimento, { attr: { 'class': 'form-control' }}) }}
+								<small class="form-text text-muted">Logo do empreendimento</small>
+							</div>
+
+							<div class="form-group">
+								{{ form_label(form.img_capa) }}
+								{{ form_errors(form.img_capa) }}
+								{{ form_widget(form.img_capa, { attr: { 'class': 'form-control' }}) }}
+								<small class="form-text text-muted">Imagem principal de capa</small>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-footer">
+							<button type="submit" class="btn btn-info float-right">{{ btn_acao }}</button>
+							<a href="{{ path('s_empreendimentos') }}" class="btn btn-default float-left">Voltar</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{{ form_end(form) }}
+		</div>
+	</section>
+	<!-- END Main content -->
+{% endblock content %}
+
+{% block script %}
+	{{ parent() }}
+	<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+	<script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+	<script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
+	<script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+
+	<script>
+		$(function () { // Summernote
+$('.editor-content').summernote({
+height: 200,
+toolbar: [
+[
+'style', ['style']
+],
+[
+'font',
+[
+'bold', 'italic', 'underline', 'clear'
+]
+],
+[
+'color', ['color']
+],
+[
+'para',
+[
+'ul', 'ol', 'paragraph'
+]
+],
+[
+'table', ['table']
+],
+[
+'insert',
+[
+'link', 'picture', 'video'
+]
+],
+[
+'view',
+[
+'fullscreen', 'codeview', 'help'
+]
+]
+]
+});
+
+// Select2
+$('.select2').select2({theme: 'bootstrap4'});
+
+// Auto-generate slug from nome
+$('#empreendimentos_nome').on('input', function () {
+var nome = $(this).val();
+var slug = nome.toLowerCase().replace(/[áàãäâ]/g, 'a').replace(/[éèëê]/g, 'e').replace(/[íìïî]/g, 'i').replace(/[óòõöô]/g, 'o').replace(/[úùüû]/g, 'u').replace(/[ç]/g, 'c').replace(/[ñ]/g, 'n').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, '-').replace(/^-+|-+$/g, '');
+
+if ($('#empreendimentos_slug').val() === '' || $('#empreendimentos_slug').data('auto-generated')) {
+$('#empreendimentos_slug').val(slug).data('auto-generated', true);
+}
+});
+
+// Stop auto-generation if user manually edits slug
+$('#empreendimentos_slug').on('input', function () {
+$(this).data('auto-generated', false);
+});
+
+// Character counters for SEO fields
+function updateCharCount(fieldId, counterId, maxLength) {
+var $field = $('#' + fieldId);
+var $counter = $('#' + counterId);
+
+function updateCount() {
+var length = $field.val().length;
+$counter.text(length);
+
+if (length > maxLength) {
+$counter.addClass('text-danger');
+} else if (length > maxLength * 0.8) {
+$counter.removeClass('text-danger').addClass('text-warning');
+} else {
+$counter.removeClass('text-danger text-warning');
+}
+}
+
+$field.on('input', updateCount);
+updateCount(); // Initial count
+}updateCharCount('empreendimentos_meta_title', 'meta-title-count', 160);
+updateCharCount('empreendimentos_meta_description', 'meta-desc-count', 255);
+});
+	</script>
+{% endblock script %}

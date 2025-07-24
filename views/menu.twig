@@ -1,0 +1,136 @@
+<li class="nav-item">
+    <a href="{{ path('s_institutional_type') }}" class="nav-link  {% if menu_selected is defined and menu_selected == 'institutional_type' %}active{% endif %}">
+        <i class="nav-icon fa fa-bars "></i>
+         <p>Páginas</p>
+    </a>
+</li>
+
+{# <li class="nav-item">
+    <a href="{{ path('s_marcas_type') }}" class="nav-link  {% if menu_selected is defined and menu_selected == 'marcas_type' %}active{% endif %}">
+        <i class="nav-icon fa fa-bars "></i>
+         <p>Marcas (HOME)</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ path('s_servicos_type') }}" class="nav-link  {% if menu_selected is defined and menu_selected == 'servicos_type' %}active{% endif %}">
+        <i class="nav-icon fa fa-bars "></i>
+         <p>Serviços (HOME)</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ path('s_resultados_type') }}" class="nav-link  {% if menu_selected is defined and menu_selected == 'resultados_type' %}active{% endif %}">
+        <i class="nav-icon fa fa-bars "></i>
+         <p>Resultados (HOME)</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ path('s_apps_type') }}" class="nav-link  {% if menu_selected is defined and menu_selected == 'apps_type' %}active{% endif %}">
+        <i class="nav-icon fa fa-bars "></i>
+         <p>APPs (INTERNA)</p>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ path('s_impulsos_type') }}" class="nav-link  {% if menu_selected is defined and menu_selected == 'impulsos_type' %}active{% endif %}">
+        <i class="nav-icon fa fa-bars "></i>
+         <p>Impulsos (Interna)</p>
+    </a>
+</li> #}
+
+
+{# <li class="nav-item">
+    <a href="{{ path('s_resultados_type') }}" class="nav-link  {% if menu_selected is defined and menu_selected == 'resultados_type' %}active{% endif %}">
+        <i class="nav-icon fa fa-bars "></i>
+         <p>Resultados (HOME)</p>
+    </a>
+</li> #}
+
+
+<li class="nav-item">
+    			<a href="{{ path('s_depoimentos') }}" class="nav-link  {% if menu_selected is defined and menu_selected == 'depoimentos' %}active{% endif %}">
+        <i class="nav-icon fa fa-bars "></i>
+         <p>Depoimentos</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="#" class="nav-link {% if menu_selected is defined and menu_selected in ['blog_categoria', 'blog_post'] %}active{% endif %}">
+        <i class="nav-icon fa fa-rss"></i>
+        <p>Blog Sistema
+        <i class="right fas fa-angle-left"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ path('s_blog_categoria') }}" class="nav-link {% if menu_selected is defined and menu_selected == 'blog_categoria' %}active{% endif %}">
+                <i class="fa fa-folder nav-icon"></i>
+                <p>Categorias</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ path('s_blog_post') }}" class="nav-link {% if menu_selected is defined and menu_selected == 'blog_post' %}active{% endif %}">
+                <i class="fa fa-file-text nav-icon"></i>
+                <p>Posts</p>
+            </a>
+        </li>
+    </ul>
+</li>
+
+<li class="nav-item">
+    <a href="{{ path('s_obra_etapas') }}" class="nav-link  {% if menu_selected is defined and menu_selected == 'obra_etapas' %}active{% endif %}">
+        <i class="nav-icon fa fa-tasks "></i>
+         <p>Etapas da Obra</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ path('s_empreendimentos') }}" class="nav-link  {% if menu_selected is defined and menu_selected == 'empreendimentos' %}active{% endif %}">
+        <i class="nav-icon fa fa-building "></i>
+         <p>Empreendimentos</p>
+    </a>
+</li>
+
+{# <li {% if menu_selected is defined and menu_selected == 'banner_type' %}class="active"{% endif %}>
+    <a href="{{ path('s_banner_type') }}">
+        <i class="fa fa-bars"></i> <span>Banner</span>
+    </a>
+</li>
+
+<li {% if menu_selected is defined and menu_selected == 'seo' %}class="active"{% endif %}>
+    <a href="{{ path('s_seo') }}">
+        <i class="fa fa-bars"></i> <span>S.E.O.</span>
+    </a>
+</li> #}
+
+{% if 'ROLE_ADMIN' in app.user.roles %}
+<li class="nav-item ">
+    <a href="#" class="nav-link {% if menu_selected is defined and menu_selected in ['user', 'role', 'access'] %}active{% endif %}">
+        <i class="nav-icon fa fa-share"></i>
+        <p>Configurações
+        <i class="right fas fa-angle-left"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ path('s_user') }}" class="nav-link {% if menu_selected is defined and menu_selected == 'user' %}active{% endif %}">
+                <i class="fa fa-users nav-icon"></i>
+                <p>Usuários</p>
+            </a>
+        </li>
+        <li  class="nav-item">
+            <a href="{{ path('s_role') }}" class="nav-link {% if menu_selected is defined and menu_selected == 'role' %} active{% endif %}">
+                <i class="fa fa-key nav-icon"></i>
+                <p>Regras</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ path('s_access') }}" class="nav-link {% if menu_selected is defined and menu_selected == 'access' %} active{% endif %}">
+                <i class="fa fa-link nav-icon"></i>
+                <p>Regra de acesso</p>
+            </a>
+        </li>
+    </ul>
+</li>
+{% endif %}

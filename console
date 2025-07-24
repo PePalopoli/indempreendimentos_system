@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+/*
+ *  (c) Pedro Palópoli <pedro.palopoli@hotmail.com>
+ */
+require_once __DIR__.'/vendor/autoload.php';
+$app = require __DIR__.'/src/app.php';
+$console = require __DIR__.'/src/console.php';
+$console->run();

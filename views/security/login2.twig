@@ -1,0 +1,70 @@
+{% extends 'security/layout_lte3.twig' %}
+
+{% block body_param %}class="hold-transition login-page"{% endblock %}
+
+{% set path_login = app.security_path != "" ? app.security_path ~ "_login_check" : "login_check" %}
+
+{% block body %}
+
+
+<div class="login-box">
+  <!-- /.login-logo -->
+  <div class="card card-outline card-primary">
+    <div class="card-header text-center">
+<img style="width: 80%;    border-radius: 50px;" src="{{ asset('imgs/logo_full_palopoli.png') }}" title="System Palópoli"/>
+
+
+
+    </div>
+    <div class="card-body">
+      <p class="login-box-msg"></p>
+
+      <form action="{{ path(path_login) }}" method="post">
+        <div class="input-group mb-3">
+          <input type="user" name="_username" class="form-control" placeholder="Email">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" name="_password" class="form-control" placeholder="Senha">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          
+          <div class="offset-8 col-4">
+            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+      {% if error is defined and error %}
+                <hr>
+                <div class="callout callout-danger">
+                    <h4>Ops...</h4>
+                    {% if error == 'Bad credentials.' %}
+                        <p>Login ou senha inválido.</p>
+                    {% else %}
+                        <p>{{ error }}</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+      
+
+      
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <!-- /.card -->
+</div>
+<!-- /.login-box -->
+
+{% endblock %}

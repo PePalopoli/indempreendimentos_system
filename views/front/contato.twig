@@ -1,0 +1,61 @@
+{% set menu_pagina = 'contato' %}
+{% extends 'front/layout.twig' %}
+
+{% block content %}
+<!-- Contact Hero Section -->
+    <section class="contact-hero-section">
+        <div class="contact-hero-container">
+            <div class="contact-hero-content">
+                <h2 class="contact-hero-subtitle">NÃO BASTA<br>SER BOM.</h2>
+                <h1 class="contact-hero-title">É PRECISO SER<br><span>Booster.</span></h1>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form & Info Section -->
+    <section class="contact-form-info-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <!-- Coluna de Informações (Esquerda) -->
+                <div class="col-lg-6 contact-info-col">
+                    <h2 class="info-title" data-aos="fade-up" data-aos-duration="1000">Conectamos seu app ao público certo.<br><strong>Aquele que fica.</strong></h2>
+                    <p class="info-text" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                        Você está prestes a ter a melhor estratégia para sua marca. Mas para isso, basta responder algumas perguntas para que nosso time entre em contato.
+                    </p>
+                    <hr class="info-divider" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+                    <div class="address-block" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                        <h4>São Paulo/SP</h4>
+                        <p>Avenida Paulista, 302, 9º andar<br>Bela Vista<br>CEP: 01310-000</p>
+                    </div>
+                    <div class="address-block" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                        <h4>Presidente Prudente/SP</h4>
+                        <p>Rua Nicolau Cacciatori, 489<br>Jardim dos Pioneiros<br>CEP: 19050-340</p>
+                    </div>
+                </div>
+                <!-- Coluna do Formulário (Direita) -->
+                <div class="col-lg-6 contact-form-col">
+                    <form class="main-contact-form" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="500" action="{{path('web_contato_send')}}" method="post">
+                        <div class="form-group mb-3">
+                            <label for="contactName" class="form-label">Nome:</label>
+                            <input type="text" class="form-control"  name="iNome" id="iNome" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="contactEmail" class="form-label">E-mail:</label>
+                            <input type="email" class="form-control"  name="iEmail" id="iEmail" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="contactPhone" class="form-label">Telefone:</label>
+                            <input type="tel" class="form-control"  name="iTelefone" id="iTelefone" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="contactCompany" class="form-label">Nome da Empresa:</label>
+                            <input type="text" class="form-control"  name="iEmpresa" id="iEmpresa" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary contact-submit-btn">ENVIAR ></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

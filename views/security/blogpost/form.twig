@@ -1,0 +1,229 @@
+{% extends 'security/blogpost/theme.twig' %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+{% endblock %}
+
+{% block content %}
+
+{% block form_title %}{% endblock form_title %}
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+        {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Dados Básicos -->
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Dados do Post</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            {{ form_label(form.titulo) }}
+                            {{ form_errors(form.titulo) }}
+                            {{ form_widget(form.titulo, { attr: { 'class': 'form-control' }}) }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.slug) }}
+                            {{ form_errors(form.slug) }}
+                            {{ form_widget(form.slug, { attr: { 'class': 'form-control' }}) }}
+                            <small class="form-text text-muted">URL amigável (será gerada automaticamente se deixar em branco)</small>
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.resumo) }}
+                            {{ form_errors(form.resumo) }}
+                            {{ form_widget(form.resumo, { attr: { 'class': 'form-control', 'rows': 3 }}) }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.conteudo) }}
+                            {{ form_errors(form.conteudo) }}
+                            {{ form_widget(form.conteudo, { attr: { 'class': 'form-control editor-content' }}) }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEO -->
+                <div class="card card-warning">
+                    <div class="card-header">
+                        <h3 class="card-title">SEO & Open Graph</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_label(form.meta_title) }}
+                                    {{ form_errors(form.meta_title) }}
+                                    {{ form_widget(form.meta_title, { attr: { 'class': 'form-control', 'maxlength': 60 }}) }}
+                                    <small class="form-text text-muted">Máximo 60 caracteres</small>
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form_label(form.meta_description) }}
+                                    {{ form_errors(form.meta_description) }}
+                                    {{ form_widget(form.meta_description, { attr: { 'class': 'form-control', 'rows': 3, 'maxlength': 160 }}) }}
+                                    <small class="form-text text-muted">Máximo 160 caracteres</small>
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form_label(form.meta_keywords) }}
+                                    {{ form_errors(form.meta_keywords) }}
+                                    {{ form_widget(form.meta_keywords, { attr: { 'class': 'form-control' }}) }}
+                                    <small class="form-text text-muted">Separar por vírgulas</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_label(form.og_title) }}
+                                    {{ form_errors(form.og_title) }}
+                                    {{ form_widget(form.og_title, { attr: { 'class': 'form-control' }}) }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form_label(form.og_description) }}
+                                    {{ form_errors(form.og_description) }}
+                                    {{ form_widget(form.og_description, { attr: { 'class': 'form-control', 'rows': 3 }}) }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form_label(form.og_type) }}
+                                    {{ form_errors(form.og_type) }}
+                                    {{ form_widget(form.og_type, { attr: { 'class': 'form-control' }}) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <!-- Configurações -->
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Configurações</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            {{ form_label(form.categoria_id) }}
+                            {{ form_errors(form.categoria_id) }}
+                            {{ form_widget(form.categoria_id, { attr: { 'class': 'form-control select2' }}) }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.autor) }}
+                            {{ form_errors(form.autor) }}
+                            {{ form_widget(form.autor, { attr: { 'class': 'form-control' }}) }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.data_publicacao) }}
+                            {{ form_errors(form.data_publicacao) }}
+                            {{ form_widget(form.data_publicacao, { attr: { 'class': 'form-control' }}) }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.publicado) }}
+                            <div class="form-check">
+                                {{ form_widget(form.publicado) }}
+                                {{ form_label(form.publicado, 'Post publicado', {'label_attr': {'class': 'form-check-label'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.destaque) }}
+                            <div class="form-check">
+                                {{ form_widget(form.destaque) }}
+                                {{ form_label(form.destaque, 'Post em destaque', {'label_attr': {'class': 'form-check-label'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.views) }}
+                            {{ form_errors(form.views) }}
+                            {{ form_widget(form.views, { attr: { 'class': 'form-control', 'type': 'number', 'readonly': 'readonly' }}) }}
+                            <small class="form-text text-muted">Campo automático</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Imagens -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Imagens</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            {{ form_label(form.imagem_capa) }}
+                            {{ form_errors(form.imagem_capa) }}
+                            {{ form_widget(form.imagem_capa, { attr: { 'class': 'form-control' }}) }}
+                            <small class="form-text text-muted">Imagem principal do post</small>
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.og_image) }}
+                            {{ form_errors(form.og_image) }}
+                            {{ form_widget(form.og_image, { attr: { 'class': 'form-control' }}) }}
+                            <small class="form-text text-muted">Imagem para redes sociais</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-info float-right">{{ btn_acao }}</button>
+                        <a href="{{ path('s_blog_post') }}" class="btn btn-default float-left">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+</section>
+<!-- END Main content -->
+{% endblock content %}
+
+{% block script %}
+    {{ parent() }}
+    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+    <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
+    <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+
+    <script>
+        $(function() {
+            // Summernote
+            $('.editor-content').summernote({
+                height: 300,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+
+            // Select2
+            $('.select2').select2({
+                theme: 'bootstrap4'
+            });
+        });
+    </script>
+{% endblock script %} 

@@ -1,0 +1,36 @@
+{
+    "name": "palopoli/crud",
+    "description": "Ferramenta para gerar um backend completo a partir de um banco de dados MySql onde você pode criar, ler, atualizar e excluir registros em um banco de dados.",
+    "version": "0.0.7",
+    "require": {
+        "php": ">=5.5",
+        "symfony/console": "^2.6",
+        "silex/silex": "^1.2",
+        "doctrine/dbal": "^2.5",
+        "twig/twig": "^1.18",
+        "symfony/twig-bridge": "^2.6",
+        "symfony/form": "^2.6",
+        "symfony/validator": "^2.6",
+        "symfony/config": "^2.6",
+        "symfony/filesystem": "^2.6",
+        "symfony/translation": "^2.6",
+        "symfony/locale": "^2.6",
+        "symfony/security": "^2.6",
+        "symfony/process": "^2.6",
+        "swiftmailer/swiftmailer": "^5.4",
+        "silex/web-profiler": "^1.0",
+        "monolog/monolog": "^1.13",
+        "league/glide": "^0.3.5",
+        "cocur/slugify": "^1.2"
+    },
+    "license": "MIT",
+    "authors": [{
+        "name": "Pedro Palopoli",
+        "email": "pedro.palopoli@hotmail.com"
+    }],
+    "autoload": {
+        "psr-4": {
+            "Palopoli\\PaloSystem\\": "src/"
+        }
+    }
+}

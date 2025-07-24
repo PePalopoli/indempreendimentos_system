@@ -1,0 +1,23 @@
+
+<IfModule mod_rewrite.c>
+    Options -MultiViews
+
+    RewriteEngine On
+    #RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Configurações para upload de múltiplas imagens
+php_value upload_max_filesize 10M
+php_value post_max_size 100M
+php_value memory_limit 256M
+php_value max_execution_time 300
+php_value max_input_time 300
+php_value max_file_uploads 50
+
+# Configurações de segurança
+<Files "*.htaccess">
+    Order allow,deny
+    Deny from all
+</Files>

@@ -1,0 +1,111 @@
+{% extends 'security/blogcategoria/theme.twig' %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+{% endblock %}
+
+{% block content %}
+
+{% block form_title %}{% endblock form_title %}
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+        {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Dados Básicos -->
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Dados da Categoria</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            {{ form_label(form.titulo) }}
+                            {{ form_errors(form.titulo) }}
+                            {{ form_widget(form.titulo, { attr: { 'class': 'form-control' }}) }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.slug) }}
+                            {{ form_errors(form.slug) }}
+                            {{ form_widget(form.slug, { attr: { 'class': 'form-control' }}) }}
+                            <small class="form-text text-muted">URL amigável (será gerada automaticamente se deixar em branco)</small>
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.descricao) }}
+                            {{ form_errors(form.descricao) }}
+                            {{ form_widget(form.descricao, { attr: { 'class': 'form-control', 'rows': 3 }}) }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.enabled) }}
+                            <div class="form-check">
+                                {{ form_widget(form.enabled) }}
+                                {{ form_label(form.enabled, 'Categoria ativa', {'label_attr': {'class': 'form-check-label'}}) }}
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <!-- SEO -->
+                <div class="card card-warning">
+                    <div class="card-header">
+                        <h3 class="card-title">SEO</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            {{ form_label(form.meta_title) }}
+                            {{ form_errors(form.meta_title) }}
+                            {{ form_widget(form.meta_title, { attr: { 'class': 'form-control', 'maxlength': 60 }}) }}
+                            <small class="form-text text-muted">Máximo 60 caracteres</small>
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.meta_description) }}
+                            {{ form_errors(form.meta_description) }}
+                            {{ form_widget(form.meta_description, { attr: { 'class': 'form-control', 'rows': 3, 'maxlength': 160 }}) }}
+                            <small class="form-text text-muted">Máximo 160 caracteres</small>
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.meta_keywords) }}
+                            {{ form_errors(form.meta_keywords) }}
+                            {{ form_widget(form.meta_keywords, { attr: { 'class': 'form-control' }}) }}
+                            <small class="form-text text-muted">Separar por vírgulas</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-info float-right">{{ btn_acao }}</button>
+                        <a href="{{ path('s_blog_categoria') }}" class="btn btn-default float-left">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+</section>
+<!-- END Main content -->
+{% endblock content %}
+
+{% block script %}
+    {{ parent() }}
+    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+{% endblock script %} 

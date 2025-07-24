@@ -1,0 +1,330 @@
+{% set menu_pagina = 'home' %}
+{% extends 'front/layout.twig' %}
+
+{% block content %}
+
+
+
+<!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content-container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1000">
+                        <h1 class="hero-title">Cresça mais.</h1>
+                        <h2 class="hero-subtitle">Converta melhor.</h2>
+                        <p class="hero-text">Crescemos seu app com inteligência, dados, e estratégia. Na BoosterAd seus resultados vão além da instalação.</p>
+                        
+                        <a href="{{path('web_contato')}}" class="btn btn-primary btn-lg">Entre em Contato</a>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="rocket-container" data-aos="fade-left" data-aos-duration="1000">
+                            <div class="rocket-animation">
+                                <img src="{{asset('imgs/banner-home.png')}}" alt="Foguete" class="rocket-img">
+                            </div>
+                            <div class="stars-container">
+                                <span class="star"></span>
+                                <span class="star"></span>
+                                <span class="star"></span>
+                                <span class="star"></span>
+                                <span class="star"></span>
+                                <span class="star"></span>
+                                <span class="star"></span>
+                                <span class="star"></span>
+                                <span class="star"></span>
+                                <span class="star"></span>
+                                <span class="star"></span>
+                                <span class="star"></span>
+                                <span class="star"></span>
+                                <span class="star"></span>
+                                <span class="star"></span>
+                            </div>
+                            <div class="gradient-overlay"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Partners Section -->
+    <section class="partners-section">
+        <div class="container">
+            <div class="partners-container">
+                <div class="partners-content">
+                    <h2 class="partners-title" data-aos="fade-up" data-aos-duration="1000">Quem já é grande, ficou ainda maior.</h2>
+                    <p class="partners-text" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">Marcas que escolheram a inteligência da Booster.</p>
+                </div>
+                <div class="partners-slider-container">
+                    <div class="partners-gradient-left"></div>
+                    <div class="partners-logos-slider">
+                        <div class="partners-logos">
+
+                            {% for item in marcas %}
+                                <img src="{{path('imagem',{'path':'marcas','imagem':item.image})}}" alt="Neon" class="partner-logo">    
+                            {% endfor %}
+
+                            
+                        </div>
+                        <div class="partners-logos" aria-hidden="true">
+                            {% for item in marcas %}
+                                <img src="{{path('imagem',{'path':'marcas','imagem':item.image})}}" alt="Neon" class="partner-logo">    
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="partners-gradient-right"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Slider Section -->
+    <section class="services-section">
+        <div class="container">
+            <h2 class="services-title" data-aos="fade-up" data-aos-duration="1000">Soluções que geram resultados</h2>
+            
+            <div class="slider-container">
+                <div class="service-description">
+
+                    {% for item in servicos %}
+                        <div class="description-content" data-index="{{loop.index}}">
+                            {{item.body|raw}}
+                        </div>
+                    {% endfor %}
+                    
+                    
+                </div>
+
+                <div class="cards-slider">
+                    {% set hub = '#hub-features' %}
+                    {% for item in servicos %}
+                        <div class="card-wrapper" data-index="0">
+                            <div class="service-card">                            
+                                <a href="{{item.url}}{% if item.id == 2 %}{{hub}}{% endif %} ">
+                                <img src="{{path('imagem',{'path':'servicos','imagem':item.image})}}" alt="{{item.title}}" class="card-image">
+                                </a>
+                            </div>
+                        </div>                        
+                    {% endfor %}
+
+
+                    
+                </div>
+
+                <div class="slider-controls">
+                    <div class="player-container">
+                        <button class="play-pause-btn" id="playPauseBtn">
+                            <svg class="pause-icon" width="14" height="14" viewBox="0 0 24 24">
+                                <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
+                                <rect x="14" y="4" width="4" height="16" fill="currentColor"/>
+                            </svg>
+                            <svg class="play-icon hidden" width="14" height="14" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                        <div class="slide-indicators">
+                            <span class="indicator" data-index="0"></span>
+                            <span class="indicator active" data-index="1"></span>
+                            <span class="indicator" data-index="2"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <h2 class="stats-title" data-aos="fade-up" data-aos-duration="1000">
+                <span>Nossos números</span> não mentem. Validam.
+            </h2>
+            
+            <div class="stats-container">
+                
+                {% for item in nossos_numeros %}
+
+                <div class="stats-column" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <h3>{{item.title|raw}}</h3>
+                    {{item.body|raw}}
+                </div>
+                
+                {% if not loop.last %}                    
+                    <div class="divider" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300"></div>
+                {% endif %}
+                    
+                {% endfor %}
+
+                
+            </div>
+            
+            <div class="stats-cta" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="800">
+                <a href="{{path('web_contato')}}" class="btn-outline">Entre em contato</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="features-container">
+                <div class="row align-items-center">
+                    <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000">
+                        <h3 class="feature-title">{{baixar_facil.title|raw}}</h3>
+                    </div>
+                    
+                    <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                        <div class="feature-image-wrapper">
+                            <img src="{{asset('imgs/icon.png')}}" alt="Icone marca BoosterAd" class="feature-image">
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                        <p class="feature-text">{{baixar_facil.lateral.body|raw}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section class="solutions-section">
+        <div class="solutions-slider">
+            <h2 class="cards-title" data-aos="fade-up" data-aos-duration="1000">
+                Mais que cliques. Entregamos resultados.
+            </h2>
+            <div class="solutions-container">
+                <div class="solutions-track">
+
+                    {% for item in resultados %}
+                        <div class="solution-card" data-index="0" data-expanded-content="{{item.body|raw}}">
+                            <div class="solution-icon">
+                                <i class="fas {{item.icon}}"></i>
+                            </div>
+                            <h3 class="solution-title">{{item.title|raw}}</h3>
+                            <p class="solution-description"></p>
+                        </div>                        
+                    {% endfor %}
+                    
+
+                    
+                    
+                </div>
+                <div class="slider-controls">
+                    <div class="player-container">
+                        <button class="play-pause-btn" id="solutionsPlayPauseBtn">
+                            <svg class="pause-icon" width="14" height="14" viewBox="0 0 24 24">
+                                <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
+                                <rect x="14" y="4" width="4" height="16" fill="currentColor"/>
+                            </svg>
+                            <svg class="play-icon hidden" width="14" height="14" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                        <div class="slide-indicators">
+                            {% for item in resultados %}
+                            <span class="indicator" data-index="{{loop.index}}"></span>
+                            {% endfor %}
+
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- MMPs Section -->
+    <section class="mmp-section">
+        <div class="container">
+            <h2 class="mmp-title" data-aos="fade-up" data-aos-duration="1000">
+                Integração rápida e segura com os principais MMPs.
+            </h2>
+            <div class="mmp-container">
+                <div class="row align-items-center">
+                    <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000">
+                        <img src="{{asset('imgs/singular-logo.png')}}" alt="Singular" class="mmp-logo">
+                    </div>
+                    <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                        <img src="{{asset('imgs/appsflyer-logo.png')}}" alt="AppsFlyer" class="mmp-logo">
+                    </div>
+                    <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                        <img src="{{asset('imgs/kochava-logo.png')}}" alt="Kochava" class="mmp-logo">
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-md-6" data-aos="fade-up" data-aos-duration="1000">
+                        <img src="{{asset('imgs/adjust-logo.png')}}" alt="Adjust" class="mmp-logo">
+                    </div>
+                    <div class="col-md-6" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                        <img src="{{asset('imgs/tune-logo.png')}}" alt="Tune" class="mmp-logo">
+                    </div>
+                </div>
+            </div>
+            <a href="{{path('web_contato')}}" class="mmp-contact-btn">Entre em contato</a>
+        </div>
+    </section>
+
+    <!-- Seção de Cases -->
+    <section class="cases-section">
+        <div class="back-img">
+            <img src="{{asset('imgs/strokeicon.png')}}" alt="Cases Illustration" class="cases-illustration">
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 class="cases-title" data-aos="fade-up" data-aos-duration="1000">O que nossos<br> clientes dizem</h2>
+                    <div class="cases-carousel-container">
+                        <div class="cases-carousel">
+
+                            {% for item in depoimentos %}
+                                <div class="case-card">
+                                    <h3 class="case-card-title">{{item.title|raw}}</h3>
+                                    <p class="case-card-text">{{item.body|raw}}</p>
+                                    <div class="case-card-divider"></div>
+                                    <img src="{{path('imagem',{'path':'depoimentos','imagem':item.image})}}" alt="{{item.title|raw}}" class="case-card-image">
+                                </div>                                
+                            {% endfor %}                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Gradiente -->
+    <section class="gradient-section">
+        <div class="container">
+            <div class="gradient-box">
+                <h2 class="gradient-title" data-aos="fade-up" data-aos-duration="1000">Dúvidas Frequentes</h2>
+                
+                <div class="accordion-container" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    {% for item in perguntas %}
+                        
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <h3 class="accordion-title">{{item.title|raw}}</h3>
+                            <span class="accordion-icon">+</span>
+                        </div>
+                        <div class="accordion-content">
+                            {{item.body|raw}}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+
+
+    
+
+{% endblock %}

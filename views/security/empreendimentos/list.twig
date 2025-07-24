@@ -1,0 +1,181 @@
+{% extends 'security/empreendimentos/theme.twig' %}
+
+{% block stylesheet %}
+	<!-- DataTables -->
+	<link rel="stylesheet" href="{{asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+	<link rel="stylesheet" href="{{asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+	<link rel="stylesheet" href="{{asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+{% endblock %}
+
+{% block content %}
+	<section class="content-header">
+		<h1>Lista de Empreendimentos</h1>
+	</section>
+	<section class="content">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Lista de Empreendimentos</h3>
+						</div>
+						<div class="card-body">
+							<table id="empreendimentos" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Nome</th>
+										<th>Cidade/Estado</th>
+										<th>Status</th>
+										<th>Destaque</th>
+										<th>Ativo</th>
+										<th>Data última alteração</th>
+										<th class="cell-actions">Ações</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th>#</th>
+										<th>Nome</th>
+										<th>Cidade/Estado</th>
+										<th>Status</th>
+										<th>Destaque</th>
+										<th>Ativo</th>
+										<th>Data última alteração</th>
+										<th class="cell-actions">Ações</th>
+									</tr>
+								</tfoot>
+								{% if data|length > 0 %}
+									<tbody>
+										{% for item in data %}
+											<tr>
+												<td>{{ item.id }}</td>
+												<td>{{ item.nome }}</td>
+												<td>{{ item.cidade_estado }}</td>
+												<td>
+													{% if item.etapa_titulo == 'planejamento' %}
+														<span class="label label-info">Planejamento</span>
+													{% elseif item.etapa_titulo == 'execucao' %}
+														<span class="label label-warning">Em Execução</span>
+													{% elseif item.etapa_titulo == 'finalizado' %}
+														<span class="label label-success">Finalizado</span>
+													{% else %}
+														<span class="label label-secondary">{{ item.etapa_titulo|title }}</span>
+													{% endif %}
+												</td>
+												<td>
+													{% if item.destaque %}
+														<span class="label label-warning">Destaque</span>
+													{% else %}
+														<span class="label label-secondary">Normal</span>
+													{% endif %}
+												</td>
+												<td>
+													{% if item.enabled %}
+														<span class="label label-success">Ativo</span>
+													{% else %}
+														<span class="label label-danger">Inativo</span>
+													{% endif %}
+												</td>
+												<td>{{ item.updated_at|date('d/m/Y h:i:s') }}</td>
+												<td>
+													<div class="btn-group">
+														<!-- Botão Editar -->
+														<a href="{{ path("s_empreendimentos_edit", {"id": item.id}) }}" 
+														   class="btn btn-default btn-sm" 
+														   title="Editar">
+															<i class="fa fa-edit"></i>
+														</a>
+														
+														<!-- Botão Galeria -->
+														<a href="{{ path("s_empreendimentos_galeria", {"empreendimento_id": item.id}) }}" 
+														   class="btn btn-info btn-sm" 
+														   title="Galeria de Imagens">
+															<i class="fa fa-images"></i>
+														</a>
+														
+														<!-- Botão Deletar -->
+														<button data-toggle="modal" 
+																data-target="#modal-delete-{{ item.id }}" 
+																class="btn btn-danger btn-sm"
+																title="Deletar">
+															<i class="fa fa-trash"></i>
+														</button>
+													</div>
+
+													<div class="modal fade" id="modal-delete-{{ item.id }}" tabindex="-1" role="dialog">
+														<div class="modal-dialog">
+															<div class="modal-content">
+																<div class="modal-header">
+																	<h4 class="modal-title">Deletar</h4>
+																	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																		<span aria-hidden="true">&times;</span>
+																	</button>
+																</div>
+																<div class="modal-body">
+																	<p>Tem certeza que deseja excluir o empreendimento "{{ item.nome }}"?
+																		<br>Esta operação não tem retorno.</p>
+																	<form action="{{ path("s_empreendimentos_delete", { 'id': item.id}) }}" method="post">
+																		<input type="hidden" name="id" value="{{ item.id }}">
+																		<input type="hidden" name="_method" value="DELETE">
+																		<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+																		<button type="submit" class="btn btn-danger">Deletar</button>
+																	</form>
+																</div>
+															</div>
+														</div>
+													</div>
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								{% endif %}
+							</table>
+						</div>
+					</div>
+					<div class="btn-group">
+						<a class="btn btn-default" href="{{ path('s_empreendimentos_create') }}">Novo</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock content %}
+
+{% block script %}
+	{{ parent() }}
+
+	<!-- DataTables  & Plugins -->
+	<script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+	<script src="{{asset('plugins/jszip/jszip.min.js')}}"></script>
+	<script src="{{asset('plugins/pdfmake/pdfmake.min.js')}}"></script>
+	<script src="{{asset('plugins/pdfmake/vfs_fonts.js')}}"></script>
+	<script src="{{asset('plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+
+	<script>
+		(function ($) {
+			$("#empreendimentos").DataTable({
+				"responsive": true,
+				"lengthChange": false,
+				"autoWidth": false,
+				"buttons": [
+					"copy",
+					"csv",
+					"excel",
+					"pdf",
+					"print",
+					"colvis"
+				]
+			}).buttons().container().appendTo('#empreendimentos_wrapper .col-md-6:eq(0)');
+		}(jQuery))
+	</script>
+{% endblock script %} 

@@ -1,0 +1,144 @@
+{% set menu_pagina = 'publisher' %}
+{% extends 'front/layout.twig' %}
+
+{% block content %}
+<!-- Publishers Hero Section -->
+    <section class="publishers-hero-section">
+        <div class="publishers-hero-container">
+            <div class="publishers-hero-content">
+                <h1 class="publishers-hero-title">Transforme seu tráfego<br>em Receita!</h1>
+                <p class="publishers-hero-subtitle">Faça seu cadastro e comece a faturar.</p>
+                <a href="{{path('web_contato')}}" class="btn btn-primary publishers-hero-btn">ENTRE EM CONTATO</a>
+                <span class="star"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Busca de parceiros -->
+    <section class="stats-section">
+        <div class="container">
+            <h2 class="stats-title" data-aos="fade-up" data-aos-duration="1000">
+                Estamos em <span>busca de parceiros</span> que forneçam o melhor tráfego para nossas campanhas.
+            </h2>
+            
+            <div class="stats-container">
+                <div class="stats-column" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <h3>01</h3>
+                    <p>Cadastre-se e agende um papo com nossos especialistas.</p>
+                </div>
+                
+                <div class="divider-publishers" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300"></div>
+                
+                <div class="stats-column" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                    <h3>02</h3>
+                    <p>Veicule as campanhas de grandes marcas.</p>
+                </div>
+                
+                <div class="divider-publishers" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="500"></div>
+                
+                <div class="stats-column" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+                    <h3>03</h3>
+                    <p>Receba comissão pelas suas conversões.</p>
+                </div>
+            </div>
+            
+            <div class="stats-cta" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="800">
+                <a href="{{path('web_contato')}}" class="btn-outline">Comece agora</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Publishers Carousel Section -->
+    <section class="publishers-carousel-section">
+        <div class="container">
+            <h1 class="publishers-carousel-title">Seja nosso parceiro e tenha a<br>conexão estratégica.</h1>
+            <div class="publishers-slider-wrapper">
+                <button class="slider-arrow prev" aria-label="Slide anterior"><i class="fas fa-chevron-left"></i></button>
+                <div class="publishers-slider-container">
+                    <div class="publishers-slider-track">
+                        
+                        {% for item in parceiros %}
+                            
+                        <!-- Card {{loop.index}} -->
+                        <div class="publishers-slide-card">
+                            {{item.body|raw}}
+                        </div>
+                        {% endfor %}
+                        
+                    </div>
+                </div>
+                <button class="slider-arrow next" aria-label="Próximo slide"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Logos Section -->
+    <section class="partners-logos-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- Coluna de Texto (Esquerda) -->
+                <div class="col-lg-5 partners-logos-text-col">
+                    <h2 class="partners-logos-title">As maiores<br>marcas crescem<br>com a Booster.</h2>
+                    <p class="partners-logos-subtitle">Maximize seus ganhos com conexões estratégicas.</p>
+                </div>
+                <!-- Coluna de Logos (Direita) -->
+                <div class="col-lg-6">
+                    <div class="logos-scroll-container">
+                        <div class="logos-scroll-track">
+                            <!-- Logos Originais -->
+                            <div class="logos-grid">
+
+                                {% for item in marcas %}
+                                    <img src="{{path('imagem',{'path':'marcas','imagem':item.image})}}" alt="{{item.title|raw}}" class="partner-logo-img">    
+                                {% endfor %}
+                                
+                            </div>
+                            <!-- Logos Duplicados para Loop -->
+                            <div class="logos-grid">
+                                {% for item in marcas %}
+                                    <img src="{{path('imagem',{'path':'marcas','imagem':item.image})}}" alt="{{item.title|raw}}" class="partner-logo-img">    
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Remuneration Models Section -->
+    <section class="remuneration-models-section">
+        <div class="container">
+            <h2 class="remuneration-title">Diferentes modelos de<br>remuneração para você faturar</h2>
+            <div class="row">
+                
+                {% for item in expanda %}
+                    
+                <!-- Card 1: CPA -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="remuneration-card">
+                        <h3 class="card-model-title">{{item.title|raw}}</h3>
+                        {{item.body|raw}}
+                    </div>
+                </div>
+                {% endfor %}
+
+                
+            </div>
+            <div class="remuneration-btn-wrapper">
+                <a href="{{path('web_contato')}}" class="btn btn-primary">ENTRE EM CONTATO</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta-section">
+        <div class="container">
+            <div class="cta-content-wrapper">
+                <h2 class="cta-title"><span>Maximize seu crescimento</span><br>com acesso exclusivo às<br>maiores marcas.</h2>
+                <img src="{{asset('imgs/icone-roxo.png')}}" alt="Forma abstrata roxa" class="cta-image">
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

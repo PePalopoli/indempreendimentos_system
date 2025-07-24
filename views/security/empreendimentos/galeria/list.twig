@@ -1,0 +1,107 @@
+{% extends 'security/empreendimentos/galeria/theme.twig' %}
+
+{% block content %}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Galeria: {{ empreendimento.nome }}</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item">
+                        <a href="{{ path('s_empreendimentos') }}">Empreendimentos</a>
+                    </li>
+                    <li class="breadcrumb-item active">Galeria</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Galeria de Imagens</h3>
+                        <div class="card-tools">
+                            <a href="{{ path('s_empreendimentos_galeria_create', {'empreendimento_id': empreendimento_id}) }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i> Nova Imagem
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {% if data|length > 0 %}
+                            <div class="row" id="gallery-sortable">
+                                {% for item in data %}
+                                    <div class="col-md-3 mb-3" data-id="{{ item.id }}">
+                                        <div class="card">
+                                            <img src="{{ asset('upload/empreendimentos/galeria/' ~ item.imagem) }}" 
+                                                 class="card-img-top" alt="{{ item.alt_text }}" 
+                                                 style="height: 200px; object-fit: cover;">
+                                            <div class="card-body p-2">
+                                                <h6 class="card-title">{{ item.titulo ?: 'Sem título' }}</h6>
+                                                <p class="card-text small">
+                                                    <span class="badge badge-info">{{ item.tipo|title }}</span>
+                                                    {% if item.enabled %}
+                                                        <span class="badge badge-success">Ativo</span>
+                                                    {% else %}
+                                                        <span class="badge badge-secondary">Inativo</span>
+                                                    {% endif %}
+                                                </p>
+                                                <div class="btn-group btn-group-sm w-100">
+                                                    <a href="{{ path('s_empreendimentos_galeria_edit', {'empreendimento_id': empreendimento_id, 'id': item.id}) }}" 
+                                                       class="btn btn-default">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-danger" 
+                                                            data-toggle="modal" 
+                                                            data-target="#modal-delete-{{ item.id }}">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Modal de confirmação -->
+                                        <div class="modal fade" id="modal-delete-{{ item.id }}" tabindex="-1">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Deletar Imagem</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">
+                                                            <span>&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Tem certeza que deseja excluir esta imagem?</p>
+                                                        <form action="{{ path('s_empreendimentos_galeria_delete', {'empreendimento_id': empreendimento_id}) }}" method="post">
+                                                            <input type="hidden" name="id" value="{{ item.id }}">
+                                                            <input type="hidden" name="_method" value="DELETE">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                                            <button type="submit" class="btn btn-danger">Deletar</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="text-center">
+                                <p>Nenhuma imagem cadastrada na galeria.</p>
+                                <a href="{{ path('s_empreendimentos_galeria_create', {'empreendimento_id': empreendimento_id}) }}" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Adicionar Primeira Imagem
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %} 
