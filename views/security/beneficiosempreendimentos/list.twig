@@ -1,0 +1,271 @@
+{% extends 'security/beneficiosempreendimentos/theme.twig' %}
+
+{% block stylesheet %}
+	<!-- DataTables -->
+	<link rel="stylesheet" href="{{asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+	<link rel="stylesheet" href="{{asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+	<link rel="stylesheet" href="{{asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+{% endblock %}
+
+{% block content %}
+	<section class="content-header">
+		<h1>Benefícios de Empreendimentos</h1>
+	</section>
+	<section class="content">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Lista de Benefícios</h3>
+						</div>
+						<div class="card-body">
+							<table id="beneficios" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Título</th>
+										<th>Preview do Ícone</th>
+										<th>Status</th>
+										<th>Data de criação</th>
+										<th>Data última alteração</th>
+										<th class="cell-actions">Ações</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th>#</th>
+										<th>Título</th>
+										<th>Preview do Ícone</th>
+										<th>Status</th>
+										<th>Data de criação</th>
+										<th>Data última alteração</th>
+										<th class="cell-actions">Ações</th>
+									</tr>
+								</tfoot>
+								{% if data|length > 0 %}
+									<tbody class="sortable">
+										{% for item in data %}
+											<tr id="order-{{ item.id }}">
+												<td>{{ item.id }}</td>
+												<td>{{ item.titulo }}</td>
+												<td style="text-align: center;">
+													<div style="width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #ddd; border-radius: 4px; background-color: #f8f9fa;">
+														{{ item.svg_code|raw }}
+													</div>
+												</td>
+												<td>
+													{% if item.enabled %}
+														<span class="badge badge-success">Ativo</span>
+													{% else %}
+														<span class="badge badge-danger">Inativo</span>
+													{% endif %}
+												</td>
+												<td>{{ item.created_at|date('d/m/Y H:i:s') }}</td>
+												<td>{{ item.updated_at|date('d/m/Y H:i:s') }}</td>
+												<td>
+													<div class="btn-group">
+														<!-- Botão Arrastar -->
+														<button type="button" class="btn btn-default btn-sm btn-move-v" title="Arrastar para reordenar">
+															<i class="fa fa-arrows-alt"></i>
+														</button>
+														
+														<!-- Botão Visualizar -->
+														<button data-toggle="modal" 
+																data-target="#modal-show-{{ item.id }}" 
+																class="btn btn-info btn-sm"
+																title="Visualizar">
+															<i class="fa fa-eye"></i>
+														</button>
+														
+														<!-- Botão Editar -->
+														<a href="{{ path("s_beneficios_empreendimentos_edit", {"id": item.id}) }}" 
+														   class="btn btn-primary btn-sm" 
+														   title="Editar">
+															<i class="fa fa-edit"></i>
+														</a>
+														
+														<!-- Botão Deletar -->
+														<button data-toggle="modal" 
+																data-target="#modal-delete-{{ item.id }}" 
+																class="btn btn-danger btn-sm"
+																title="Deletar">
+															<i class="fa fa-trash"></i>
+														</button>
+													</div>
+
+													<!-- Modal Visualizar -->
+													<div class="modal fade" id="modal-show-{{ item.id }}" tabindex="-1" role="dialog">
+														<div class="modal-dialog modal-lg">
+															<div class="modal-content">
+																<div class="modal-header bg-info">
+																	<h4 class="modal-title text-white">Informações do Benefício</h4>
+																	<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+																		<span aria-hidden="true">&times;</span>
+																	</button>
+																</div>
+																<div class="modal-body">
+																	<div class="row">
+																		<div class="col-md-8">
+																			<table class="table table-striped">
+																				<tr>
+																					<td><strong>ID:</strong></td>
+																					<td>{{ item.id }}</td>
+																				</tr>
+																				<tr>
+																					<td><strong>Título:</strong></td>
+																					<td>{{ item.titulo }}</td>
+																				</tr>
+																				<tr>
+																					<td><strong>Status:</strong></td>
+																					<td>
+																						{% if item.enabled %}
+																							<span class="badge badge-success">Ativo</span>
+																						{% else %}
+																							<span class="badge badge-danger">Inativo</span>
+																						{% endif %}
+																					</td>
+																				</tr>
+																				<tr>
+																					<td><strong>Data de criação:</strong></td>
+																					<td>{{ item.created_at|date('d/m/Y H:i:s') }}</td>
+																				</tr>
+																				<tr>
+																					<td><strong>Última alteração:</strong></td>
+																					<td>{{ item.updated_at|date('d/m/Y H:i:s') }}</td>
+																				</tr>
+																			</table>
+																		</div>
+																		<div class="col-md-4 text-center">
+																			<h5>Preview do Ícone</h5>
+																			<div style="width: 80px; height: 80px; display: inline-flex; align-items: center; justify-content: center; border: 2px solid #17a2b8; border-radius: 8px; background-color: #f8f9fa; margin-bottom: 15px;">
+																				{{ item.svg_code|raw }}
+																			</div>
+																		</div>
+																	</div>
+																	<div class="row">
+																		<div class="col-12">
+																			<h5>Código SVG:</h5>
+																			<div style="max-height: 150px; overflow-y: auto; background: #f8f9fa; padding: 15px; border: 1px solid #dee2e6; border-radius: 4px;">
+																				<pre><code>{{ item.svg_code }}</code></pre>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+																	<a href="{{ path("s_beneficios_empreendimentos_edit", {"id": item.id}) }}" class="btn btn-primary">Editar</a>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<!-- Modal Deletar -->
+													<div class="modal fade" id="modal-delete-{{ item.id }}" tabindex="-1" role="dialog">
+														<div class="modal-dialog">
+															<div class="modal-content">
+																<div class="modal-header bg-danger">
+																	<h4 class="modal-title text-white">Deletar Benefício</h4>
+																	<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+																		<span aria-hidden="true">&times;</span>
+																	</button>
+																</div>
+																<div class="modal-body">
+																	<p>Tem certeza que deseja excluir o benefício <strong>"{{ item.titulo }}"</strong>?
+																		<br>Esta operação não tem retorno.</p>
+																	<form action="{{ path("s_beneficios_empreendimentos_delete", { 'id': item.id}) }}" method="post">
+																		<input type="hidden" name="id" value="{{ item.id }}">
+																		<input type="hidden" name="_method" value="DELETE">
+																		<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+																		<button type="submit" class="btn btn-danger">Deletar</button>
+																	</form>
+																</div>
+															</div>
+														</div>
+													</div>
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								{% endif %}
+							</table>
+						</div>
+					</div>
+					<div class="btn-group">
+						<a class="btn btn-success" href="{{ path('s_beneficios_empreendimentos_create') }}">
+							<i class="fas fa-plus"></i> Novo Benefício
+						</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock content %}
+
+{% block script %}
+	{{ parent() }}
+
+	<!-- DataTables  & Plugins -->
+	<script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+	<script src="{{asset('plugins/jszip/jszip.min.js')}}"></script>
+	<script src="{{asset('plugins/pdfmake/pdfmake.min.js')}}"></script>
+	<script src="{{asset('plugins/pdfmake/vfs_fonts.js')}}"></script>
+	<script src="{{asset('plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+	
+	<!-- jQuery UI for sortable -->
+	<script src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+
+	<script>
+		(function ($) {
+			$("#beneficios").DataTable({
+				"responsive": true,
+				"lengthChange": false,
+				"autoWidth": false,
+				"order": [], // Desabilitar ordenação inicial
+				"buttons": [
+					"copy",
+					"csv",
+					"excel",
+					"pdf",
+					"print",
+					"colvis"
+				]
+			}).buttons().container().appendTo('#beneficios_wrapper .col-md-6:eq(0)');
+			
+			// Funcionalidade de arrastar e soltar
+			$('.sortable').sortable({
+				handle: '.btn-move-v',
+				axis: 'y',
+				cursor: 'move',
+				update: function (event, ui) {
+					var order = [];
+					$('.sortable tr').each(function(index) {
+						var id = $(this).attr('id').replace('order-', '');
+						order.push(id);
+					});
+					
+					$.ajax({
+						url: '{{ path('s_beneficios_empreendimentos_order') }}',
+						type: 'PUT',
+						data: { order: order },
+						success: function(response) {
+							console.log('Ordem atualizada com sucesso');
+						},
+						error: function() {
+							console.error('Erro ao atualizar ordem');
+						}
+					});
+				}
+			});
+		}(jQuery))
+	</script>
+{% endblock script %} 

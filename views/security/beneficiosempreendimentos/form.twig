@@ -1,0 +1,467 @@
+{% extends 'security/beneficiosempreendimentos/theme.twig' %}
+
+{% block stylesheet %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+	
+	<style>
+		/* Estilos para preview do SVG */
+		#svg-preview {
+			border: 2px dashed #17a2b8;
+			border-radius: 8px;
+			background-color: #f8f9fa;
+			transition: all 0.3s ease;
+			min-height: 120px;
+			position: relative;
+		}
+		
+		#svg-preview:hover {
+			border-color: #007bff;
+		}
+		
+		#svg-preview.dark-bg {
+			background-color: #2c3e50;
+			border-color: #34495e;
+		}
+		
+		#svg-preview.dark-bg:hover {
+			border-color: #3498db;
+		}
+		
+		/* Container do SVG com melhor controle */
+		.svg-container {
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 100px;
+		}
+		
+		/* Controles do preview */
+		.preview-controls {
+			position: absolute;
+			top: 5px;
+			right: 5px;
+			z-index: 10;
+		}
+		
+		.preview-controls .btn {
+			padding: 2px 6px;
+			font-size: 10px;
+			opacity: 0.7;
+			transition: opacity 0.3s;
+		}
+		
+		#svg-preview:hover .preview-controls .btn {
+			opacity: 1;
+		}
+		
+		/* Estilos para o SVG renderizado */
+		#svg-preview svg {
+			max-width: 100px !important;
+			max-height: 100px !important;
+			width: auto !important;
+			height: auto !important;
+			transition: transform 0.2s ease-in-out;
+		}
+		
+		#svg-preview svg:hover {
+			transform: scale(1.1);
+		}
+		
+		/* Textarea para código SVG */
+		#beneficios_empreendimentos_svg_code {
+			font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+			font-size: 13px;
+			line-height: 1.4;
+		}
+		
+		/* Estilo para botões */
+		.btn-group .btn {
+			border-radius: 4px;
+			margin-right: 5px;
+		}
+		
+		/* Card responsivo */
+		@media (max-width: 768px) {
+			.card-body .row .col-md-8,
+			.card-body .row .col-md-4 {
+				margin-bottom: 20px;
+			}
+		}
+		
+		/* Animação suave para preview */
+		.svg-preview-content {
+			transition: transform 0.2s ease-in-out;
+		}
+		
+		.svg-preview-content:hover {
+			transform: scale(1.05);
+		}
+		
+		/* Badge de status do SVG */
+		.svg-status-badge {
+			position: absolute;
+			bottom: 5px;
+			left: 5px;
+			font-size: 10px;
+			z-index: 10;
+		}
+		
+		/* Informações do SVG */
+		.svg-info {
+			margin-top: 10px;
+			font-size: 11px;
+			color: #6c757d;
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+
+	{% block form_title %}{% endblock form_title %}
+
+	<!-- Main content -->
+	<section class="content">
+		<div class="container-fluid">
+
+			{{ form_start(form) }}
+
+			<div class="row">
+				<div class="col-md-8">
+					<!-- Dados Básicos -->
+					<div class="card card-primary">
+						<div class="card-header">
+							<h3 class="card-title">
+								<i class="fas fa-star"></i> Dados do Benefício
+							</h3>
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool" data-card-widget="collapse">
+									<i class="fas fa-minus"></i>
+								</button>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-md-8">
+									<div class="form-group">
+										{{ form_label(form.titulo, null, {'label_attr': {'class': 'font-weight-bold'}}) }}
+										{{ form_errors(form.titulo) }}
+										{{ form_widget(form.titulo, { attr: { 'class': 'form-control', 'placeholder': 'Ex: Localização Privilegiada' }}) }}
+										<small class="form-text text-muted">
+											<i class="fas fa-info-circle"></i> Digite um título descritivo para o benefício
+										</small>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										{{ form_label(form.enabled, null, {'label_attr': {'class': 'font-weight-bold'}}) }}
+										{{ form_errors(form.enabled) }}
+										{{ form_widget(form.enabled, { attr: { 'class': 'form-control' }}) }}
+										<small class="form-text text-muted">
+											<i class="fas fa-toggle-on"></i> Status de exibição
+										</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Código SVG -->
+					<div class="card card-info">
+						<div class="card-header">
+							<h3 class="card-title">
+								<i class="fas fa-code"></i> Código SVG do Ícone
+							</h3>
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool" data-card-widget="collapse">
+									<i class="fas fa-minus"></i>
+								</button>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								{{ form_label(form.svg_code, null, {'label_attr': {'class': 'font-weight-bold'}}) }}
+								{{ form_errors(form.svg_code) }}
+								{{ form_widget(form.svg_code, { attr: { 'class': 'form-control', 'rows': 8, 'placeholder': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">...</svg>' }}) }}
+								<small class="form-text text-muted">
+									<i class="fas fa-paste"></i> Cole aqui o código SVG completo do ícone. 
+									<br>
+									<strong>Dica:</strong> Você pode obter ícones SVG gratuitos em sites como 
+									<a href="https://heroicons.com/" target="_blank">Heroicons</a>, 
+									<a href="https://feathericons.com/" target="_blank">Feather Icons</a> ou 
+									<a href="https://phosphoricons.com/" target="_blank">Phosphor Icons</a>.
+								</small>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-4">
+					<!-- Preview do Ícone -->
+					<div class="card card-success">
+						<div class="card-header">
+							<h3 class="card-title">
+								<i class="fas fa-eye"></i> Preview do Ícone
+							</h3>
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool" data-card-widget="collapse">
+									<i class="fas fa-minus"></i>
+								</button>
+							</div>
+						</div>
+						<div class="card-body text-center">
+							<div id="svg-preview" class="d-flex align-items-center justify-content-center">
+								<!-- Controles do preview -->
+								<div class="preview-controls">
+									<button type="button" id="toggle-bg" class="btn btn-sm btn-secondary" title="Alternar fundo">
+										<i class="fas fa-adjust"></i>
+									</button>
+									<button type="button" id="reset-size" class="btn btn-sm btn-info" title="Resetar tamanho">
+										<i class="fas fa-expand-arrows-alt"></i>
+									</button>
+								</div>
+								
+								<!-- Badge de status -->
+								<div class="svg-status-badge">
+									<span id="svg-status" class="badge badge-secondary">Aguardando SVG</span>
+								</div>
+								
+								<!-- Container do SVG -->
+								<div class="svg-container">
+									<span class="text-muted">
+										<i class="fas fa-image fa-2x"></i>
+										<br><small>Preview aparecerá aqui</small>
+									</span>
+								</div>
+							</div>
+							
+							<!-- Informações do SVG -->
+							<div id="svg-info" class="svg-info" style="display: none;">
+								<div class="row">
+									<div class="col-6"><strong>Largura:</strong> <span id="svg-width">-</span></div>
+									<div class="col-6"><strong>Altura:</strong> <span id="svg-height">-</span></div>
+								</div>
+								<div class="row">
+									<div class="col-12"><strong>ViewBox:</strong> <span id="svg-viewbox">-</span></div>
+								</div>
+							</div>
+							
+							<hr>
+							<div class="info-box bg-light">
+								<div class="info-box-content">
+									<span class="info-box-text">Tamanho Recomendado</span>
+									<span class="info-box-number">24x24 a 64x64px</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Informações Adicionais -->
+					<div class="card card-warning">
+						<div class="card-header">
+							<h3 class="card-title">
+								<i class="fas fa-lightbulb"></i> Dicas
+							</h3>
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool" data-card-widget="collapse">
+									<i class="fas fa-minus"></i>
+								</button>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="callout callout-info">
+								<h5><i class="fas fa-info"></i> Sobre SVG:</h5>
+								<p>Os ícones SVG são vetoriais e se adaptam perfeitamente a qualquer tamanho.</p>
+							</div>
+							<div class="callout callout-warning">
+								<h5><i class="fas fa-exclamation-triangle"></i> Importante:</h5>
+								<p>Use o botão <i class="fas fa-adjust"></i> para alternar entre fundo claro/escuro se o ícone não estiver visível.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Campos ocultos -->
+			{{ form_rest(form) }}
+
+			<!-- Botões de Ação -->
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-footer">
+							<div class="row">
+								<div class="col-md-6">
+									<a href="{{ path('s_beneficios_empreendimentos') }}" class="btn btn-default">
+										<i class="fas fa-arrow-left"></i> Voltar
+									</a>
+								</div>
+								<div class="col-md-6 text-right">
+									<button type="submit" class="btn btn-primary">
+										<i class="fas fa-save"></i> {{ btn_acao }}
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{{ form_end(form) }}
+
+		</div>
+	</section>
+	<!-- END Main content -->
+{% endblock content %}
+
+{% block script %}
+	{{ parent() }}
+	
+	<script type="text/javascript">
+		$(function() {
+			var isDarkBg = false;
+			
+			// Função para extrair informações do SVG
+			function extractSvgInfo(svgElement) {
+				var width = svgElement.attr('width') || 'auto';
+				var height = svgElement.attr('height') || 'auto';
+				var viewBox = svgElement.attr('viewBox') || 'não definido';
+				
+				$('#svg-width').text(width);
+				$('#svg-height').text(height);
+				$('#svg-viewbox').text(viewBox);
+				$('#svg-info').show();
+			}
+			
+			// Função para atualizar o preview do SVG
+			function updateSvgPreview() {
+				var svgCode = $('#beneficios_empreendimentos_svg_code').val();
+				var previewDiv = $('#svg-preview');
+				var container = previewDiv.find('.svg-container');
+				var statusBadge = $('#svg-status');
+				
+				if (svgCode.trim()) {
+					try {
+						// Tentar renderizar o SVG
+						var svgElement = $(svgCode);
+						
+						// Verificar se é um SVG válido
+						if (svgElement.length > 0 && svgElement[0].tagName.toLowerCase() === 'svg') {
+							// Extrair informações do SVG
+							extractSvgInfo(svgElement);
+							
+							// Aplicar estilos para garantir visualização adequada
+							svgElement.css({
+								'max-width': '100px',
+								'max-height': '100px',
+								'width': 'auto',
+								'height': 'auto'
+							});
+							
+							// Adicionar classe para animação
+							svgElement.addClass('svg-preview-content');
+							
+							// Limpar container e adicionar SVG
+							container.html(svgElement);
+							
+							// Feedback visual de sucesso
+							previewDiv.removeClass('border-danger').addClass('border-success');
+							statusBadge.removeClass('badge-danger badge-secondary').addClass('badge-success').text('SVG Válido');
+							
+						} else {
+							throw new Error('Não é um SVG válido');
+						}
+					} catch (e) {
+						container.html('<span class="text-danger"><i class="fas fa-exclamation-triangle fa-2x"></i><br><small>SVG inválido</small></span>');
+						previewDiv.removeClass('border-success').addClass('border-danger');
+						statusBadge.removeClass('badge-success badge-secondary').addClass('badge-danger').text('SVG Inválido');
+						$('#svg-info').hide();
+					}
+				} else {
+					container.html('<span class="text-muted"><i class="fas fa-image fa-2x"></i><br><small>Preview aparecerá aqui</small></span>');
+					previewDiv.removeClass('border-success border-danger');
+					statusBadge.removeClass('badge-success badge-danger').addClass('badge-secondary').text('Aguardando SVG');
+					$('#svg-info').hide();
+				}
+			}
+			
+			// Toggle entre fundo claro e escuro
+			$('#toggle-bg').on('click', function() {
+				var previewDiv = $('#svg-preview');
+				var btn = $(this);
+				
+				if (isDarkBg) {
+					previewDiv.removeClass('dark-bg');
+					btn.html('<i class="fas fa-adjust"></i>').attr('title', 'Fundo escuro');
+					isDarkBg = false;
+				} else {
+					previewDiv.addClass('dark-bg');
+					btn.html('<i class="fas fa-moon"></i>').attr('title', 'Fundo claro');
+					isDarkBg = true;
+				}
+			});
+			
+			// Reset do tamanho do SVG
+			$('#reset-size').on('click', function() {
+				var svg = $('#svg-preview svg');
+				if (svg.length > 0) {
+					svg.css({
+						'max-width': '100px',
+						'max-height': '100px',
+						'width': 'auto',
+						'height': 'auto',
+						'transform': 'none'
+					});
+				}
+			});
+
+			// Atualizar preview quando o campo SVG for alterado
+			$('#beneficios_empreendimentos_svg_code').on('input paste keyup', function() {
+				// Debounce para evitar muitas atualizações
+				clearTimeout($(this).data('timeout'));
+				$(this).data('timeout', setTimeout(updateSvgPreview, 300));
+			});
+			
+			// Atualizar preview na carga da página
+			updateSvgPreview();
+			
+			// Adicionar validação no envio do formulário
+			$('form').on('submit', function(e) {
+				var svgCode = $('#beneficios_empreendimentos_svg_code').val();
+				var titulo = $('#beneficios_empreendimentos_titulo').val();
+				
+				if (!titulo.trim()) {
+					e.preventDefault();
+					alert('Por favor, preencha o título do benefício.');
+					$('#beneficios_empreendimentos_titulo').focus();
+					return false;
+				}
+				
+				if (!svgCode.trim()) {
+					e.preventDefault();
+					alert('Por favor, cole o código SVG do ícone.');
+					$('#beneficios_empreendimentos_svg_code').focus();
+					return false;
+				}
+				
+				// Verificar se o SVG é válido
+				try {
+					var svgElement = $(svgCode);
+					if (svgElement.length === 0 || svgElement[0].tagName.toLowerCase() !== 'svg') {
+						e.preventDefault();
+						alert('O código SVG parece estar inválido. Por favor, verifique.');
+						$('#beneficios_empreendimentos_svg_code').focus();
+						return false;
+					}
+				} catch (ex) {
+					e.preventDefault();
+					alert('O código SVG parece estar inválido. Por favor, verifique.');
+					$('#beneficios_empreendimentos_svg_code').focus();
+					return false;
+				}
+			});
+		});
+	</script>
+{% endblock script %} 

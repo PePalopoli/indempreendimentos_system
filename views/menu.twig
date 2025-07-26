@@ -86,10 +86,26 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ path('s_empreendimentos') }}" class="nav-link  {% if menu_selected is defined and menu_selected == 'empreendimentos' %}active{% endif %}">
-        <i class="nav-icon fa fa-building "></i>
-         <p>Empreendimentos</p>
+    <a href="#" class="nav-link {% if menu_selected is defined and menu_selected in ['empreendimentos', 'beneficios_empreendimentos'] %}active{% endif %}">
+        <i class="nav-icon fa fa-building"></i>
+        <p>Empreendimentos
+        <i class="right fas fa-angle-left"></i>
+        </p>
     </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ path('s_empreendimentos') }}" class="nav-link {% if menu_selected is defined and menu_selected == 'empreendimentos' %}active{% endif %}">
+                <i class="fa fa-building nav-icon"></i>
+                <p>Gerenciar Empreendimentos</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ path('s_beneficios_empreendimentos') }}" class="nav-link {% if menu_selected is defined and menu_selected == 'beneficios_empreendimentos' %}active{% endif %}">
+                <i class="fa fa-star nav-icon"></i>
+                <p>Benefícios</p>
+            </a>
+        </li>
+    </ul>
 </li>
 
 {# <li {% if menu_selected is defined and menu_selected == 'banner_type' %}class="active"{% endif %}>

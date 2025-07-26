@@ -162,4 +162,11 @@ $security->match('empreendimentos/{empreendimento_id}/galeria/create', 'Security
 $security->match('empreendimentos/{empreendimento_id}/galeria/edit/{id}', 'Security\EmpreendimentosGaleria::edit')->method('GET|POST')->bind('s_empreendimentos_galeria_edit');
 $security->delete('empreendimentos/{empreendimento_id}/galeria/delete/{id}', 'Security\EmpreendimentosGaleria::delete')->bind('s_empreendimentos_galeria_delete');
 
+// Benefícios de Empreendimentos
+$security->match('beneficios-empreendimentos', 'Security\BeneficiosEmpreendimentos::index')->method('GET|POST')->bind('s_beneficios_empreendimentos');
+$security->put('beneficios-empreendimentos/order', 'Security\BeneficiosEmpreendimentos::order')->bind('s_beneficios_empreendimentos_order');
+$security->match('beneficios-empreendimentos/create', 'Security\BeneficiosEmpreendimentos::create')->method('GET|POST')->bind('s_beneficios_empreendimentos_create');
+$security->match('beneficios-empreendimentos/edit/{id}', 'Security\BeneficiosEmpreendimentos::edit')->method('GET|POST')->bind('s_beneficios_empreendimentos_edit');
+$security->delete('beneficios-empreendimentos/delete/{id}', 'Security\BeneficiosEmpreendimentos::delete')->bind('s_beneficios_empreendimentos_delete');
+
 return $security;
