@@ -94,17 +94,27 @@ class EmpreendimentosForm extends AbstractType
                     new Assert\Image($image_valid),
                 ),
             ))
-            // NOVO: Campo para múltiplas imagens da galeria
-            ->add('galeria_imagens', 'file', array(
-                'required' => false,
-                'label' => 'Galeria de Imagens',
-                'mapped' => false, // Não mapeia para o objeto, processaremos manualmente
-                'attr' => array(
-                    'multiple' => true,
-                    'accept' => 'image/*',
-                    'class' => 'form-control-file'
-                ),
-            ))
+                        // NOVO: Campo para múltiplas imagens da galeria
+                        ->add('galeria_imagens', 'file', array(
+                            'required' => false,
+                            'label' => 'Galeria de Imagens',
+                            'mapped' => false, // Não mapeia para o objeto, processaremos manualmente
+                            'multiple' => true, // Permitir múltiplos arquivos
+                            'attr' => array(
+                                'multiple' => true,
+                                'accept' => 'image/*',
+                                'class' => 'form-control-file'
+                            ),
+                            'constraints' => array(
+                                new Assert\All(array(
+                                    new Assert\Image(array(
+                                        'maxSize' => '10M',
+                                        'mimeTypes' => array('image/jpeg', 'image/png', 'image/gif', 'image/webp'),
+                                        'mimeTypesMessage' => 'Por favor envie apenas imagens válidas (JPEG, PNG, GIF, WebP)'
+                                    ))
+                                ))
+                            ),
+                        ))
             ->add('destaque', 'checkbox', array(
                 'required' => false,
                 'label' => 'Empreendimento em Destaque',

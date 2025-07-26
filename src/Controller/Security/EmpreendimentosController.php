@@ -77,7 +77,7 @@ class EmpreendimentosController extends ContainerAware
         error_log("DEBUG: Número total de itens para processar: " . count($galeria_imagens));
 
         $fs = new Filesystem();
-        $directory = web_path('upload/empreendimentos/galeria');
+        $directory = web_path('upload/empreendimentos_galeria');
         error_log("DEBUG: Diretório de upload: " . $directory);
 
         if (!$fs->exists($directory)) {
@@ -200,7 +200,7 @@ class EmpreendimentosController extends ContainerAware
         try {
             // Remover arquivo físico
             $fs = new Filesystem();
-            $file_path = web_path('upload/empreendimentos/galeria') . '/' . $image['imagem'];
+            $file_path = web_path('upload/empreendimentos_galeria') . '/' . $image['imagem'];
             if ($fs->exists($file_path)) {
                 $fs->remove($file_path);
             }
@@ -242,7 +242,7 @@ class EmpreendimentosController extends ContainerAware
 
                 if ($image) {
                     // Remover arquivo físico
-                    $file_path = web_path('upload/empreendimentos/galeria') . '/' . $image['imagem'];
+                    $file_path = web_path('upload/empreendimentos_galeria') . '/' . $image['imagem'];
                     if ($fs->exists($file_path)) {
                         $fs->remove($file_path);
                     }
@@ -475,6 +475,7 @@ class EmpreendimentosController extends ContainerAware
 
                     // NOVO: Processar galeria de imagens (apenas adicionar novas)
                     $galeria_imagens = $form->get('galeria_imagens')->getData();
+                    //die(var_dump($galeria_imagens));
                     
                     // DEBUG: Verificar se há imagens para processar
                     error_log("DEBUG: galeria_imagens tipo: " . gettype($galeria_imagens));
@@ -579,7 +580,7 @@ class EmpreendimentosController extends ContainerAware
             // Remover galeria
             $galeria = $this->db()->fetchAll('SELECT * FROM `empreendimentos_galeria` WHERE `empreendimento_id` = ?', array($id));
             foreach ($galeria as $item) {
-                $file_name = web_path('upload/empreendimentos/galeria').'/'.$item['imagem'];
+                $file_name = web_path('upload/empreendimentos_galeria').'/'.$item['imagem'];
                 if ($fs->exists($file_name)) {
                     $fs->remove($file_name);
                 }

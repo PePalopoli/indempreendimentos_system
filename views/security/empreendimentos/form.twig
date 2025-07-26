@@ -310,13 +310,13 @@
 							{% for imagem in galeria_existente %}
 							<div class="col-md-4 col-sm-6 mb-3" id="galeria-item-{{ imagem.id }}">
 								<div class="card">
-									<img src="{{ asset('upload/empreendimentos/galeria/' ~ imagem.imagem) }}" 
+									<img src="{{path('imagem',{'path':'empreendimentos_galeria',imagem:imagem.imagem})}}" 
 										 class="card-img-top" 
 										 style="height: 150px; object-fit: cover; cursor: pointer;"
 										 alt="{{ imagem.titulo }}"
 										 data-toggle="modal" 
 										 data-target="#imageModal"
-										 data-src="{{ asset('upload/empreendimentos/galeria/' ~ imagem.imagem) }}">
+										 data-src="{{path('imagem',{'path':'empreendimentos_galeria',imagem:imagem.imagem})}}">
 									<div class="card-body p-2">
 										<p class="card-text small mb-1">
 											<strong>{{ imagem.titulo }}</strong>
