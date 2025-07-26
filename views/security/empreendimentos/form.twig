@@ -702,6 +702,203 @@ $(document).on('click', '.btn-remove-image', function(e) {
 	}
 });
 
+	// ==============================================
+	// SISTEMA DE REMOÇÃO AJAX - IMAGENS EXISTENTES
+	// ==============================================
+
+	$(document).on('click', '.btn-mark-remove', function(e) {
+		e.preventDefault();
+		
+		var $btn = $(this);
+		
+		// ✅ PEGAR VALOR DIRETAMENTE DO HTML E CONVERTER PARA INT
+		var imageIdRaw = $btn.attr('data-image-id');
+		var imageId = parseInt(imageIdRaw, 10);
+		var imageTitle = $btn.data('titulo');
+		var $galeriaItem = $('#galeria-item-' + imageId);
+		
+		// Debug completo
+		console.log('🔍 DEBUG COMPLETO:');
+		console.log('- Valor HTML bruto:', imageIdRaw);
+		console.log('- Image ID convertido:', imageId);
+		console.log('- Image ID tipo:', typeof imageId);
+		console.log('- É número válido:', !isNaN(imageId));
+		console.log('- É maior que 0:', imageId > 0);
+		
+		// ✅ VALIDAÇÃO ROBUSTA COM INT
+		if (isNaN(imageId) || imageId <= 0) {
+			alert('❌ Erro: ID da imagem inválido (NaN ou <= 0). Valor: ' + imageIdRaw);
+			return;
+		}
+		
+		console.log('✅ VALIDAÇÃO PASSOU! ImageId válido:', imageId);
+		
+		// Confirmação com nome da imagem
+		var confirmMsg = 'Tem certeza que deseja remover a imagem "' + imageTitle + '"?\n\n' +
+						'⚠️ Esta ação não pode ser desfeita!';
+		
+		if (!confirm(confirmMsg)) {
+			return;
+		}
+		
+		// Feedback visual - botão loading
+		$btn.prop('disabled', true);
+		$btn.html('<i class="fas fa-spinner fa-spin"></i> Removendo...');
+		$galeriaItem.addClass('removing').css('opacity', '0.5');
+		
+		// ✅ DEBUG DETALHADO PARA ID DO EMPREENDIMENTO
+		
+		
+		// Tentar múltiplas formas de pegar o ID
+		var empId1 = $('input[name="empreendimentos[id]"]').val();
+		var empId2 = $('input[name="id"]').val();
+		var empId3 = getEmpreendimentoIdFromUrl();
+		
+		
+		
+		// Listar todos os inputs que podem conter ID
+		
+		$('input[name*="id"]').each(function() {
+			console.log('  * Nome:', $(this).attr('name'), 'Valor:', $(this).val());
+		});
+		
+		// Tentar ID do empreendimento
+		var empreendimentoId = empId1 || empId2 || empId3;
+		
+		
+		
+		if (!empreendimentoId) {
+			alert('❌ Erro: ID do empreendimento não encontrado\n\nVerifique o console para mais detalhes');
+			resetButton();
+			return;
+		}
+		
+		// Converter para int se necessário
+		empreendimentoId = parseInt(empreendimentoId, 10);
+		if (isNaN(empreendimentoId) || empreendimentoId <= 0) {
+			alert('❌ Erro: ID do empreendimento inválido: ' + empreendimentoId);
+			resetButton();
+			return;
+		}
+		
+		console.log('🗑️ Removendo imagem ID:', imageId, 'do empreendimento:', empreendimentoId);
+		
+		// Chamar endpoint AJAX
+		$.ajax({
+			url: '{{ path("s_empreendimentos_remove_galeria_image") }}',
+			type: 'POST',
+			data: {
+				image_id: imageId,
+				empreendimento_id: empreendimentoId
+			},
+			dataType: 'json',
+			success: function(response) {
+				console.log('✅ Resposta do servidor:', response);
+				
+				if (response.success) {
+					// Sucesso - remover com animação
+					$galeriaItem.fadeOut(400, function() {
+						$(this).remove();
+						
+						// Atualizar contador de imagens
+						updateImageCount();
+						
+						// Mostrar notificação de sucesso
+						showNotification('success', response.message || 'Imagem removida com sucesso!');
+					});
+				} else {
+					// Erro do servidor
+					alert('❌ Erro: ' + (response.message || 'Falha ao remover imagem'));
+					resetButton();
+				}
+			},
+			error: function(xhr, status, error) {
+				console.error('❌ Erro AJAX:', {xhr: xhr, status: status, error: error});
+				
+				var errorMsg = 'Erro de conexão ao remover imagem';
+				if (xhr.responseJSON && xhr.responseJSON.message) {
+					errorMsg = xhr.responseJSON.message;
+				}
+				
+				alert('❌ ' + errorMsg);
+				resetButton();
+			}
+		});
+		
+		function resetButton() {
+			$btn.prop('disabled', false);
+			$btn.html('<i class="fas fa-trash"></i> Remover');
+			$galeriaItem.removeClass('removing').css('opacity', '1');
+		}
+	});
+	
+	// Função auxiliar para pegar ID do empreendimento da URL
+	function getEmpreendimentoIdFromUrl() {
+		var url = window.location.pathname;
+		console.log('  🔍 Analisando URL:', url);
+		
+		// Tentar diferentes padrões de URL
+		var patterns = [
+			/empreendimentos\/(\d+)/,           // /empreendimentos/123
+			/empreendimentos\/edit\/(\d+)/,     // /empreendimentos/edit/123
+			/empreendimentos\/(\d+)\/edit/,     // /empreendimentos/123/edit
+			/\/(\d+)\/edit$/,                   // qualquer coisa que termine com /123/edit
+			/\/(\d+)$/                          // qualquer coisa que termine com /123
+		];
+		
+		for (var i = 0; i < patterns.length; i++) {
+			var match = url.match(patterns[i]);
+			if (match) {
+				console.log('  ✅ URL match encontrado com padrão', i + 1, ':', match[1]);
+				return match[1];
+			}
+		}
+		
+		console.log('  ❌ Nenhum padrão de URL matched');
+		return null;
+	}
+	
+	// Função para atualizar contador de imagens
+	function updateImageCount() {
+		var $container = $('.row').has('[id^="galeria-item-"]');
+		var remainingImages = $container.find('[id^="galeria-item-"]:visible').length;
+		
+		var $header = $container.closest('.mt-4').find('h6');
+		if ($header.length) {
+			if (remainingImages > 0) {
+				$header.html('<i class="fas fa-folder-open"></i> Imagens atuais na galeria (' + remainingImages + '):');
+			} else {
+				$header.html('<i class="fas fa-folder-open"></i> Nenhuma imagem na galeria');
+				$container.append('<div class="col-12 text-center text-muted p-4"><i class="fas fa-images fa-3x mb-3"></i><br>Nenhuma imagem na galeria</div>');
+			}
+		}
+	}
+	
+	// Função para mostrar notificações
+	function showNotification(type, message) {
+		var alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+		var icon = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+		
+		var $notification = $(`
+			<div class="alert ${alertClass} alert-dismissible fade show position-fixed" 
+				 style="top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
+				<i class="${icon}"></i> ${message}
+				<button type="button" class="close" data-dismiss="alert">
+					<span>&times;</span>
+				</button>
+			</div>
+		`);
+		
+		$('body').append($notification);
+		
+		// Auto-remover após 5 segundos
+		setTimeout(function() {
+			$notification.fadeOut(function() {
+				$(this).remove();
+			});
+		}, 5000);
+	}
+
 // Backup dos arrays originais
 var selectedImages = [];
 var imagesToRemove = [];
