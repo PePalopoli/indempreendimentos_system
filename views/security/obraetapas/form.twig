@@ -37,15 +37,8 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    {{ form_label(form.order) }}
-                                    {{ form_errors(form.order) }}
-                                    {{ form_widget(form.order, { attr: { 'class': 'form-control', 'type': 'number', 'min': 1 }}) }}
-                                    <small class="form-text text-muted">Ordem de execução da etapa</small>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
+                            
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     {{ form_label(form.enabled) }}
                                     <div class="form-check">

@@ -116,10 +116,7 @@ class BlogPostForm extends AbstractType
                 'required' => false,
                 'label' => 'Post em Destaque',
             ))
-            ->add('permitir_comentarios', 'checkbox', array(
-                'required' => false,
-                'label' => 'Permitir Comentários',
-            ))
+            
             // Campos SEO
             ->add('meta_title', 'text', array(
                 'required' => false,
