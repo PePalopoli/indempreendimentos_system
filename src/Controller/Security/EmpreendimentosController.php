@@ -533,6 +533,7 @@ class EmpreendimentosController extends ContainerAware
             'beneficios_disponiveis' => $this->getBeneficiosDisponiveis(),
             'beneficios_selecionados' => array(),
             'botoes_tour_selecionados' => array(),
+            'plantas_selecionadas' => array(),
             'empreendimento_id' => null,
         ));
     }
@@ -700,6 +701,7 @@ class EmpreendimentosController extends ContainerAware
             'beneficios_disponiveis' => $this->getBeneficiosDisponiveis(),
             'beneficios_selecionados' => $this->getBeneficiosEmpreendimento($id),
             'botoes_tour_selecionados' => $this->getBotoesTourEmpreendimento($id),
+            'plantas_selecionadas' => $this->getPlantasEmpreendimento($id),
             'empreendimento_id' => $id,
         ));
     }
@@ -786,6 +788,24 @@ class EmpreendimentosController extends ContainerAware
              FROM empreendimentos_tour_botoes tb 
              WHERE tb.empreendimento_id = ? AND tb.enabled = 1 
              ORDER BY tb.order ASC',
+            array($empreendimento_id)
+        );
+    }
+
+    /**
+     * Obter plantas de um empreendimento
+     */
+    private function getPlantasEmpreendimento($empreendimento_id)
+    {
+        return $this->db()->fetchAll(
+            'SELECT p.*, 
+                    p.id as id,
+                    p.imagem,
+                    p.titulo_principal,
+                    p.sub_titulo
+             FROM empreendimentos_plantas p 
+             WHERE p.empreendimento_id = ? AND p.enabled = 1 
+             ORDER BY p.order ASC',
             array($empreendimento_id)
         );
     }
@@ -912,6 +932,149 @@ class EmpreendimentosController extends ContainerAware
 
         } catch (\Exception $e) {
             error_log('Erro ao remover botão de tour: ' . $e->getMessage());
+            return $this->json(array('success' => false, 'message' => 'Erro interno. Tente novamente.'));
+        }
+    }
+
+    /**
+     * Adicionar planta (AJAX)
+     */
+    public function adicionarPlantaAction(Request $request)
+    {
+        if (!$request->isMethod('POST')) {
+            return $this->json(array('success' => false, 'message' => 'Método não permitido'));
+        }
+
+        $empreendimento_id = $request->request->get('empreendimento_id');
+        $titulo_principal = trim($request->request->get('titulo_principal'));
+        $sub_titulo = trim($request->request->get('sub_titulo'));
+
+        // Validações
+        if (!$empreendimento_id || !is_numeric($empreendimento_id)) {
+            return $this->json(array('success' => false, 'message' => 'ID do empreendimento inválido'));
+        }
+
+        if (empty($titulo_principal)) {
+            return $this->json(array('success' => false, 'message' => 'Título principal é obrigatório'));
+        }
+
+        if (strlen($titulo_principal) > 120) {
+            return $this->json(array('success' => false, 'message' => 'Título principal deve ter no máximo 120 caracteres'));
+        }
+
+        if (!empty($sub_titulo) && strlen($sub_titulo) > 120) {
+            return $this->json(array('success' => false, 'message' => 'Sub título deve ter no máximo 120 caracteres'));
+        }
+
+        // Validar upload de imagem
+        $uploadedFile = $request->files->get('imagem_planta');
+        if (!$uploadedFile || $uploadedFile->getSize() == 0) {
+            return $this->json(array('success' => false, 'message' => 'Imagem é obrigatória'));
+        }
+
+        // Verificar se o empreendimento existe
+        $empreendimento = $this->db()->fetchAssoc(
+            'SELECT id FROM empreendimentos WHERE id = ?',
+            array($empreendimento_id)
+        );
+
+        if (!$empreendimento) {
+            return $this->json(array('success' => false, 'message' => 'Empreendimento não encontrado'));
+        }
+
+        try {
+            // Upload da imagem
+            $fs = new Filesystem();
+            $directory = web_path('upload/plantas');
+
+            if (!$fs->exists($directory)) {
+                $fs->mkdir($directory, 0777);
+            }
+
+            $image_name = sha1(uniqid(mt_rand(), true)).'.'.$uploadedFile->guessExtension();
+            $uploadedFile->move($directory, $image_name);
+            $fs->chmod($directory.'/'.$image_name, 0777);
+
+            // Obter próxima ordem
+            $next_order = $this->db()->fetchColumn(
+                'SELECT COALESCE(MAX(`order`), 0) + 1 FROM empreendimentos_plantas WHERE empreendimento_id = ?',
+                array($empreendimento_id)
+            );
+
+            // Inserir planta
+            $this->db()->executeUpdate(
+                'INSERT INTO empreendimentos_plantas 
+                (empreendimento_id, imagem, titulo_principal, sub_titulo, `order`, enabled, created_at, updated_at) 
+                VALUES (?, ?, ?, ?, ?, 1, NOW(), NOW())',
+                array($empreendimento_id, $image_name, $titulo_principal, $sub_titulo, $next_order)
+            );
+
+            $planta_id = $this->db()->lastInsertId();
+
+            // Buscar a planta inserida para retorno
+            $planta = $this->db()->fetchAssoc(
+                'SELECT * FROM empreendimentos_plantas WHERE id = ?',
+                array($planta_id)
+            );
+
+            return $this->json(array(
+                'success' => true,
+                'message' => 'Planta adicionada com sucesso!',
+                'data' => $planta
+            ));
+
+        } catch (\Exception $e) {
+            error_log('Erro ao adicionar planta: ' . $e->getMessage());
+            return $this->json(array('success' => false, 'message' => 'Erro interno. Tente novamente.'));
+        }
+    }
+
+    /**
+     * Remover planta (AJAX)
+     */
+    public function removerPlantaAction(Request $request)
+    {
+        if (!$request->isMethod('POST')) {
+            return $this->json(array('success' => false, 'message' => 'Método não permitido'));
+        }
+
+        $id = $request->request->get('id');
+
+        if (!$id || !is_numeric($id)) {
+            return $this->json(array('success' => false, 'message' => 'ID da planta inválido'));
+        }
+
+        try {
+            // Verificar se a planta existe e obter o nome da imagem
+            $planta = $this->db()->fetchAssoc(
+                'SELECT id, imagem FROM empreendimentos_plantas WHERE id = ?',
+                array($id)
+            );
+
+            if (!$planta) {
+                return $this->json(array('success' => false, 'message' => 'Planta não encontrada'));
+            }
+
+            // Remover a planta do banco
+            $this->db()->executeUpdate(
+                'DELETE FROM empreendimentos_plantas WHERE id = ?',
+                array($id)
+            );
+
+            // Remover arquivo de imagem se existir
+            $fs = new Filesystem();
+            $image_path = web_path('upload/plantas/' . $planta['imagem']);
+            if ($fs->exists($image_path)) {
+                $fs->remove($image_path);
+            }
+
+            return $this->json(array(
+                'success' => true,
+                'message' => 'Planta removida com sucesso!'
+            ));
+
+        } catch (\Exception $e) {
+            error_log('Erro ao remover planta: ' . $e->getMessage());
             return $this->json(array('success' => false, 'message' => 'Erro interno. Tente novamente.'));
         }
     }

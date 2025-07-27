@@ -158,6 +158,8 @@ $security->post('empreendimentos-sistema/beneficio/adicionar', 'Security\Empreen
 $security->post('empreendimentos-sistema/beneficio/remover', 'Security\Empreendimentos::removerBeneficio')->bind('s_empreendimentos_remover_beneficio');
 $security->post('empreendimentos-sistema/tour-botao/adicionar', 'Security\Empreendimentos::adicionarBotaoTour')->bind('s_empreendimentos_adicionar_botao_tour');
 $security->post('empreendimentos-sistema/tour-botao/remover', 'Security\Empreendimentos::removerBotaoTour')->bind('s_empreendimentos_remover_botao_tour');
+$security->post('empreendimentos-sistema/planta/adicionar', 'Security\Empreendimentos::adicionarPlanta')->bind('s_empreendimentos_adicionar_planta');
+$security->post('empreendimentos-sistema/planta/remover', 'Security\Empreendimentos::removerPlanta')->bind('s_empreendimentos_remover_planta');
 
 // Galeria de Empreendimentos
 $security->match('empreendimentos/{empreendimento_id}/galeria', 'Security\EmpreendimentosGaleria::index')->method('GET|POST')->bind('s_empreendimentos_galeria');
