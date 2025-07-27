@@ -1,0 +1,263 @@
+.section-sobre-interna{
+    padding-top: 2%;
+    padding-bottom: 2%;
+    background-color: #f2f2f2;
+}
+
+.section-sobre-realizacoes{
+    padding-top: 2%;
+    padding-bottom: 2%;
+    background-color: #0D873A;    
+}
+.chamada-realizacoes-h2{
+    text-align: center;
+    padding-top: 1%;
+    padding-bottom: 2%;
+}
+.chamada-realizacoes-h2 h2{
+    color: #1C1F3E;
+    font-family: "Raleway";
+    font-size: 44px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.div-valores-sobre{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.cada-bloco-valor{
+    border-radius: 15px;
+    background: #FFF;
+    /* padding: 20px 20px; */
+    /* margin-top: 4%;
+    margin-top: 4%; */
+}
+
+.linha-inicial-bloco{
+    display: flex;
+}
+.icone-valor{
+    position: relative;
+    top: -20px;
+    left: 30px;
+}
+.titulo-valor{
+    padding-top: 10%;    
+    padding-left: 5%;
+    
+}
+
+.titulo-valor p{
+    color: #1C1F3E;
+    font-family: "Raleway";
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+
+.texto-valor{    
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 2%;
+}
+
+
+.texto-valor p{
+    color: #191814;
+    font-family: "Raleway";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 190%;
+}
+.div-imgs-sobre{
+    text-align: center;
+}
+
+.cada-img-sobre-valores:nth-child(2) {
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+.cada-img-sobre-valores{
+    
+    /* margin-bottom: 4%; */
+}
+
+.saiba-mais{
+    background-color: #f2f2f2;
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+.segundo-bloco-sobre-interna{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+.terceiro-bloco-sobre-interna {
+    display: flex;    
+    flex-wrap: wrap;    
+    flex-direction: column;
+    justify-content: space-between;
+}
+.chamada-sobre-interna h2{
+    color: #1C1F3E;
+    font-family: "Raleway";
+    font-size: 44px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.texto-sobre-interna p{
+    color: #191814;
+    font-family: "Raleway";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.chamada-downloads p{
+    color: #0D873A;
+    text-align: center;
+    font-family: "Raleway";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%; 
+}
+
+.chamada-downloads {
+    display: flex;
+    justify-content: start;
+}
+
+.sobre-interna-downloads{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+.chamada-downloads-traco {
+    position: relative;
+    width: 88%;             
+    background-color: transparent;
+}
+
+.chamada-downloads-traco::before {
+    content: "";
+    position: absolute;
+    top: 31%;            /* posiciona no meio da altura */
+    left: 0;
+    width: 100%;         /* linha ocupa toda a largura da div */
+    height: 1px;         /* espessura da linha */
+    background-color: #38CA6E;
+    transform: translateY(-50%); /* alinha perfeitamente no centro */
+}
+
+.lista-arquivos-downloads{
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+.cada-arquivo{
+    display: flex;
+    justify-content: start;
+}
+.nome-arquivo a{
+    color: #0D873A;
+    font-family: "Raleway";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 190%; /* 30.4px */
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: auto;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width:480px) {
+    .chamada-realizacoes-h2 h2{
+        font-size: 38px;
+    }
+    .cada-bloco-valor {   
+        margin-top: 5%;     
+        margin-bottom: 5%;
+    }
+    .icone-valor svg{
+        max-width: 90%;
+    }
+    .icone-valor {
+        position: relative;
+        top: -20px;
+        left: -10px;
+    }
+
+    .chamada-sobre-interna h2{
+        padding-top: 3%;
+        font-size: 38px;
+    }
+    .texto-sobre-interna p{    
+        font-size: 16px;    
+    }
+
+    .chamada-downloads p {
+        font-size: 16px;        
+    }
+
+    .chamada-downloads-traco {     
+        width: 70%;                     
+    }
+
+      
+}

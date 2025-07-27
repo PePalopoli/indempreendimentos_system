@@ -1,5 +1,12 @@
 {% extends 'security/bannertype/theme.twig' %}
 
+{% block stylesheet %}
+	<!-- DataTables -->
+	<link rel="stylesheet" href="{{asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+	<link rel="stylesheet" href="{{asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+	<link rel="stylesheet" href="{{asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+{% endblock %}
+
 {% macro info(item) %}
    <table class="table">
       <tr>
@@ -11,12 +18,12 @@
          <td>{{ item.title }}</td>
       </tr>
       <tr>
-         <td>Descrição</td>
-         <td>{{ item.width }}</td>
+         <td>Largura</td>
+         <td>{{ item.width }}px</td>
       </tr>
       <tr>
-         <td>Descrição</td>
-         <td>{{ item.height }}</td>
+         <td>Altura</td>
+         <td>{{ item.height }}px</td>
       </tr>
       <tr>
          <td>Data de criação</td>
@@ -31,131 +38,169 @@
 
 {% import _self as macro %}
 
-
 {% block content %}
-<section class="content-header">
-    <h1>Lista tipo de banner</h1>
-</section>
+	<section class="content-header">
+		<h1>Lista tipo de banner</h1>
+	</section>
+	<section class="content">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
 
-<section class="content">
-   <div class="row">
-      <div class="col-xs-12">
-         <div class="box box-default">
-            <div class="box-header"></div>
-            <div class="box-body table-responsive">
-               <div class="container-fluid">
-                  <table id="banner_type" class="table table-bordered table-striped">
-                     <thead>
-                        <tr>
-                           <th>#</th>
-                           <th>Titulo</th>
-                           <th>Largura</th>
-                           <th>Altura</th>
-                           <th>Status</th>
-                           <th>Data de criação</th>
-                           <th>Data última alteração</th>
-                           <th class="cell-actions">Ações</th>
-                        </tr>
-                     </thead>
-                     <tfoot>
-                        <tr>
-                           <th>#</th>
-                           <th>Titulo</th>
-                           <th>Largura</th>
-                           <th>Altura</th>
-                           <th>Status</th>
-                           <th>Data de criação</th>
-                           <th>Data última alteração</th>
-                           <th class="cell-actions">Ações</th>
-                        </tr>
-                     </tfoot>
-                     {% if data|length > 0 %}
-                     <tbody>
-                        {% for item in data %}
-                           <tr>
-                              <td>{{ item.id }}</td>
-                              <td>{{ item.title }}</td>
-                              <td>{{ item.width }}px</td>
-                              <td>{{ item.height }}px</td>
-                              <td>
-                                 {% if item.enabled %}
-                                    <span class="label label-success">Habilitado</span>
-                                 {% else %}
-                                    <span class="label label-danger">Desabilitado</span>
-                                 {% endif %}
-                              </td>
-                              <td>{{ item.created_at|date('d/m/Y h:i:s') }}</td>
-                              <td>{{ item.updated_at|date('d/m/Y h:i:s') }}</td>
-                              <td>
-                                 <div class="btn-group">
-                                    <a href="{{ path("s_banner", {"banner_type": item.id }) }}" class="btn btn-default btn-sm"><i class="fa fa-list-ul"></i> <span class="badge badge-right-top">{{ item.total_banner }}</span></a>
-                                    <button data-toggle="modal" data-target="#modal-show-{{ item.id }}" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></button>
-                                    <a href="{{ path("s_banner_type_edit", {"id": item.id }) }}" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
-                                    <button data-toggle="modal" data-target="#modal-delete-{{ item.id }}" class="btn btn-default btn-sm btn-delete"><i class="fa fa-trash"></i></button>
-                                 </div>
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Lista tipo de banner</h3>
+						</div>
+						<div class="card-body">
+							<table id="banner_type" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Titulo</th>
+										<th>Largura</th>
+										<th>Altura</th>
+										<th>Status</th>
+										<th>Data de criação</th>
+										<th>Data última alteração</th>
+										<th class="cell-actions">Ações</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th>#</th>
+										<th>Titulo</th>
+										<th>Largura</th>
+										<th>Altura</th>
+										<th>Status</th>
+										<th>Data de criação</th>
+										<th>Data última alteração</th>
+										<th class="cell-actions">Ações</th>
+									</tr>
+								</tfoot>
+								{% if data|length > 0 %}
+									<tbody>
+										{% for item in data %}
+											<tr>
+												<td>{{ item.id }}</td>
+												<td>{{ item.title }}</td>
+												<td>{{ item.width }}px</td>
+												<td>{{ item.height }}px</td>
+												<td>
+													{% if item.enabled %}
+														<span class="badge badge-success">Habilitado</span>
+													{% else %}
+														<span class="badge badge-danger">Desabilitado</span>
+													{% endif %}
+												</td>
+												<td>{{ item.created_at|date('d/m/Y h:i:s') }}</td>
+												<td>{{ item.updated_at|date('d/m/Y h:i:s') }}</td>
+												<td>
+													<div class="btn-group">
+														<a href="{{ path("s_banner", {"banner_type": item.id }) }}" class="btn btn-default btn-sm"><i class="fa fa-list-ul"></i> <span class="badge badge-right-top">{{ item.total_banner }}</span></a>
+														<button data-toggle="modal" data-target="#modal-show-{{ item.id }}" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></button>
+														<a href="{{ path("s_banner_type_edit", {"id": item.id }) }}" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
+														<button data-toggle="modal" data-target="#modal-delete-{{ item.id }}" class="btn btn-default btn-sm btn-delete"><i class="fa fa-trash"></i></button>
+													</div>
 
-                                 <div class="modal fade" id="modal-show-{{ item.id }}" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog">
-                                       <div class="modal-content">
-                                          <div class="modal-header">
-                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                             <h4 class="modal-title">Informações sobre o tipo de banner</h4>
-                                          </div>
-                                          <div class="modal-body">
-                                             {{ macro.info(item) }}
-                                          </div>
-                                          <div class="modal-footer">
-                                             <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
+													<div class="modal fade" id="modal-show-{{ item.id }}" tabindex="-1" role="dialog">
+														<div class="modal-dialog">
+															<div class="modal-content">
+																<div class="modal-header">
+																	<h4 class="modal-title">Informações sobre o tipo de banner</h4>
+																	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																		<span aria-hidden="true">&times;</span>
+																	</button>
+																</div>
+																<div class="modal-body">
+																	{{ macro.info(item) }}
+																</div>
+																<div class="modal-footer">
+																	<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+																</div>
+															</div>
+														</div>
+													</div>
 
-                                 <div class="modal fade" id="modal-delete-{{ item.id }}" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog">
-                                       <div class="modal-content">
-                                          <div class="modal-header">
-                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                             <h4 class="modal-title">Esta operação não poderá ser desfeita. Você deseja continuar?</h4>
-                                          </div>
-                                          <div class="modal-body">
-                                             {{ macro.info(item) }}
+													<div class="modal fade" id="modal-delete-{{ item.id }}" tabindex="-1" role="dialog">
+														<div class="modal-dialog">
+															<div class="modal-content">
+																<div class="modal-header">
+																	<h4 class="modal-title">Deletar</h4>
+																	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																		<span aria-hidden="true">&times;</span>
+																	</button>
+																</div>
+																<div class="modal-body">
+																	<p>Tem certeza que deseja excluir?<br>Esta operação não tem retorno.</p>
+																	{{ macro.info(item) }}
 
-                                             <div class="alert alert-danger">
-                                                <strong><i class="fa fa-exclamation-triangle"></i></strong> Os Banner serão deletados e não poderá ser desfeito.
-                                             </div>
-                                          </div>
-                                          <div class="modal-footer">
-                                             <form action="{{ path("s_banner_type_delete", { 'id': item.id }) }}" method="post">
-                                                <input type="hidden" name="id" value="{{ item.id }}">
-                                                <input type="hidden" name="_method" value="DELETE">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                                <button type="submit" class="btn btn-danger">Deletar</button>
-                                             </form>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </td>
-                           </tr>
-                        {% endfor %}
-                     </tbody>
-                     {% endif %}
-                  </table>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-</section>
+																	<div class="alert alert-danger">
+																		<strong><i class="fa fa-exclamation-triangle"></i></strong> Os Banner serão deletados e não poderá ser desfeito.
+																	</div>
+																	<form action="{{ path("s_banner_type_delete", { 'id': item.id }) }}" method="post">
+																		<input type="hidden" name="id" value="{{ item.id }}">
+																		<input type="hidden" name="_method" value="DELETE">
+																		<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+																		<button type="submit" class="btn btn-danger">Deletar</button>
+																	</form>
+																</div>
+															</div>
+															<!-- /.modal-content -->
+														</div>
+														<!-- /.modal-dialog -->
+													</div>
+													<!-- /.modal -->
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								{% endif %}
+							</table>
+
+						</div>
+					</div>
+					<div class="btn-group">
+						<a class="btn btn-default" href="{{ path('s_banner_type_create') }}">Novo</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
 {% endblock content %}
 
 {% block script %}
-   {{ parent() }}
-   <script>
-   (function($){
-      $('#banner_type').dataTable();
-      $('<div class="btn-group"><a class="btn btn-default" href="{{ path('s_banner_type_create') }}">Novo</a></div>').appendTo('div.box-btn');
-   }(jQuery))
-   </script>
+	{{ parent() }}
+
+	<!-- DataTables  & Plugins -->
+	<script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+	<script src="{{asset('plugins/jszip/jszip.min.js')}}"></script>
+	<script src="{{asset('plugins/pdfmake/pdfmake.min.js')}}"></script>
+	<script src="{{asset('plugins/pdfmake/vfs_fonts.js')}}"></script>
+	<script src="{{asset('plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+	<script src="{{asset('plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+
+	<script>
+		(function ($) {
+			$("#banner_type").DataTable({
+				"responsive": true,
+				"lengthChange": false,
+				"autoWidth": false,
+				"buttons": [
+					"copy",
+					"csv",
+					"excel",
+					"pdf",
+					"print",
+					"colvis"
+				]
+			}).buttons().container().appendTo('#banner_type_wrapper .col-md-6:eq(0)');
+		}(jQuery))
+	</script>
 {% endblock script %}

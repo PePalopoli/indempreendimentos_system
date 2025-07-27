@@ -1,263 +1,536 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Booster</title>
+<!doctype html>
+<html lang="en">
 
-		<!-- Bootstrap CSS -->
-		<link
-		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<!-- AOS CSS for animations -->
-		<link
-		href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{asset('css/global.css')}}">
+    <link rel="stylesheet" href="{{asset('css/animate.css')}}">
 
-		<!-- Custom CSS -->
-		<link rel="stylesheet" href="{{asset('css/style_front.css')}}">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 
-		{% if menu_pagina == 'blog' %}
-			<link rel="stylesheet" href="{{asset('css/blog.css')}}">
-			<link rel="preconnect" href="https://fonts.googleapis.com">
-			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-			<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Readex+Pro:wght@160..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
-		{% endif %}
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link
-		href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-		<!-- Biblioteca icons redes sociais -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-	</head>
-	<body>
-		<!-- Navbar -->
-		<nav class="navbar navbar-expand-lg navbar-dark">
-			<div class="container justify-content-between">
-				<a class="navbar-brand" href="{{path('web_home')}}">
-					<img src="{{asset('imgs/logo.png')}}" alt="Booster" height="30">
-				</a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-					<ul class="navbar-nav">
-						<li class="nav-item">
-							<a class="nav-link" href="{{path('web_home')}}">Home</a>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								Serviços
-							</a>
-							<ul class="dropdown-menu">
-								<li>
-									<a class="dropdown-item" href="{{path('web_mobile_marketing')}}">Mobile Marketing</a>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{path('web_hub_parceiros')}}">Hub Parceiros</a>
-								</li>
-							</ul>
-						</li>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&family=Readex+Pro:wght@160..700&display=swap" rel="stylesheet">    
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Readex+Pro:wght@160..700&display=swap" rel="stylesheet">
 
-                        <li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								Empresa
-							</a>
-							<ul class="dropdown-menu">
-								<li>
-									<a class="dropdown-item" href="{{path('web_empresa')}}">Sobre</a>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{path('web_empresa')}}#trabalhe-conosco">Trabalhe Conosco</a>
-								</li>
-							</ul>
-						</li>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+        integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+    <title>.:IND EMPREENDIMENTOS:.</title>
+</head>
+
+<body>
 
 
 
-						
-						<li class="nav-item">
-							<a class="nav-link" href="{{path('web_publisher')}}">Publishers</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{{path('web_contato')}}">Contato</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
+
+
+
+
+    <nav class="navbar navbar-expand-lg nav-desk">
+        <div class="container">
+            <div class=" col-12 conteudo-header">
+                <div class="col-md-2 col-lg-2 col-sm-10 img-logo-topo">
+                    <img src="{{asset('imgs/logotipo_ind.svg')}}" alt="" class="img-fluid">
+                </div>
+
+                <div class="col-md-6 col-lg-6 col-sm-2 menus-nav">
+                    <!--<button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation"> <span class="fas fa-bars"></span>
+                    </button>-->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="fas fa-bars"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse nav-disposicao-menus" id="navbarSupportedContent">
+                        <ul class="col-12 navbar-nav lista-menus-texto">
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-scroll-nav="1">
+                                    <div class="nav-link-top">
+                                        <span class="text-wrapper-2">Home</span>
+                                    </div>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-scroll-nav="1">
+                                    <div class="nav-link-top">
+                                        <span class="text-wrapper-2">Sobre nós</span>
+                                    </div>
+                                </a>
+                            </li>
+
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="nav-link-top">
+                                        <span class="text-wrapper-2">Empreendimentos</span>
+                                    </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Residenciais</a></li>
+                                    <li><a class="dropdown-item" href="#">Comerciais</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Ver todos</a></li>
+                                </ul>
+                            </li>
+
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-scroll-nav="1">
+                                    <div class="nav-link-top">
+                                        <span class="text-wrapper-2">Notícias</span>
+                                    </div>
+                                </a>
+                            </li>
+
+
+
+
+
+
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-lg-4 col-sm-2 menus-nav">
+                    <div class="collapse navbar-collapse nav-disposicao-menus" id="navbarSupportedContent">
+                        <ul class="col-12 navbar-nav">
+
+
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-scroll-nav="1">
+                                    <div class="nav-link-top-btn">
+                                        <div class="text-wrapper-3">2ª Via de Boletos</div>
+                                    </div>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-scroll-nav="1">
+                                    <div class="nav-link-top-btn">
+                                        <div class="text-wrapper-3">Portal do Cliente</div>
+                                    </div>
+                                </a>
+                            </li>
+
+
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </nav>
+    <nav class="nav-2"></nav>
+
+
+    <nav class="navbar navbar-expand-lg nav-mobile">
+        <div class="container">
+            <div class=" col-12 conteudo-header">
+                <div class="col-md-2 col-lg-2 col-8 img-logo-topo">
+                    <img src="{{asset('imgs/logotipo_ind.svg')}}" alt="" class="img-fluid">
+                </div>
+
+                <div class="col-md-10 col-lg-10 col-4 flex-right-mobile">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation"> <span class="fas fa-bars"></span>
+                    </button>
+                    <div class="nav-menu-submenu collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav lista-itens-menu-mobile">
+
+                            <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="1">Home</a> </li>
+                            <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="1">Sobre nós</a> </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="nav-link-top">
+                                        <span class="text-wrapper-2">Empreendimentos</span>
+                                    </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Residenciais</a></li>
+                                    <li><a class="dropdown-item" href="#">Comerciais</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Ver todos</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="1">Notícias</a> </li>
+
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class=" navbar-collapse">
+                <ul class="navbar-nav botoes-mobile nav-btns-mobile">
+                    <li class="col-6 nav-item">
+                        <a class="nav-link" href="#" data-scroll-nav="1">
+                            <div class="nav-link-top-btn">
+                                <div class="text-wrapper-3">2ª Via de Boletos</div>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li class="col-6 nav-item">
+                        <a class="nav-link" href="#" data-scroll-nav="1">
+                            <div class="nav-link-top-btn">
+                                <div class="text-wrapper-3">Portal do Cliente</div>
+                            </div>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <nav class="nav-3"></nav>
 
 		{% block content %}{% endblock %}
 
-		{% if menu_pagina != 'contato' %}
+		<section class="footer-pagina" data-scroll-index='7'>
+    <div class="container">
+        <div class="row linha-footer">
+
+            <div class="col-md-4 col-lg-4 col-12 bloco-footer-primeiro-bloco">
+                <div class="col-12 img-logo-footer">
+                    <img src="{{asset('imgs/logotipo_ind.svg')}}" alt="" class="img-fluid">
+                </div>
+                <div class="col-12 texto-footer-bloco-1">
+                    <p>A Ind Empreendimentos é uma construtora e incorporadora sediada em Presidente Prudente, São Paulo, com mais de 30 anos de atuação no setor da construção civil.</p>
+                </div>
+                <div class="col-12 redes-sociais">
+                    <div class="col-1 cada-rede">
+                        <a href="">
+                            <img src="{{asset('imgs/logo-rede-face.svg')}}" alt="" class="img fluid">
+                        </a>
+                    </div>
+                    <div class="col-1 cada-rede">
+                        <a href="">
+                            <img src="{{asset('imgs/logo-rede-linkedin.svg')}}" alt="" class="img fluid">
+                        </a>
+                    </div>
+                    <div class="col-1 cada-rede">
+                        <a href="">
+                            <img src="{{asset('imgs/logo-rede-instagran.svg')}}" alt="" class="img fluid">
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-2 col-lg-2 col-6 bloco-footer-segundo-bloco">
+                <div class="titulo-sction-footer">
+                    <h2>Navegação</h2>
+                </div>
+                <div class="bloco-menus-footer">
+                    <div class="col-12 cada-menu-footer">
+                        <a href="">Home</a>
+                    </div>
+                    <div class="col-12 cada-menu-footer">
+                        <a href="">Sobre nós</a>
+                    </div>
+                    <div class="col-12 cada-menu-footer">
+                        <a href="">Empreendimentos</a>
+                    </div>
+                    <div class="col-12 cada-menu-footer">
+                        <a href="">Contato</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2 col-lg-2 col-6 bloco-footer-terceiro-bloco">
+                <div class="titulo-sction-footer">
+                    <h2>Links rápidos</h2>
+                </div>
+                <div class="bloco-menus-footer">
+                    <div class="col-12 cada-menu-footer">
+                        <a href="">2ª via de boletos</a>
+                    </div>
+                    <div class="col-12 cada-menu-footer">
+                        <a href="">Portal do cliente</a>
+                    </div>
+                    <div class="col-12 cada-menu-footer">
+                        <a href="">Notícias</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="offset-md-1 col-md-3 col-lg-3 col-12 bloco-footer-quarto-bloco">
+                <div class="titulo-sction-footer">
+                    <h2>Contato</h2>
+                </div>
+                <div class="bloco-contatos-footer">
+
+                    <div class="cada-contato-footer">
+                        <div class="col-1 icone-footer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M3.24375 5.39531L5.73984 2.90156C5.91592 2.72471 6.1252 2.58439 6.35567 2.48867C6.58614 2.39294 6.83325 2.34369 7.08281 2.34375C7.5914 2.34375 8.06953 2.54297 8.42812 2.90156L11.1141 5.5875C11.2909 5.76358 11.4312 5.97286 11.527 6.20333C11.6227 6.4338 11.6719 6.68091 11.6719 6.93047C11.6719 7.43906 11.4727 7.91719 11.1141 8.27578L9.15 10.2398C9.60974 11.2532 10.2489 12.175 11.0367 12.9609C11.8225 13.7506 12.7443 14.3922 13.7578 14.8547L15.7219 12.8906C15.898 12.7138 16.1072 12.5735 16.3377 12.4777C16.5682 12.382 16.8153 12.3328 17.0648 12.3328C17.5734 12.3328 18.0516 12.532 18.4102 12.8906L21.0984 15.5742C21.2755 15.7506 21.4159 15.9603 21.5117 16.1912C21.6074 16.4221 21.6565 16.6696 21.6562 16.9195C21.6562 17.4281 21.457 17.9062 21.0984 18.2648L18.607 20.7562C18.0352 21.3305 17.2453 21.6562 16.4344 21.6562C16.2633 21.6562 16.0992 21.6422 15.9375 21.6141C12.7781 21.0938 9.64453 19.4133 7.11562 16.8867C4.58906 14.3625 2.91094 11.2312 2.38359 8.0625C2.22422 7.09453 2.54531 6.09844 3.24375 5.39531Z" fill="#1C1F3E" />
+                            </svg>
+                        </div>
+                        <div class="col-11 texto-contato">
+                            <p>(18) 99644-9986</p>
+                        </div>
+                    </div>
 
 
-			<!-- Form Section -->
-			<section class="form-section">
-				<div class="form-container">
-					<div class="row">
-						<div class="col-lg-6 form-content">
-							<h2 class="form-title" data-aos="fade-up" data-aos-duration="1000">NÃO BASTA<br>SER BOM.</h2>
-							<h3 class="form-subtitle" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">É PRECISO SER</h3>
-							<h1 class="form-title-booster" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">Booster.</h1>
-							<p class="form-text" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">Preencha o formulário e receba<br>o nosso contato.</p>
-						</div>
-						<div class="col-lg-6 form-wrapper">
-							<form class="contact-form" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="500" action="{{path('web_contato_send')}}" method="post">
-								<div class="form-group">
-									<h4 class="form-required">Nome:</h3>
-									<input type="text" class="form-control" name="iNome" id="iNome" placeholder="" required>
-								</div>
-								<div class="form-group">
-									<h4 class="form-required">E-mail:</h3>
-									<input type="email" class="form-control" name="iEmail" id="iEmail" placeholder="" required>
-								</div>
-								<div class="form-group">
-									<h4 class="form-required">Telefone:</h3>
-									<input type="tel" class="form-control" name="iTelefone" id="iTelefone" placeholder="" required>
-								</div>
-								<div class="form-group">
-									<h4 class="form-required">Nome da Empresa:</h3>
-									<input type="text" class="form-control" name="iEmpresa" id="iEmpresa" placeholder="" required>
-								</div>
-								<button type="submit" class="submit-btn">ENVIAR</button>
-							</form>
-						</div>
-					</div>
-				</div>
-			</section>
+                    <div class="cada-contato-footer">
+                        <div class="col-1 icone-footer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M4.6437 4.7998H20.5437C22.0437 4.7998 22.7997 5.5078 22.7997 6.9478V17.0518C22.7997 18.4798 22.0437 19.1998 20.5437 19.1998H4.6437C3.1437 19.1998 2.3877 18.4798 2.3877 17.0518V6.9478C2.3877 5.5078 3.1437 4.7998 4.6437 4.7998ZM12.5877 15.1198L20.6757 8.4838C20.9637 8.2438 21.1917 7.6918 20.8317 7.1998C20.4837 6.7078 19.8477 6.6958 19.4277 6.9958L12.5877 11.6278L5.7597 6.9958C5.3397 6.6958 4.7037 6.7078 4.3557 7.1998C3.9957 7.6918 4.2237 8.2438 4.5117 8.4838L12.5877 15.1198Z" fill="#1C1F3E" />
+                            </svg>
+                        </div>
+                        <div class="col-11 texto-contato">
+                            <p>comercial@indempreendimentos.com.br</p>
+                        </div>
+                    </div>
 
-		{% endif %}
+                    <div class="cada-contato-footer">
+                        <div class="col-1 icone-footer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="19" viewBox="0 0 14 19" fill="none">
+                                <g clip-path="url(#clip0_18_128)">
+                                    <path d="M6.13594 18.525C4.23281 16.1426 0 10.3684 0 7.125C0 3.18992 3.13396 0 7 0C10.8646 0 14 3.18992 14 7.125C14 10.3684 9.73438 16.1426 7.86406 18.525C7.41562 19.0928 6.58437 19.0928 6.13594 18.525ZM7 9.5C8.28698 9.5 9.33333 8.43496 9.33333 7.125C9.33333 5.81504 8.28698 4.75 7 4.75C5.71302 4.75 4.66667 5.81504 4.66667 7.125C4.66667 8.43496 5.71302 9.5 7 9.5Z" fill="#1C1F3E" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_18_128">
+                                        <rect width="14" height="19" fill="white" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="col-11 texto-contato">
+                            <p>R. Natal Casadei, 592 - Jardim Cambui Pres. Prudente - SP, 19061-556
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-		<!-- Footer Section -->
-		<footer class="footer-section">
-			<div class="container">
-				<div
-					class="row footer-content">
-					<!-- Coluna 1: Logo -->
-					<div class="col-lg-3 col-md-6 mb-4 mb-lg-0 footer-logo-col">
-						<a href="{{path('web_home')}}">
-							<img src="{{asset('imgs/logo-booster-branca.png')}}" alt="BoosterAd Logo" class="footer-logo">
-						</a>
-						<p class="footer-powered">Powered by Foregon</p>
-					</div>
+            <div class="col-12 final-linha-footer">
+                <div class="col-md-3 col-lg-3 col-12 footer-copy">
+                    <p>Copyright 2025 © Ind Empreendimentos</p>
+                </div>
 
-					<!-- Coluna 2: Links -->
-					<div class="col-lg-3 col-md-6 mb-4 mb-lg-0 footer-links-col">
-						<ul class="list-unstyled mb-0">
-							<li>
-								<a href="{{path('web_home')}}" class="footer-link">Home</a>
-							</li>
-							<li>
-								<a href="{{path('web_mobile_marketing')}}" class="footer-link">Mobile Marketing</a>
-							</li>
-							<li>
-								<a href="{{path('web_hub_parceiros')}}" class="footer-link">Hub de Parcerias</a>
-							</li>
-							<li>
-								<a href="{{path('web_empresa')}}" class="footer-link">Sobre</a>
-							</li>
-						</ul>
-					</div>
-
-					<!-- Coluna 3: Links -->
-					<div class="col-lg-3 col-md-6 mb-4 mb-lg-0 footer-links-col">
-						<ul class="list-unstyled mb-0">
-							<li>
-								<a href="https://www.linkedin.com/company/boosterad" class="footer-link" target="_blank">Trabalhe Conosco</a>
-							</li>
-							<li>
-								<a href="{{path('web_empresa')}}" class="footer-link">Empresa</a>
-							</li>
-							<li>
-								<a href="{{path('web_publisher')}}" class="footer-link">Publishers</a>
-							</li>
-							<li>
-								<a href="{{path('web_contato')}}" class="footer-link">Contato</a>
-							</li>
-						</ul>
-					</div>
-
-					<!-- Coluna 4: Redes Sociais -->
-					<div class="col-lg-3 col-md-6 footer-social-col">
-						<h4 class="footer-social-title">Siga nossas redes sociais</h4>
-						<div class="social-icons">
-							<a href="#" class="social-icon facebook" target="_blank">
-								<i class="fab fa-facebook-f"></i>
-							</a>
-							<a href="#" class="social-icon instagram" target="_blank">
-								<i class="fab fa-instagram"></i>
-							</a>
-							<a href="https://www.linkedin.com/company/boosterad" class="social-icon linkedin" target="_blank">
-								<i class="fab fa-linkedin-in"></i>
-							</a>
-						</div>
-					</div>
-				</div>
-
-				<div class="footer-bottom">
-					<p>&copy; 2025 BoosterAd</p>
-				</div>
-			</div>
-		</footer>
-
-		<!-- Scripts -->
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-		<script src="{{asset('js/main_front.js')}}"></script>
+                <div class="col-md-1 col-lg-1 col-12 footer-whats">
+                    <a href="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="71" height="71" viewBox="0 0 71 71" fill="none">
+                            <rect width="70.4576" height="70.4576" rx="14" fill="#28C562" />
+                            <path d="M10.5919 60.3266L14.0219 47.8929C11.7925 44.0342 10.5919 39.7467 10.5919 35.2877C10.5919 21.7393 21.7394 10.5918 35.3735 10.5918C49.0077 10.5918 60.3267 21.7393 60.3267 35.2877C60.3267 48.836 49.0078 60.3266 35.3735 60.3266C31.0861 60.3266 26.9701 58.9546 23.2828 56.8966L10.5919 60.3266Z" fill="#EDEDED" />
+                            <path d="M23.9687 52.4377L24.7405 52.8665C27.9132 54.8387 31.6005 56.0392 35.4592 56.0392C46.6924 56.0392 56.0391 46.6925 56.0391 35.2878C56.0391 23.883 46.6924 14.8794 35.3734 14.8794C24.0545 14.8794 14.8793 23.9688 14.8793 35.2878C14.8793 39.2323 15.994 43.091 18.052 46.3495L18.5665 47.1212L16.5943 54.3242L23.9687 52.4377Z" fill="#55CD6C" />
+                            <path d="M28.7713 23.7972L27.1421 23.7114C26.6275 23.7114 26.1131 23.883 25.7701 24.226C24.9983 24.912 23.7121 26.1982 23.3691 27.9132C22.7689 30.4858 23.7121 33.5727 25.9417 36.6597C28.1712 39.7466 32.4587 44.7201 40.0046 46.8638C42.4055 47.5498 44.2921 47.1211 45.8356 46.1779C47.0361 45.4061 47.8078 44.2057 48.0651 42.9194L48.3223 41.7188C48.4081 41.3758 48.2365 40.9471 47.8936 40.7756L42.4913 38.2889C42.1483 38.1173 41.7195 38.2031 41.4623 38.5461L39.3186 41.2901C39.147 41.4616 38.8898 41.5473 38.6326 41.4616C37.1748 40.9471 32.2871 38.8891 29.6288 33.7442C29.5431 33.4869 29.5431 33.2296 29.7146 33.0582L31.7726 30.743C31.9441 30.4858 32.0298 30.1428 31.9441 29.8854L29.4574 24.3117C29.3715 24.0544 29.1143 23.7972 28.7713 23.7972Z" fill="#F2F2F2" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
 
 
-		<script>
-			document.addEventListener("DOMContentLoaded", function () {
-if (window.location.hash === "#hub-features") {
-window.scrollTo(0, 1000);
-}
-});
-		</script>
 
-		<script>
-			document.addEventListener("DOMContentLoaded", function () {
-if (window.location.hash === "#trabalhe-conosco") {
-window.scrollTo(0, 5500);
-}
-});
-		</script>
+        </div>
+    </div>
 
 
-		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-		{% set alertTypeAvaillable = [ 'info', 'success', 'warning', 'danger'] %}
-		{% if app.session.flashbag is defined %}
-			{% for alertType in alertTypeAvaillable %}
-				{% for alert in app.session.flashBag.get(alertType) %}
-					{% if alertType == 'success' %}
-						<script>
-							Swal.fire({title: "Obrigado!", text: "{{ alert.message }}", icon: "success"});
-						</script>
-					{% elseif alertType == 'danger' %}
-						<script>
-							Swal.fire({title: "Ops!", text: "{{ alert.message }}", icon: "error"});
-						</script>
-					{% elseif alertType == 'warning' %}
-						<script>
-							Swal.fire({title: "Alerta!", text: "{{ alert.message }}", icon: "info"});
-						</script>
-					{% endif %}
+</section>
 
-					<b></b>
-				</div>
-			</div>
-		{% endfor %}
-	{% endfor %}
-{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+    crossorigin="anonymous"></script>
+
+<script src="{{asset('js/scrollIt.min.js')}}"></script>
+<script src="{{asset('js/wow.min.js')}}"></script>
+
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
 
 <script>
-    function scrollFeatured(direction) {
-        const carousel = document.getElementById('featuredCarousel');
-        const card = carousel.querySelector('.featured-card');
-        if (!card) return;
-        const scrollAmount = card.offsetWidth + 16; // 16px de margem
-        carousel.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
-    }
-    </script>
+    $('.banners-home').slick({
+        dots: true,
+        arrows: false,
+        autoplay: false,
+    });
 
-</body></html>
+    $('.convenios-imgs').slick({
+        dots: true,
+        arrows: false,
+        autoplay: false,
+        slidesToShow: 4,
+        infinite: false,
+        responsive: [{
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 4,
+                    infinite: true,
+                    dots: true
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3
+                }
+            }
+        ]
+    });
+
+    $('.lista-exames').slick({
+        dots: true,
+        arrows: false,
+        autoplay: false,
+        slidesToShow: 3,
+        infinite: false,
+        //centerMode: true,
+        responsive: [{
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    infinite: true,
+                    dots: true
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }
+        ]
+    });
+
+
+    $('.lista-unidades').slick({
+        dots: true,
+        arrows: false,
+        autoplay: false,
+        slidesToShow: 3,
+        infinite: false,
+        //centerMode: true,
+        responsive: [{
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    infinite: true,
+                    dots: true
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }
+        ]
+    });
+
+    $(window).on("load", function() {
+        var bodyScroll = $(window).scrollTop(),
+            navbar = $(".navbar");
+
+
+
+        $.scrollIt({
+
+            easing: 'swing', // the easing function for animation
+            scrollTime: 900, // how long (in ms) the animation takes
+            activeClass: 'active', // class given to the active nav element
+            onPageChange: null, // function(pageIndex) that is called when page is changed
+            topOffset: 0
+        });
+    });
+
+
+    // Adicionar esta nova inicialização para o carrossel sobre
+    $('.carrossel-sobre').slick({
+        dots: true,
+        arrows: false,
+        autoplay: true,
+        autoplaySpeed: 4000,
+        fade: true,
+        cssEase: 'linear',
+        pauseOnHover: true,
+        responsive: [{
+            breakpoint: 768,
+            settings: {
+                fade: false,
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }]
+    });
+</script>
+
+</html>

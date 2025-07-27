@@ -5,326 +5,390 @@
 
 
 
-<!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="hero-content-container">
-                <div class="row align-items-center">
-                    <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1000">
-                        <h1 class="hero-title">Cresça mais.</h1>
-                        <h2 class="hero-subtitle">Converta melhor.</h2>
-                        <p class="hero-text">Crescemos seu app com inteligência, dados, e estratégia. Na BoosterAd seus resultados vão além da instalação.</p>
-                        
-                        <a href="{{path('web_contato')}}" class="btn btn-primary btn-lg">Entre em Contato</a>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="rocket-container" data-aos="fade-left" data-aos-duration="1000">
-                            <div class="rocket-animation">
-                                <img src="{{asset('imgs/banner-home.png')}}" alt="Foguete" class="rocket-img">
-                            </div>
-                            <div class="stars-container">
-                                <span class="star"></span>
-                                <span class="star"></span>
-                                <span class="star"></span>
-                                <span class="star"></span>
-                                <span class="star"></span>
-                                <span class="star"></span>
-                                <span class="star"></span>
-                                <span class="star"></span>
-                                <span class="star"></span>
-                                <span class="star"></span>
-                                <span class="star"></span>
-                                <span class="star"></span>
-                                <span class="star"></span>
-                                <span class="star"></span>
-                                <span class="star"></span>
-                            </div>
-                            <div class="gradient-overlay"></div>
-                        </div>
-                    </div>
+
+
+
+<section class="banner banner-section" data-scroll-index='0'>
+
+
+    <div class="banners-home  banner-desk">
+
+        {% for item in banner %}
+            <div>
+                <img src="{{path('imagem',{'path':'banner',imagem:item.image})}}" class="img-fluid" alt="">
+            </div>
+        {% endfor %}
+        
+    </div>
+
+    <div class="banners-home banner-mobile">
+        {% for item in banner_mobile %}
+            <div>
+                <img src="{{path('imagem',{'path':'banner',imagem:item.image})}}" class="img-fluid" alt="">
+            </div>
+        {% endfor %}
+    </div>
+
+
+</section>
+
+<section class="section-sobre" data-scroll-index='2'>
+    <div class="container">
+        <div class="conteudo-todo-sobre row">
+
+            <div class="col-md-3 col-lg-3 col-6 primeiro-bloco-sobre">
+                <img src="{{asset('imgs/sobre_nos_home1_v3.png')}}" alt="" class="img-fluid">
+            </div>
+
+            <div class="col-md-3 col-lg-3 col-6 segundo-bloco-sobre">
+                <div class="segundo-bloco-sobre-img">
+                    <img src="{{asset('imgs/sobre_nos_home2.png')}}" alt="" class="img-fluid">
+                </div>
+                <div class="col-md-11 col-lg-11 col-12 segundo-bloco-sobre-box">
+                    <h2>Experiência que constrói</h2>
+                    <p>Mais de 30 anos de história e transformação</p>
                 </div>
             </div>
-        </div>
-    </section>
 
-
-
-    <!-- Partners Section -->
-    <section class="partners-section">
-        <div class="container">
-            <div class="partners-container">
-                <div class="partners-content">
-                    <h2 class="partners-title" data-aos="fade-up" data-aos-duration="1000">Quem já é grande, ficou ainda maior.</h2>
-                    <p class="partners-text" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">Marcas que escolheram a inteligência da Booster.</p>
+            <div class="col-md-6 col-lg-6 col-sm-12 terceiro-bloco-sobre">
+                <div class="titulo-sobre">
+                    <h2>Sobre nós</h2>
                 </div>
-                <div class="partners-slider-container">
-                    <div class="partners-gradient-left"></div>
-                    <div class="partners-logos-slider">
-                        <div class="partners-logos">
 
-                            {% for item in marcas %}
-                                <img src="{{path('imagem',{'path':'marcas','imagem':item.image})}}" alt="Neon" class="partner-logo">    
-                            {% endfor %}
+                <div class="chamada-sobre">
+                    <h2>Contribuindo na mudança </h2>
+                    <p>na vida de milhares de pessoas e cidades do Brasil</p>
+                </div>
 
-                            
-                        </div>
-                        <div class="partners-logos" aria-hidden="true">
-                            {% for item in marcas %}
-                                <img src="{{path('imagem',{'path':'marcas','imagem':item.image})}}" alt="Neon" class="partner-logo">    
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="partners-gradient-right"></div>
+                <div class="texto-sobre">
+                    <p>Com mais de três décadas de atuação no mercado da construção civil, a Ind Empreendimentos se consolidou como referência em qualidade, inovação e compromisso. Nossa experiência abrange os mais diversos segmentos, com a execução de empreendimentos comerciais, industriais e residenciais, sempre priorizando excelência em cada detalhe.</p>
+                </div>
+
+                <div class="col-md-6 col-lg-6 col-12 btn-sobre">
+                    <a href="">Conheça nossa empresa</a>
                 </div>
             </div>
+
+
+
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Services Slider Section -->
-    <section class="services-section">
-        <div class="container">
-            <h2 class="services-title" data-aos="fade-up" data-aos-duration="1000">Soluções que geram resultados</h2>
-            
-            <div class="slider-container">
-                <div class="service-description">
+<section class="section-diferenciais" data-scroll-index='3'>
+    <div class="container">
+        <div class="conteudo-todo-diferenciais row">
 
-                    {% for item in servicos %}
-                        <div class="description-content" data-index="{{loop.index}}">
-                            {{item.body|raw}}
-                        </div>
-                    {% endfor %}
-                    
-                    
+            <div class="posicao-titulo-diferenciais">
+                <div class="col-md-2 col-lg-2 col-12 titulo-diferenciais">
+                    <h2>DIFERENCIAIS</h2>
                 </div>
 
-                <div class="cards-slider">
-                    {% set hub = '#hub-features' %}
-                    {% for item in servicos %}
-                        <div class="card-wrapper" data-index="0">
-                            <div class="service-card">                            
-                                <a href="{{item.url}}{% if item.id == 2 %}{{hub}}{% endif %} ">
-                                <img src="{{path('imagem',{'path':'servicos','imagem':item.image})}}" alt="{{item.title}}" class="card-image">
-                                </a>
-                            </div>
-                        </div>                        
-                    {% endfor %}
-
-
-                    
+                <div class="col-md-12 col-lg-12 col-12 subtitulo-diferenciais">
+                    <h2>Saiba o que nos torna <b>indispensáveis</b></h2>
                 </div>
 
-                <div class="slider-controls">
-                    <div class="player-container">
-                        <button class="play-pause-btn" id="playPauseBtn">
-                            <svg class="pause-icon" width="14" height="14" viewBox="0 0 24 24">
-                                <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
-                                <rect x="14" y="4" width="4" height="16" fill="currentColor"/>
+                <div class="col-md-9 col-lg-9 col-12 texto-diferenciais">
+                    <p>Reunimos experiência, estrutura e um time preparado pra entregar resultados com confiança e responsabilidade. Confira alguns dos pontos que fazem da Ind Empreendimentos uma escolha segura:</p>
+                </div>
+            </div>
+
+            <div class="lista-diferenciais">
+
+                <div class="col-md-3 col-lg-3 col-12 cada-bloco-diferenciais">
+                    <div class="box-diferencial">
+                        <div class="icone-diferencial">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="51" height="40" viewBox="0 0 51 40" fill="none">
+                                <path d="M49.8325 30.9268C49.6148 30.7191 49.3664 30.546 49.0961 30.4137V27.7158C49.0961 27.0857 48.8458 26.4814 48.4003 26.0359C47.9548 25.5904 47.3505 25.3401 46.7205 25.3401H45.9286V22.9645C45.9339 18.4796 44.4707 14.1163 41.7625 10.5414C39.0543 6.96644 35.25 4.37656 30.9312 3.16752C30.7519 2.27409 30.2687 1.47034 29.5637 0.892889C28.8588 0.315439 27.9757 -6.897e-05 27.0644 1.51038e-07H23.615C22.7036 -0.000251982 21.8203 0.315172 21.1152 0.892637C20.4101 1.4701 19.9268 2.27396 19.7475 3.16752C15.428 4.37541 11.6232 6.96501 8.91488 10.5402C6.2066 14.1154 4.74403 18.4793 4.75087 22.9645V25.3401H3.959C3.32894 25.3401 2.72469 25.5904 2.27917 26.0359C1.83365 26.4814 1.58336 27.0857 1.58336 27.7158V30.4153C1.30853 30.5503 1.05613 30.7269 0.835034 30.9387C0.453563 31.3239 0.188355 31.8088 0.069812 32.3378C-0.0487314 32.8668 -0.0158122 33.4185 0.164796 33.9297C0.345404 34.4408 0.666391 34.8908 1.09096 35.2279C1.51553 35.565 2.0265 35.7756 2.56529 35.8357L4.79522 36.0804C6.7076 36.2943 8.56721 36.8442 10.2885 37.7045C12.772 38.9433 15.5087 39.59 18.2841 39.5939H32.3954C35.1716 39.5903 37.9092 38.9433 40.3933 37.7037C42.1132 36.8443 43.9712 36.295 45.8819 36.0812L48.1165 35.8357C48.6568 35.7755 49.1691 35.5638 49.5943 35.2251C50.0196 34.8864 50.3404 34.4344 50.52 33.9212C50.6995 33.4081 50.7303 32.8547 50.609 32.3247C50.4877 31.7948 50.219 31.3099 49.8341 30.926L49.8325 30.9268ZM46.7205 26.9239C46.9305 26.9239 47.1319 27.0073 47.2804 27.1558C47.4289 27.3043 47.5123 27.5057 47.5123 27.7158V30.0914H45.9286V26.9239H46.7205ZM3.16712 27.7158C3.16712 27.5057 3.25055 27.3043 3.39905 27.1558C3.54756 27.0073 3.74898 26.9239 3.959 26.9239H4.75087V30.0914H3.16712V27.7158ZM47.9407 34.2614L45.7037 34.5077C43.6086 34.7429 41.5713 35.3455 39.6854 36.2878C37.4211 37.4176 34.9258 38.0071 32.3954 38.0102H18.2841C15.7553 38.0065 13.2617 37.4173 10.9988 36.2886C9.11046 35.345 7.07047 34.7419 4.9726 34.5069L2.74029 34.2614C2.41083 34.2249 2.10787 34.0635 1.89362 33.8106C1.67937 33.5576 1.5701 33.2323 1.58824 32.9013C1.60638 32.5703 1.75056 32.2588 1.99117 32.0308C2.23178 31.8027 2.55055 31.6755 2.88204 31.6752H9.72229C9.86019 31.9151 10.0588 32.1146 10.2981 32.2536C10.5375 32.3926 10.8091 32.4662 11.0859 32.467H15.0453C15.4653 32.467 15.8682 32.3002 16.1652 32.0032C16.4622 31.7061 16.6291 31.3033 16.6291 30.8833V26.9239C16.6291 26.5038 16.4622 26.101 16.1652 25.804C15.8682 25.507 15.4653 25.3401 15.0453 25.3401H11.0859C10.6659 25.3401 10.263 25.507 9.96602 25.804C9.66901 26.101 9.50215 26.5038 9.50215 26.9239V30.0914H6.33463V22.9645C6.32907 18.9261 7.61417 14.9916 10.0024 11.7351C12.3907 8.47857 15.7571 6.07046 19.6105 4.86214L19.0047 18.1776C18.9952 18.3876 19.0696 18.5928 19.2114 18.748C19.3533 18.9031 19.5509 18.9956 19.7609 19.0051C19.971 19.0145 20.1761 18.9402 20.3313 18.7984C20.4865 18.6565 20.579 18.4589 20.5885 18.2488L21.2425 3.8517C21.2703 3.24049 21.5328 2.66355 21.9753 2.24107C22.4179 1.81858 23.0063 1.58313 23.6182 1.58376H27.0676C27.6793 1.58312 28.2677 1.81846 28.7102 2.24078C29.1527 2.6631 29.4153 3.23984 29.4432 3.85091L30.091 18.2488C30.1004 18.4589 30.1929 18.6565 30.3481 18.7984C30.5033 18.9402 30.7085 19.0145 30.9185 19.0051C31.1285 18.9956 31.3262 18.9031 31.468 18.748C31.6098 18.5928 31.6842 18.3876 31.6748 18.1776L31.069 4.85105C34.9221 6.06333 38.2877 8.47397 40.6755 11.732C43.0634 14.9899 44.3489 18.9251 44.3448 22.9645V30.0914H41.1773V26.9239C41.1773 26.5038 41.0104 26.101 40.7134 25.804C40.4164 25.507 40.0136 25.3401 39.5935 25.3401H35.6341C35.2141 25.3401 34.8113 25.507 34.5143 25.804C34.2173 26.101 34.0504 26.5038 34.0504 26.9239V30.8833C34.0504 31.3033 34.2173 31.7061 34.5143 32.0032C34.8113 32.3002 35.2141 32.467 35.6341 32.467H39.5935C39.8703 32.4662 40.142 32.3926 40.3813 32.2536C40.6207 32.1146 40.8193 31.9151 40.9572 31.6752H47.7974C48.1408 31.6787 48.469 31.8166 48.7118 32.0594C48.9546 32.3022 49.0926 32.6305 49.0961 32.9738C49.0957 33.293 48.9776 33.6008 48.7644 33.8384C48.5513 34.0759 48.258 34.2266 47.9407 34.2614ZM11.0859 30.8833V26.9239H15.0453V30.8833H11.0859ZM39.5935 30.8833H35.6341V26.9239H39.5935V30.8754V30.8833Z" fill="#4A5CA6" />
+                                <path d="M31.6747 30.0916H19.0046C18.7946 30.0916 18.5932 30.175 18.4447 30.3235C18.2962 30.472 18.2128 30.6734 18.2128 30.8834C18.2128 31.0935 18.2962 31.2949 18.4447 31.4434C18.5932 31.5919 18.7946 31.6753 19.0046 31.6753H31.6747C31.8847 31.6753 32.0861 31.5919 32.2347 31.4434C32.3832 31.2949 32.4666 31.0935 32.4666 30.8834C32.4666 30.6734 32.3832 30.472 32.2347 30.3235C32.0861 30.175 31.8847 30.0916 31.6747 30.0916Z" fill="#4A5CA6" />
                             </svg>
-                            <svg class="play-icon hidden" width="14" height="14" viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z" fill="currentColor"/>
-                            </svg>
-                        </button>
-                        <div class="slide-indicators">
-                            <span class="indicator" data-index="0"></span>
-                            <span class="indicator active" data-index="1"></span>
-                            <span class="indicator" data-index="2"></span>
+                        </div>
+                        <div class="titulo-diferencial">
+                            <h2>Experiência</h2>
+                        </div>
+                        <div class="texto-diferencial">
+                            <p>Há mais de 30 anos atuando no mercado da construção civil.</p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Stats Section -->
-    <section class="stats-section">
-        <div class="container">
-            <h2 class="stats-title" data-aos="fade-up" data-aos-duration="1000">
-                <span>Nossos números</span> não mentem. Validam.
-            </h2>
-            
-            <div class="stats-container">
-                
-                {% for item in nossos_numeros %}
-
-                <div class="stats-column" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-                    <h3>{{item.title|raw}}</h3>
-                    {{item.body|raw}}
+                <div class="col-md-3 col-lg-3 col-12 cada-bloco-diferenciais bloco-verde">
+                    <div class="box-diferencial box-diferencial-2 verde">
+                        <div class="icone-diferencial">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="57" height="54" viewBox="0 0 57 54" fill="none">
+                                <path d="M54.343 35.6809L54.1372 35.5409V22.857C54.1372 21.9294 54.3144 21.0255 54.6642 20.17L56.6969 15.1863C57.0342 14.3593 57.0861 13.4312 56.8429 12.5732L53.5814 1.05004C53.4189 0.474584 52.9293 0.0651191 52.3339 0.00700579C51.7376 -0.0511075 51.178 0.256047 50.9071 0.789642L48.9682 4.60497L38.7057 8.95968C38.0635 8.27245 37.0815 7.96396 36.1297 8.21356C35.0873 8.48598 34.3064 9.38785 34.1863 10.4582L33.8502 13.4677C33.7302 14.5363 33.8926 15.6067 34.3195 16.588L29.4606 27.8196H28.9665V27.6975C28.9665 27.0611 28.5865 26.5128 28.0421 26.2641V17.5037C28.0421 16.8245 27.9126 16.1602 27.6568 15.5286L24.435 7.59747C25.0379 7.55661 25.5718 7.18377 25.8149 6.62368L26.8073 4.33656C27.0251 3.83458 26.9759 3.26168 26.6757 2.80412C26.3754 2.34657 25.8694 2.07337 25.3221 2.07337H12.3984C11.9373 2.07337 11.5635 2.4471 11.5635 2.90822C11.5635 3.36934 11.9374 3.74307 12.3984 3.74307H25.2445L24.2948 5.93167H6.08275C6.04935 5.93167 6.02218 5.9045 6.02218 5.87099V3.80385C6.02218 3.77034 6.04935 3.74318 6.08275 3.74318H8.42631C8.88744 3.74318 9.26116 3.36945 9.26116 2.90833C9.26116 2.44721 8.88732 2.07348 8.42631 2.07348H6.08275C5.12855 2.07348 4.35237 2.84977 4.35237 3.80396V5.87133C4.35237 6.80203 5.09159 7.5614 6.01339 7.59825V20.3728C5.46899 20.6214 5.08914 21.1697 5.08914 21.8062V35.6228C5.08914 36.6365 5.91386 37.4611 6.9275 37.4611H10.3048V39.5387H6.84802C3.61182 39.5387 0.894744 41.7959 0.183469 44.8181C0.180463 44.8306 0.177234 44.843 0.174785 44.8557C0.0616758 45.3482 0 45.8602 0 46.3865C0 50.1624 3.07199 53.2344 6.8479 53.2344H27.0237C30.7996 53.2344 33.8716 50.1624 33.8716 46.3865C33.8716 45.8601 33.8099 45.3482 33.6969 44.8554C33.6945 44.8427 33.6912 44.8304 33.6882 44.8179C32.9769 41.7958 30.2599 39.5385 27.0237 39.5385H23.7507V37.4609H27.1281C27.9176 37.4609 28.5905 36.9597 28.8503 36.2595H31.3404C32.2555 36.2595 33.111 35.8089 33.629 35.0535L34.6629 33.5433C35.2024 32.7558 35.2698 31.7323 34.8655 30.8874L40.3406 18.9817C40.447 18.751 40.632 18.5659 40.8627 18.4599L48.2596 15.0488V23.2052C48.2596 23.6664 48.6335 24.0401 49.0945 24.0401C49.5555 24.0401 49.9293 23.6664 49.9293 23.2052V6.73479C49.9293 6.51447 49.9817 6.29549 50.0814 6.09999L52.1328 2.06324L55.2363 13.0282C55.3784 13.5296 55.348 14.0721 55.1507 14.5557L53.1184 19.5387C52.6865 20.5951 52.4674 21.7117 52.4674 22.857V34.4053L51.5779 33.8003C51.09 33.4685 50.5045 33.334 49.9293 33.4126V27.1772C49.9293 26.7161 49.5555 26.3423 49.0945 26.3423C48.6335 26.3423 48.2596 26.7161 48.2596 27.1772V34.4724C48.1912 34.5786 48.1305 34.6907 48.0791 34.8085L46.1252 39.2742C45.9839 39.5973 45.7828 39.8845 45.5274 40.1277L41.7374 43.7373C41.2172 44.2327 41.0535 44.9836 41.3202 45.6507C41.587 46.3176 42.2235 46.7485 42.9418 46.7485H50.9362C53.1592 46.7485 55.1992 45.5349 56.26 43.5812C57.7512 40.8348 56.9271 37.4384 54.343 35.6809ZM39.7252 11.981L39.4117 10.474L48.26 6.71931C48.26 6.72443 48.2595 6.72955 48.2595 6.73468V8.73391L39.7252 11.981ZM35.5097 13.6534L35.8458 10.6437C35.8894 10.2553 36.1732 9.9279 36.5523 9.82882C36.9968 9.71248 37.46 9.92935 37.6535 10.3446C37.6845 10.4111 37.7078 10.4816 37.723 10.5548L38.1447 12.5823L37.8314 12.7015C36.9116 13.0518 36.1044 13.646 35.4911 14.402C35.4772 14.1537 35.4816 13.9037 35.5097 13.6534ZM26.3723 17.5037V26.1212H24.5846V20.2432C24.5846 19.7279 24.3754 19.223 24.0106 18.858L22.0013 16.8488L22.4533 16.3968C22.7794 16.0709 22.7793 15.5422 22.4533 15.2162C22.1274 14.8904 21.5987 14.8902 21.2727 15.2163L19.1882 17.3009C18.8621 17.6269 18.8622 18.1556 19.1882 18.4816C19.3512 18.6446 19.5648 18.7261 19.7786 18.7261C19.9922 18.7261 20.2059 18.6446 20.3689 18.4815L20.8207 18.0296L22.8297 20.0386C22.8838 20.0927 22.9149 20.1673 22.9149 20.2433V26.1214H20.1408V23.7053C20.1408 22.2727 18.9748 21.1071 17.5415 21.1071H15.539C15.3123 21.1071 15.12 20.9377 15.0915 20.7133L14.3546 14.8673C14.1957 13.6008 13.1137 12.6459 11.8375 12.6459H10.5106C9.69056 12.6459 9.02337 13.3131 9.02337 14.133V20.2299H7.6832V7.60159H22.6343L26.1095 16.1563C26.2839 16.5869 26.3723 17.0402 26.3723 17.5037ZM6.75884 21.8996H10.1041C10.2301 21.8996 10.3475 21.9673 10.4106 22.0761L12.7934 26.1869C13.3669 27.1764 14.4338 27.7911 15.5775 27.7911H21.45V30.6721C21.45 30.8427 21.3113 30.9814 21.1408 30.9814H6.75884V21.8996ZM18.471 26.1212H15.5776C15.0274 26.1212 14.5141 25.8256 14.2381 25.3495L11.8553 21.2387C11.5959 20.7913 11.176 20.4668 10.6933 20.3192V14.3156H11.8376C12.2738 14.3156 12.6436 14.6421 12.698 15.0756L13.435 20.9224C13.5688 21.9796 14.4732 22.777 15.539 22.777H17.5415C18.0541 22.777 18.471 23.1934 18.471 23.7053V26.1212ZM27.0237 51.5647H6.8479C3.99267 51.5647 1.66981 49.2419 1.66981 46.3866C1.66981 46.2053 1.67938 46.0262 1.69764 45.8495H3.90127C3.86899 46.0258 3.85162 46.2054 3.85162 46.3862C3.85162 48.0385 5.19591 49.3828 6.84824 49.3828C8.50001 49.3828 9.84374 48.0385 9.84374 46.3862C9.84374 46.2054 9.82638 46.0258 9.79409 45.8495H13.9889C13.9565 46.0259 13.9391 46.2054 13.9391 46.3862C13.9391 48.0385 15.2833 49.3828 16.9357 49.3828C18.5875 49.3828 19.9313 48.0385 19.9313 46.3862C19.9313 46.2054 19.9139 46.0258 19.8816 45.8495H24.0774C24.0451 46.0258 24.0277 46.2054 24.0277 46.3862C24.0277 48.0385 25.3716 49.3828 27.0232 49.3828C28.6756 49.3828 30.0199 48.0385 30.0199 46.3862C30.0199 46.2054 30.0024 46.0259 29.97 45.8495H32.1736C32.1919 46.026 32.2014 46.2053 32.2014 46.3866C32.2019 49.2419 29.8789 51.5647 27.0237 51.5647ZM8.06094 45.8495C8.13519 46.0165 8.17404 46.1976 8.17404 46.3862C8.17404 47.1178 7.57933 47.7131 6.84824 47.7131C6.11659 47.7131 5.52132 47.1178 5.52132 46.3862C5.52132 46.1976 5.56028 46.0165 5.63443 45.8495H8.06094ZM18.1485 45.8495C18.2227 46.0165 18.2617 46.1976 18.2617 46.3862C18.2617 47.1178 17.667 47.7131 16.9359 47.7131C16.2043 47.7131 15.609 47.1178 15.609 46.3862C15.609 46.1979 15.6482 46.0168 15.7229 45.8495H18.1485ZM28.2366 45.8495C28.3113 46.0168 28.3504 46.1978 28.3504 46.3862C28.3504 47.1178 27.7551 47.7131 27.0235 47.7131C26.2925 47.7131 25.6976 47.1178 25.6976 46.3862C25.6976 46.1976 25.7366 46.0165 25.8108 45.8495H28.2366ZM31.7068 44.1797H2.16489C2.99495 42.4253 4.78177 41.2084 6.8479 41.2084H27.0237C29.0899 41.2084 30.8766 42.4253 31.7068 44.1797ZM22.0809 39.5386H11.9745V37.461H22.0809V39.5386ZM27.1281 35.7912C24.8883 35.7912 9.52123 35.7912 6.92739 35.7912C6.83443 35.7912 6.75884 35.7155 6.75884 35.6225V32.651H21.1408C22.232 32.651 23.1198 31.7631 23.1198 30.6719V27.7908H27.2968V28.6456C27.2968 28.6485 27.2963 28.6513 27.2963 28.6542C27.2963 28.6571 27.2968 28.6599 27.2968 28.6628V35.4158C27.2968 35.4187 27.2963 35.4215 27.2963 35.4244C27.2963 35.4273 27.2968 35.4301 27.2968 35.433V35.6223C27.2967 35.7156 27.2211 35.7912 27.1281 35.7912ZM33.2853 32.5999L32.2515 34.1099C32.0455 34.4104 31.7049 34.5898 31.3405 34.5898H28.9665V29.4893L31.3404 29.4894C31.7044 29.4894 32.0451 29.6689 32.251 29.9684L33.2859 31.4811C33.5187 31.8205 33.5186 32.2594 33.2853 32.5999ZM40.1644 16.9432C39.573 17.2149 39.0971 17.6907 38.8239 18.2835L33.7815 29.2483L33.6282 29.0242C33.1099 28.2698 32.2547 27.8194 31.3405 27.8194H31.28L36.2423 16.3489C36.6553 15.3937 37.4511 14.633 38.4256 14.262L48.2597 10.5205V13.2101L40.1644 16.9432ZM54.7925 42.7843C54.024 44.1995 52.5463 45.0785 50.9361 45.0785H42.9417C42.9198 45.0785 42.8898 45.0785 42.8705 45.0302C42.8512 44.982 42.8729 44.9614 42.8888 44.9462L46.6789 41.3365C47.0957 40.9395 47.4241 40.4707 47.6549 39.9433L49.6087 35.4775C49.7836 35.0776 50.2778 34.9353 50.6388 35.1807L53.404 37.0613C55.2759 38.3347 55.8728 40.795 54.7925 42.7843Z" fill="#28C562" />
+                            </svg>
+                        </div>
+                        <div class="titulo-diferencial">
+                            <h2>Estrutura</h2>
+                        </div>
+                        <div class="texto-diferencial">
+                            <p>Escritório executivo em Presidente Prudente e escritórios de vendas bem localizados nos locais dos empreendimentos.</p>
+                        </div>
+                    </div>
                 </div>
-                
-                {% if not loop.last %}                    
-                    <div class="divider" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300"></div>
-                {% endif %}
-                    
+
+                <div class="col-md-3 col-lg-3 col-12 cada-bloco-diferenciais">
+                    <div class="box-diferencial box-diferencial-3">
+                        <div class="icone-diferencial">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="42" height="51" viewBox="0 0 42 51" fill="none">
+                                <path d="M39.5769 15.629H37.9615C36.6256 15.629 35.5385 16.7362 35.5385 18.0968V18.2374C34.5983 18.5772 33.9231 19.4919 33.9231 20.5645V21.5278C33.9231 22.1866 34.1751 22.8069 34.6331 23.2733L35.4981 24.1543L34.6274 31.6916C32.2657 27.809 28.4534 25.0023 24.0434 23.9716L23.6824 22.8677C24.8608 22.5362 25.8276 21.6882 26.3114 20.5645H26.6539C28.4356 20.5645 29.8846 19.0888 29.8846 17.2742V13.1613C30.7755 13.1613 31.5 12.4234 31.5 11.5161V9.87097C31.5 8.96366 30.7755 8.22581 29.8846 8.22581H29.7441C28.9719 3.48774 24.9925 0 20.1923 0C15.3922 0 11.4127 3.48774 10.6406 8.22581H10.5001C9.60917 8.22581 8.88467 8.96366 8.88467 9.87097V11.5161C8.88467 12.4234 9.60917 13.1613 10.5001 13.1613V17.2742C10.5001 19.0888 11.9491 20.5645 13.7308 20.5645H14.0733C14.5579 21.6882 15.5247 22.5371 16.7023 22.8677L16.3405 23.9725C14.5143 24.3986 12.7737 25.1866 11.2351 26.2675L9.6439 21.2357C9.63906 21.2086 9.63986 21.1814 9.63421 21.1543C9.22875 19.4211 6.82102 18.5146 4.13949 19.0937C2.47484 19.4532 1.08399 20.3079 0.418457 21.378C0.0380348 21.99 -0.0863498 22.6415 0.0590346 23.2634C0.142227 23.6204 0.314265 23.9404 0.552534 24.2209L6.08683 32.663C5.2751 34.5632 4.84622 36.5744 4.84622 38.6613C4.84622 42.1688 6.82021 45.2099 9.69236 46.7111V47.7097C9.69236 49.5243 11.1414 51 12.9231 51H15.3462H17.7693H30.6923V40.23C31.8683 41.8167 33.6953 42.7742 35.7008 42.7742C39.1739 42.7742 42 39.896 42 36.3597V18.0968C42 16.7362 40.9128 15.629 39.5769 15.629ZM35.5385 20.5645C35.5385 20.1113 35.9003 19.7419 36.3462 19.7419H37.1539V18.0968C37.1539 17.6435 37.5157 17.2742 37.9615 17.2742H39.5769C40.0228 17.2742 40.3846 17.6435 40.3846 18.0968V23.0323H36.6805L35.7751 22.1101C35.6225 21.9547 35.5385 21.7474 35.5385 21.5278V20.5645ZM22.6154 47.7097V49.3548H20.551C20.8288 48.8687 21 48.3118 21 47.7097H22.6154ZM23.4231 46.0645H18.577V42.2922L19.4824 41.37C19.6334 41.217 19.841 41.129 20.0534 41.129H21C21.4459 41.129 21.8077 41.4984 21.8077 41.9516V42.7742H23.4231C23.869 42.7742 24.2308 43.1435 24.2308 43.5968V45.2419C24.2308 45.6952 23.869 46.0645 23.4231 46.0645ZM22.0331 23.0323L22.5177 24.5129L20.1923 27.4734L17.8662 24.5121L18.3508 23.0314L22.0331 23.0323ZM17.8743 27.1559C17.8387 27.155 17.8048 27.1452 17.7693 27.1452H12.9231C12.915 27.1452 12.9078 27.1476 12.8997 27.1476C14.0644 26.4419 15.3309 25.9146 16.653 25.6012L17.8743 27.1559ZM12.9231 28.7903H14.9722C14.696 29.2748 14.5385 29.8366 14.5385 30.4355V31.2581H16.1539V30.4355C16.1539 29.5282 16.8784 28.7903 17.7693 28.7903C18.6602 28.7903 19.3847 29.5282 19.3847 30.4355C19.3847 31.3428 18.6602 32.0806 17.7693 32.0806H12.9231C12.0322 32.0806 11.3077 31.3428 11.3077 30.4355C11.3077 29.5282 12.0322 28.7903 12.9231 28.7903ZM11.3077 33.2685C11.7851 33.5514 12.3319 33.7258 12.9231 33.7258H17.7693C18.3605 33.7258 18.9073 33.5514 19.3847 33.2685V39.5908C18.9953 39.7051 18.6343 39.9067 18.3403 40.2069L17.4349 41.129H14.5385C13.4077 41.129 12.302 40.8543 11.3077 40.3517V33.2685ZM22.6154 40.1214C22.1857 39.7282 21.622 39.4839 21 39.4839V30.4355C21 30.0472 20.9217 29.6795 20.7997 29.3332L22.6154 27.0226V40.1214ZM26.6539 18.9194V15.629C27.5448 15.629 28.2693 16.3669 28.2693 17.2742C28.2693 18.1815 27.5448 18.9194 26.6539 18.9194ZM28.2693 14.4412C27.7919 14.1583 27.2451 13.9839 26.6539 13.9839V13.1613H28.2693V14.4412ZM28.1045 8.22581H22.6154V2.0219C25.3898 2.89713 27.5181 5.24148 28.1045 8.22581ZM21 1.68629V8.22581H19.3847V1.68629C19.6504 1.65997 19.9193 1.64516 20.1923 1.64516C20.4653 1.64516 20.7343 1.65997 21 1.68629ZM17.7693 2.0219V8.22581H12.2802C12.8666 5.24148 14.9949 2.89713 17.7693 2.0219ZM10.4992 9.87097H29.8846V11.5161H10.5001L10.4992 9.87097ZM13.7308 13.1613V13.9839C13.1396 13.9839 12.5928 14.1583 12.1154 14.4412V13.1613H13.7308ZM12.1154 17.2742C12.1154 16.3669 12.8399 15.629 13.7308 15.629V18.9194C12.8399 18.9194 12.1154 18.1815 12.1154 17.2742ZM15.3462 18.9194V13.1613H25.0385V18.9194C25.0385 20.2799 23.9513 21.3871 22.6154 21.3871H17.7693C16.4334 21.3871 15.3462 20.2799 15.3462 18.9194ZM1.78265 22.259C2.20749 21.5763 3.26395 20.9659 4.47549 20.7035C4.93668 20.604 5.36799 20.5604 5.76052 20.5604C6.90341 20.5604 7.71756 20.9289 7.98248 21.3501L8.06164 21.6001C8.08102 21.7688 8.03821 21.9547 7.90979 22.1611C7.48494 22.8439 6.42848 23.4542 5.21695 23.7166C3.54987 24.0761 2.29068 23.7018 1.82303 23.1992L1.66472 22.9574C1.65503 22.9327 1.63565 22.9097 1.62919 22.885C1.58719 22.7008 1.63888 22.491 1.78265 22.259ZM3.9618 25.4992C4.47064 25.4992 5.00614 25.4432 5.55295 25.3248C6.85091 25.0443 7.97763 24.4611 8.72879 23.7109L10.2658 28.5715C9.90559 29.1021 9.69236 29.7429 9.69236 30.4355V35.2015L3.30837 25.4638C3.5208 25.4852 3.73807 25.4992 3.9618 25.4992ZM6.4616 38.6613C6.4616 37.165 6.69987 35.709 7.16914 34.3164L9.69236 38.1653V39.2272C9.34021 38.9064 9.01067 38.5576 8.72313 38.1677L7.43083 39.1548C9.09952 41.421 11.7568 42.7742 14.5385 42.7742H16.9616V46.0645H13.7308C9.72225 46.0645 6.4616 42.7429 6.4616 38.6613ZM15.3462 49.3548H12.9231C12.0322 49.3548 11.3077 48.617 11.3077 47.7097V47.3593C12.0791 47.5822 12.89 47.7097 13.7308 47.7097H19.3847C19.3847 48.617 18.6602 49.3548 17.7693 49.3548H15.3462ZM35.7008 41.129C33.9158 41.129 32.3109 40.1189 31.5121 38.4927L30.6923 36.822V33.7258H29.0769V49.3548H24.2308V47.5583C25.1685 47.2178 25.8462 46.3129 25.8462 45.2419V43.5968C25.8462 42.5258 25.1685 41.6209 24.2308 41.2804V25.7172C28.6109 26.9181 32.2835 30.067 34.1735 34.3008L34.2954 34.5731L33.9296 37.7433L35.5336 37.935L37.0642 24.6774H40.3846V36.3597C40.3846 38.9895 38.283 41.129 35.7008 41.129Z" fill="#4A5CA6" />
+                            </svg>
+                        </div>
+                        <div class="titulo-diferencial">
+                            <h2>Profissionais
+                                qualificados</h2>
+                        </div>
+                        <div class="texto-diferencial">
+                            <p>Profissionais altamente qualificados e especializados para que sua obra seja realizada com comprometimento e segurança do começo ao fim.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-12 section-certificados">
+
+                <div class="col-12 titulo-certificados">
+                    <h2>Certificada pela <b>qualidade e excelência</b></h2>
+                </div>
+
+                <div class="lista-certificados">
+
+                    <div class="col-md-3 col-lg-3 col-12 cada-certificado">
+                        <div class="img-certificado">
+                            <img src="{{asset('imgs/certificado1.png')}}" alt="" class="img-fluid">
+                        </div>
+                        <div class="texto-certificado">
+                            <p>Certificado ISO 9001:2015</p>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3 col-lg-3 col-12 cada-certificado">
+                        <div class="img-certificado">
+                            <img src="{{asset('imgs/certificado2.png')}}" alt="" class="img-fluid">
+                        </div>
+                        <div class="texto-certificado">
+                            <p>Certificado PBQP-H Nível A</p>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3 col-lg-3 col-12 cada-certificado">
+                        <div class="img-certificado">
+                            <img src="{{asset('imgs/certificado3.png')}}" alt="" class="img-fluid">
+                        </div>
+                        <div class="texto-certificado">
+                            <p>Especialista em Empreendimentos Imobiliários – GPARSOLO</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+
+<section class="section-empreendimentos" data-scroll-index='4'>
+    <div class="container">
+        <div class="conteudo-todo-empreendimentos row">
+
+            <div class="col-md-4 col-lg-4 col-12 titulo-empreendimentos">
+                <h2>Conheça <b>nossos empreendimentos</b></h2>
+            </div>
+
+            <div class="lista-empreendimentos">
+
+                {% for item in empreendimentos %}
+
+                <div class="col-md-6 col-lg-6 col-sm-12 cada-empreendimento">
+                    <a href="">
+                        <div class="posicao-categoria">
+                            <div class="categoria-empreendimento" style="background-color: {{item.cor_hex}};">
+                                <p>{{item.titulo_obra}}</p>
+                            </div>
+                        </div>
+
+                        <div class="img-cada-empreendimento">
+                            <img src="{{path('imagem',{'path':'empreendimentos',imagem:item.img_capa,'crop':'fit','h':400,'w':550})}}" alt="" class="img-fluid" style="border-radius: 25px;">
+                        </div>
+                        <div class="chamada-empreendimentos">
+                            <h2>{{item.nome|raw}}</h2>
+                            <p>{{item.cidade_estado|raw}}</p>
+                        </div>
+                    </a>
+                </div>
                 {% endfor %}
 
                 
+
             </div>
-            
-            <div class="stats-cta" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="800">
-                <a href="{{path('web_contato')}}" class="btn-outline">Entre em contato</a>
+
+            <div class="posicao-btn-ver-todos">
+                <div class="col-md-3 col-lg-3 col-10 btn-ver-todos-empreendimentos">
+                    <a href="">Ver todos empreendimentos</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<section class="section-depoimentos" data-scroll-index='5'>
+    <div class="container">
+        <div class="conteudo-todo-depoimentos row">
+
+            <div class="col-md-2 col-lg-2 col-12 titulo-diferenciais my-4">
+                <h2>DEPOIMENTOS</h2>
+            </div>
+            <div class="titulo-depoimentos my-3 px-0">
+                <h2>Vidas transformadas pela conquista da casa própria</h2>
+            </div>
+
+            <div class="lista-depoimentos row py-5 px-0">
+                <div class="cada-depoimento col-md-4 col-lg-4 col-sm-12">
+                    <div class="iframe-depoimento">
+                        <iframe width="100%" height="600" src="https://www.youtube.com/embed/GB10PuR4qR4" title="Depoimento 8 Bella Vista I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="texto-depoimento py-3">
+                        <span>Lorem ipsum</span>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id metus id dolor rutrum rhoncus sit amet ut elit. Maecenas auctor sollicitudin lectus sed vulputate. </p>
+                    </div>
+                </div>
+
+                <div class="cada-depoimento col-md-4 col-lg-4 col-sm-12">
+                    <div class="iframe-depoimento">
+                        <iframe width="100%" height="600" src="https://www.youtube.com/embed/GB10PuR4qR4" title="Depoimento 8 Bella Vista I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="texto-depoimento py-3">
+                        <span>Lorem ipsum</span>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id metus id dolor rutrum rhoncus sit amet ut elit. Maecenas auctor sollicitudin lectus sed vulputate. </p>
+                    </div>
+                </div>
+
+                <div class="cada-depoimento col-md-4 col-lg-4 col-sm-12">
+                    <div class="iframe-depoimento">
+                        <iframe width="100%" height="600" src="https://www.youtube.com/embed/GB10PuR4qR4" title="Depoimento 8 Bella Vista I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="texto-depoimento py-3">
+                        <span>Lorem ipsum</span>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id metus id dolor rutrum rhoncus sit amet ut elit. Maecenas auctor sollicitudin lectus sed vulputate. </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="posicao-btn-ver-todos py-0">
+                <div class="col-md-3 col-lg-3 col-10 btn-ver-todos-empreendimentos">
+                    <a href="">Ver mais depoimentos</a>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Features Section -->
-    <section class="features-section">
-        <div class="container">
-            <div class="features-container">
-                <div class="row align-items-center">
-                    <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000">
-                        <h3 class="feature-title">{{baixar_facil.title|raw}}</h3>
+<section class="section-trabalhe-conosco" data-scroll-index='5'>
+    <div class="container">
+        <div class="conteudo-todo-trabalhe-conosco row ">
+            <div class="col-md-4 col-lg-4 col-sm-12 div-chamada-trabalhe-conosco">
+                <h2>Trabalhe conosco</h2>
+                <p>A Ind está em expansão e traz excelentes oportunidades de trabalho para você construir uma carreira sólida.</p>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-12 div-contatos-trabalhe-conosco">
+                <div class="ofsset-md-2 offset-lg-2 col-10 linha-contato">
+                    <div class="icone-contato">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="15" viewBox="0 0 21 15" fill="none">
+                            <path d="M2.256 0H18.156C19.656 0 20.412 0.708 20.412 2.148V12.252C20.412 13.68 19.656 14.4 18.156 14.4H2.256C0.756 14.4 0 13.68 0 12.252V2.148C0 0.708 0.756 0 2.256 0ZM10.2 10.32L18.288 3.684C18.576 3.444 18.804 2.892 18.444 2.4C18.096 1.908 17.46 1.896 17.04 2.196L10.2 6.828L3.372 2.196C2.952 1.896 2.316 1.908 1.968 2.4C1.608 2.892 1.836 3.444 2.124 3.684L10.2 10.32Z" fill="#0D873A" />
+                        </svg>
                     </div>
-                    
-                    <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-                        <div class="feature-image-wrapper">
-                            <img src="{{asset('imgs/icon.png')}}" alt="Icone marca BoosterAd" class="feature-image">
-                        </div>
+                    <div class="conteudo-contato">
+                        <p>suporte@indempreendimentos.com.br</p>
                     </div>
-                    
-                    <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
-                        <p class="feature-text">{{baixar_facil.lateral.body|raw}}</p>
+                </div>
+                <div class="ofsset-md-2 offset-lg-2 col-10 linha-contato">
+                    <div class="icone-contato">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M0.900244 3.05156L3.39634 0.557813C3.57241 0.380962 3.7817 0.240642 4.01217 0.144915C4.24263 0.0491882 4.48975 -5.98116e-05 4.73931 5.45145e-08C5.2479 5.45145e-08 5.72602 0.199219 6.08462 0.557813L8.77056 3.24375C8.94741 3.41983 9.08773 3.62911 9.18345 3.85958C9.27918 4.09005 9.32843 4.33716 9.32837 4.58672C9.32837 5.09531 9.12915 5.57344 8.77056 5.93203L6.80649 7.89609C7.26624 8.90944 7.90542 9.8313 8.69321 10.6172C9.47902 11.4069 10.4008 12.0484 11.4143 12.5109L13.3784 10.5469C13.5544 10.37 13.7637 10.2297 13.9942 10.134C14.2247 10.0383 14.4718 9.989 14.7213 9.98906C15.2299 9.98906 15.7081 10.1883 16.0666 10.5469L18.7549 13.2305C18.932 13.4069 19.0724 13.6165 19.1682 13.8474C19.2639 14.0783 19.313 14.3258 19.3127 14.5758C19.3127 15.0844 19.1135 15.5625 18.7549 15.9211L16.2635 18.4125C15.6916 18.9867 14.9018 19.3125 14.0909 19.3125C13.9198 19.3125 13.7557 19.2984 13.594 19.2703C10.4346 18.75 7.30102 17.0695 4.77212 14.543C2.24555 12.0188 0.56743 8.8875 0.0400867 5.71875C-0.119287 4.75078 0.201805 3.75469 0.900244 3.05156Z" fill="#0D873A" />
+                        </svg>
+                    </div>
+                    <div class="conteudo-contato">
+                        <p>(18)99644-9986</p>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Solutions Section -->
-    <section class="solutions-section">
-        <div class="solutions-slider">
-            <h2 class="cards-title" data-aos="fade-up" data-aos-duration="1000">
-                Mais que cliques. Entregamos resultados.
-            </h2>
-            <div class="solutions-container">
-                <div class="solutions-track">
+<section class="section-contato" data-scroll-index='6'>
+    <div class="container">
+        <div class="conteudo-todo-contato row">
+            <div class="col-md-3 col-lg-3 col-12 chamada-contato">
+                <h2>Já conhece a nossa empresa?</h2>
+                <p>Fale agora com um de nossos especialistas e descubra todos os detalhes dos nossos empreendimentos imobiliários.</p>
+            </div>
 
-                    {% for item in resultados %}
-                        <div class="solution-card" data-index="0" data-expanded-content="{{item.body|raw}}">
-                            <div class="solution-icon">
-                                <i class="fas {{item.icon}}"></i>
+
+            <div class="col-md-9 col-lg-9 col-12 bloco-formulario">
+                <div class="col-md-11 offset-md-1 col-lg-11 offset-lg-1 col-12 row">
+                    <form action="#" method="post">
+                        <div class="form-row">
+                            <div class="form-group col-md-8 col-lg-8 col-12">
+                                <label for="iName">Nome:<span>*</span></label>
+                                <input type="text" class="form-control" id="iName" name="iName" placeholder="DIGITE SEU NOME AQUI">
                             </div>
-                            <h3 class="solution-title">{{item.title|raw}}</h3>
-                            <p class="solution-description"></p>
-                        </div>                        
-                    {% endfor %}
-                    
-
-                    
-                    
-                </div>
-                <div class="slider-controls">
-                    <div class="player-container">
-                        <button class="play-pause-btn" id="solutionsPlayPauseBtn">
-                            <svg class="pause-icon" width="14" height="14" viewBox="0 0 24 24">
-                                <rect x="6" y="4" width="4" height="16" fill="currentColor"/>
-                                <rect x="14" y="4" width="4" height="16" fill="currentColor"/>
-                            </svg>
-                            <svg class="play-icon hidden" width="14" height="14" viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z" fill="currentColor"/>
-                            </svg>
-                        </button>
-                        <div class="slide-indicators">
-                            {% for item in resultados %}
-                            <span class="indicator" data-index="{{loop.index}}"></span>
-                            {% endfor %}
-
-                            
+                            <div class="form-group col-md-4 col-lg-4 col-12">
+                                <label for="iEmail">Email:<span>*</span></label>
+                                <input type="text" class="form-control" id="iEmail" name="iEmail" placeholder="DIGITE SEU E-MAIL AQUI">
+                            </div>
                         </div>
-                    </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4 col-lg-4 col-12">
+                                <label for="iTelefone">Whatasapp:<span>*</span></label>
+                                <input type="text" class="form-control" id="iTelefone" name="iTelefone" placeholder="DIGITE SEU WHATSAPP AQUI">
+                            </div>
+                            <div class="form-group col-md-8 col-lg-8 col-12">
+                                <label for="iMsg">Assunto:<span>*</span></label>
+                                <input type="text" class="form-control" id="iMsg" name="iMsg" placeholder="DIGITE O QUE GOSTARIA DE NOS FALAR AQUI">
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+                        <button type="submit" class="btn btn-primary">Enviar mensagem</button>
+                    </form>
+
                 </div>
+
+
             </div>
         </div>
-    </section>
-    <!-- MMPs Section -->
-    <section class="mmp-section">
-        <div class="container">
-            <h2 class="mmp-title" data-aos="fade-up" data-aos-duration="1000">
-                Integração rápida e segura com os principais MMPs.
-            </h2>
-            <div class="mmp-container">
-                <div class="row align-items-center">
-                    <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000">
-                        <img src="{{asset('imgs/singular-logo.png')}}" alt="Singular" class="mmp-logo">
-                    </div>
-                    <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-                        <img src="{{asset('imgs/appsflyer-logo.png')}}" alt="AppsFlyer" class="mmp-logo">
-                    </div>
-                    <div class="col-md-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
-                        <img src="{{asset('imgs/kochava-logo.png')}}" alt="Kochava" class="mmp-logo">
-                    </div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col-md-6" data-aos="fade-up" data-aos-duration="1000">
-                        <img src="{{asset('imgs/adjust-logo.png')}}" alt="Adjust" class="mmp-logo">
-                    </div>
-                    <div class="col-md-6" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-                        <img src="{{asset('imgs/tune-logo.png')}}" alt="Tune" class="mmp-logo">
-                    </div>
-                </div>
-            </div>
-            <a href="{{path('web_contato')}}" class="mmp-contact-btn">Entre em contato</a>
-        </div>
-    </section>
-
-    <!-- Seção de Cases -->
-    <section class="cases-section">
-        <div class="back-img">
-            <img src="{{asset('imgs/strokeicon.png')}}" alt="Cases Illustration" class="cases-illustration">
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <h2 class="cases-title" data-aos="fade-up" data-aos-duration="1000">O que nossos<br> clientes dizem</h2>
-                    <div class="cases-carousel-container">
-                        <div class="cases-carousel">
-
-                            {% for item in depoimentos %}
-                                <div class="case-card">
-                                    <h3 class="case-card-title">{{item.title|raw}}</h3>
-                                    <p class="case-card-text">{{item.body|raw}}</p>
-                                    <div class="case-card-divider"></div>
-                                    <img src="{{path('imagem',{'path':'depoimentos','imagem':item.image})}}" alt="{{item.title|raw}}" class="case-card-image">
-                                </div>                                
-                            {% endfor %}                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Seção de Gradiente -->
-    <section class="gradient-section">
-        <div class="container">
-            <div class="gradient-box">
-                <h2 class="gradient-title" data-aos="fade-up" data-aos-duration="1000">Dúvidas Frequentes</h2>
-                
-                <div class="accordion-container" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-                    {% for item in perguntas %}
-                        
-                    <div class="accordion-item">
-                        <div class="accordion-header">
-                            <h3 class="accordion-title">{{item.title|raw}}</h3>
-                            <span class="accordion-icon">+</span>
-                        </div>
-                        <div class="accordion-content">
-                            {{item.body|raw}}
-                        </div>
-                    </div>
-                    {% endfor %}
-                    
-                    
-                </div>
-            </div>
-        </div>
-    </section>
-
-    
+    </div>
+</section>
 
 
 
-    
+
+
+
+
+
+
+
+
+
+
 
 {% endblock %}

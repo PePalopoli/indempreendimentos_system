@@ -5,6 +5,14 @@
     </a>
 </li>
 
+<li class="nav-item">
+    <a href="{{ path('s_banner_type') }}" class="nav-link  {% if menu_selected is defined and menu_selected == 'banner_type' %}active{% endif %}">
+        <i class="nav-icon fa fa-bars "></i>
+         <p>Banner</p>
+    </a>
+</li>
+
+
 {# <li class="nav-item">
     <a href="{{ path('s_marcas_type') }}" class="nav-link  {% if menu_selected is defined and menu_selected == 'marcas_type' %}active{% endif %}">
         <i class="nav-icon fa fa-bars "></i>
@@ -108,12 +116,9 @@
     </ul>
 </li>
 
-{# <li {% if menu_selected is defined and menu_selected == 'banner_type' %}class="active"{% endif %}>
-    <a href="{{ path('s_banner_type') }}">
-        <i class="fa fa-bars"></i> <span>Banner</span>
-    </a>
-</li>
+ 
 
+{#
 <li {% if menu_selected is defined and menu_selected == 'seo' %}class="active"{% endif %}>
     <a href="{{ path('s_seo') }}">
         <i class="fa fa-bars"></i> <span>S.E.O.</span>

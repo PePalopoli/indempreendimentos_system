@@ -15,41 +15,19 @@ class HomeController extends ContainerAware
     public function IndexAction ()
     {
 
-        $marcas = $this->get('db')->fetchAll("SELECT * FROM marcas_type where enabled = 1 order by id ");        
-        $servicos = $this->get('db')->fetchAll("SELECT * FROM servicos_type where enabled = 1 order by id ");        
-        $nossos_numeros = $this->get('db')->fetchAll("SELECT * FROM institutional where type = 1 and enabled = 1 order by id ");        
-        $baixar_facil = $this->get('db')->fetchAssoc("SELECT * FROM institutional_type where id = 2 and enabled = 1 order by id ");        
-        $baixar_facil["lateral"] = $this->get('db')->fetchAssoc("SELECT * FROM institutional where type = ? and enabled = 1 order by id limit 1",array($baixar_facil["id"]));        
-        $resultados = $this->get('db')->fetchAll("SELECT * FROM resultados_type where enabled = 1 order by id ");        
+        $banner = $this->get('db')->fetchAll("SELECT * FROM banner where enabled = 1 and type=1 order by id ");        
+        $banner_mobile = $this->get('db')->fetchAll("SELECT * FROM banner where enabled = 2 and type=1 order by id ");        
 
-        foreach ($resultados as $key => $item) {            
-            $resultados[$key]["body"] = preg_replace('#<p.*?>#is', '', $resultados[$key]["body"]);
-            $resultados[$key]["body"] = preg_replace('#</p>#is', '', $resultados[$key]["body"]);
-        }
+        $empreendimentos = $this->get('db')->fetchAll("SELECT e.*,oe.titulo as titulo_obra, oe.cor_hex FROM empreendimentos e inner join obra_etapas oe on oe.id = e.etapa_id where e.enabled = 1 order by e.`order`");        
 
-        $depoimentos = $this->get('db')->fetchAll("SELECT * FROM depoimentos_type where enabled = 1 order by id ");     
-        
-        foreach ($depoimentos as $key => $item) {            
-            $depoimentos[$key]["body"] = preg_replace('#<p.*?>#is', '', $depoimentos[$key]["body"]);
-            $depoimentos[$key]["body"] = preg_replace('#</p>#is', '', $depoimentos[$key]["body"]);
-        }
-
-        $perguntas = $this->get('db')->fetchAll("SELECT * FROM institutional  where enabled = 1 and type = 3 order by id ");     
-        
         
         $this->get('db')->close();
         //dd($baixar_facil);
 
         return $this->render('/front/index.twig', array(
-            'marcas' => $marcas,
-            'servicos' => $servicos,
-            'nossos_numeros' => $nossos_numeros,
-            'baixar_facil' => $baixar_facil,
-            'resultados' => $resultados,
-            'depoimentos' => $depoimentos,
-            'perguntas' => $perguntas,
-            
-
+            'banner' => $banner,
+            'banner_mobile' => $banner_mobile,
+            'empreendimentos' => $empreendimentos,
 
         ));
     }

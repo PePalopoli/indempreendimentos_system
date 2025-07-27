@@ -1,7 +1,7 @@
 {% extends 'security/banner/theme.twig' %}
 
 {% block stylesheet %}
-    {{parent()}}
+    <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('lib/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.css') }}">
 {% endblock %}
 
@@ -11,78 +11,104 @@
 
 <!-- Main content -->
 <section class="content">
+    <div class="container-fluid">
 
-    <div class="row">
-        <div class="col-md-12">
+        {{ form_start(form) }}
 
-            {{ form_start(form) }}
-                <div class="box box-default">
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class='form-group'>
-                                    {{ form_label(form.title) }}
+        <div class="row">
+            <div class="col-md-6">
+
+                <!-- Horizontal Form -->
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Dados do banner</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    
+                        <div class="card-body">
+                            <div class="form-group">
+                                {{ form_label(form.title) }}
+                                <div class="col-sm-12">
                                     {{ form_errors(form.title) }}
                                     {{ form_widget(form.title, { attr: { 'class': 'form-control' }}) }}
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class='form-group'>
-                                    {{ form_label(form.url) }}
+
+                            <div class="form-group">
+                                {{ form_label(form.url, null, {'label_attr': {'class': 'col-form-label'}}) }}
+                                <div class="col-sm-12">
                                     {{ form_errors(form.url) }}
                                     {{ form_widget(form.url, { attr: { 'class': 'form-control' }}) }}
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class='form-group'>
-                                    {{ form_label(form.enabled) }}
+
+                            <div class="form-group">
+                                {{ form_label(form.enabled, null, {'label_attr': {'class': 'col-form-label'}}) }}
+                                <div class="col-sm-12">
                                     {{ form_errors(form.enabled) }}
                                     {{ form_widget(form.enabled, { attr: { 'class': 'form-control' }}) }}
                                 </div>
                             </div>
+                            
+                        </div>
+                        
+                    
+                </div>
+                <!-- /.card -->
+
+            </div>
+            <div class="col-md-6">
+
+                <!-- Horizontal Form -->
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Configurações do banner</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+
+                    <div class="card-body">
+                        <div class="form-group">
+                            {{ form_label(form.image, null, {'label_attr': {'class': 'col-form-label'}}) }}
+                            <div class="col-sm-12">
+                                {{ form_errors(form.image) }}
+                                {{ form_widget(form.image, { attr: { 'class': 'form-control' }}) }}
+                            </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class='form-group'>
-                                    {{ form_label(form.image) }}
-                                    {{ form_errors(form.image) }}
-                                    {{ form_widget(form.image, { attr: { 'class': 'form-control' }}) }}
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class='form-group'>
-                                    {{ form_label(form.show_in) }}
-                                    {{ form_errors(form.show_in) }}
-                                    {{ form_widget(form.show_in, { attr: { 'class': 'form-control' }}) }}
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class='form-group'>
-                                    {{ form_label(form.show_out) }}
-                                    {{ form_errors(form.show_out) }}
-                                    {{ form_widget(form.show_out, { attr: { 'class': 'form-control' }}) }}
-                                </div>
+                        <div class="form-group">
+                            {{ form_label(form.show_in, null, {'label_attr': {'class': 'col-form-label'}}) }}
+                            <div class="col-sm-12">
+                                {{ form_errors(form.show_in) }}
+                                {{ form_widget(form.show_in, { attr: { 'class': 'form-control' }}) }}
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            {{ form_label(form.show_out, null, {'label_attr': {'class': 'col-form-label'}}) }}
+                            <div class="col-sm-12">
+                                {{ form_errors(form.show_out) }}
+                                {{ form_widget(form.show_out, { attr: { 'class': 'form-control' }}) }}
+                            </div>
+                        </div>
 
                         {{ form_rest(form) }}
-                    </div><!-- /.box-body -->
 
-                    <div class="box-footer">
-                        <div class="row-fluid">
-                            <div class="col-md-6">
-                                <a href="{{ path('s_banner', {'banner_type': banner_type.id}) }}" class="btn btn-default">Voltar</a>
-                            </div>
-                            <div class="col-md-6 text-right">
-                                <button type="submit" class="btn btn-primary">{{ btn_acao }}</button>
-                            </div>
-                        </div>
                     </div>
-                    <div class="clear"><br></div>
 
-                </div><!-- /.box -->
+                    <!-- /.card-body -->
+                    <div class="card-footer">                        
+                        <button type="submit" class="btn btn-info float-right">{{ btn_acao }}</button>
+                        <a href="{{ path('s_banner', {'banner_type': banner_type.id}) }}" class="btn btn-default float-left">Voltar</a>
+                    </div>
+                    <!-- /.card-footer -->
+
+                </div>
+                <!-- /.card -->
+
+            </div>  
+
             {{ form_end(form) }}
         </div>
     </div>
