@@ -532,6 +532,7 @@ class EmpreendimentosController extends ContainerAware
             'form' => $form->createView(),
             'beneficios_disponiveis' => $this->getBeneficiosDisponiveis(),
             'beneficios_selecionados' => array(),
+            'botoes_tour_selecionados' => array(),
             'empreendimento_id' => null,
         ));
     }
@@ -698,6 +699,7 @@ class EmpreendimentosController extends ContainerAware
             'galeria_existente' => $galeria_existente,
             'beneficios_disponiveis' => $this->getBeneficiosDisponiveis(),
             'beneficios_selecionados' => $this->getBeneficiosEmpreendimento($id),
+            'botoes_tour_selecionados' => $this->getBotoesTourEmpreendimento($id),
             'empreendimento_id' => $id,
         ));
     }
@@ -765,5 +767,152 @@ class EmpreendimentosController extends ContainerAware
         }
 
         return $this->json($orders, 201);
+    }
+
+    /**
+     * Obter botões de tour de um empreendimento
+     */
+    private function getBotoesTourEmpreendimento($empreendimento_id)
+    {
+        return $this->db()->fetchAll(
+            'SELECT tb.*, 
+                    tb.id as id,
+                    tb.texto_botao,
+                    tb.url_destino,
+                    tb.target_blank,
+                    tb.cor_fundo,
+                    tb.cor_texto,
+                    tb.icone_class
+             FROM empreendimentos_tour_botoes tb 
+             WHERE tb.empreendimento_id = ? AND tb.enabled = 1 
+             ORDER BY tb.order ASC',
+            array($empreendimento_id)
+        );
+    }
+
+    /**
+     * Adicionar botão de tour (AJAX)
+     */
+    public function adicionarBotaoTourAction(Request $request)
+    {
+        if (!$request->isMethod('POST')) {
+            return $this->json(array('success' => false, 'message' => 'Método não permitido'));
+        }
+
+        $empreendimento_id = $request->request->get('empreendimento_id');
+        $texto_botao = trim($request->request->get('texto_botao'));
+        $url_destino = trim($request->request->get('url_destino'));
+        $target_blank = $request->request->get('target_blank', 1);
+        $cor_fundo = $request->request->get('cor_fundo', '#007bff');
+        $cor_texto = $request->request->get('cor_texto', '#ffffff');
+        $icone_class = trim($request->request->get('icone_class', ''));
+
+        // Validações
+        if (!$empreendimento_id || !is_numeric($empreendimento_id)) {
+            return $this->json(array('success' => false, 'message' => 'ID do empreendimento inválido'));
+        }
+
+        if (empty($texto_botao)) {
+            return $this->json(array('success' => false, 'message' => 'Texto do botão é obrigatório'));
+        }
+
+        if (empty($url_destino)) {
+            return $this->json(array('success' => false, 'message' => 'URL de destino é obrigatória'));
+        }
+
+        if (strlen($texto_botao) > 100) {
+            return $this->json(array('success' => false, 'message' => 'Texto do botão deve ter no máximo 100 caracteres'));
+        }
+
+        if (strlen($url_destino) > 500) {
+            return $this->json(array('success' => false, 'message' => 'URL deve ter no máximo 500 caracteres'));
+        }
+
+        // Verificar se o empreendimento existe
+        $empreendimento = $this->db()->fetchAssoc(
+            'SELECT id FROM empreendimentos WHERE id = ?',
+            array($empreendimento_id)
+        );
+
+        if (!$empreendimento) {
+            return $this->json(array('success' => false, 'message' => 'Empreendimento não encontrado'));
+        }
+
+        try {
+            // Obter próxima ordem
+            $next_order = $this->db()->fetchColumn(
+                'SELECT COALESCE(MAX(`order`), 0) + 1 FROM empreendimentos_tour_botoes WHERE empreendimento_id = ?',
+                array($empreendimento_id)
+            );
+
+            // Inserir botão
+            $this->db()->executeUpdate(
+                'INSERT INTO empreendimentos_tour_botoes 
+                (empreendimento_id, texto_botao, url_destino, target_blank, cor_fundo, cor_texto, icone_class, `order`, enabled, created_at, updated_at) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, NOW(), NOW())',
+                array($empreendimento_id, $texto_botao, $url_destino, $target_blank, $cor_fundo, $cor_texto, $icone_class, $next_order)
+            );
+
+            $botao_id = $this->db()->lastInsertId();
+
+            // Buscar o botão inserido para retorno
+            $botao = $this->db()->fetchAssoc(
+                'SELECT * FROM empreendimentos_tour_botoes WHERE id = ?',
+                array($botao_id)
+            );
+
+            return $this->json(array(
+                'success' => true,
+                'message' => 'Botão adicionado com sucesso!',
+                'data' => $botao
+            ));
+
+        } catch (\Exception $e) {
+            error_log('Erro ao adicionar botão de tour: ' . $e->getMessage());
+            return $this->json(array('success' => false, 'message' => 'Erro interno. Tente novamente.'));
+        }
+    }
+
+    /**
+     * Remover botão de tour (AJAX)
+     */
+    public function removerBotaoTourAction(Request $request)
+    {
+        if (!$request->isMethod('POST')) {
+            return $this->json(array('success' => false, 'message' => 'Método não permitido'));
+        }
+
+        $id = $request->request->get('id');
+
+        if (!$id || !is_numeric($id)) {
+            return $this->json(array('success' => false, 'message' => 'ID do botão inválido'));
+        }
+
+        try {
+            // Verificar se o botão existe
+            $botao = $this->db()->fetchAssoc(
+                'SELECT id FROM empreendimentos_tour_botoes WHERE id = ?',
+                array($id)
+            );
+
+            if (!$botao) {
+                return $this->json(array('success' => false, 'message' => 'Botão não encontrado'));
+            }
+
+            // Remover o botão
+            $this->db()->executeUpdate(
+                'DELETE FROM empreendimentos_tour_botoes WHERE id = ?',
+                array($id)
+            );
+
+            return $this->json(array(
+                'success' => true,
+                'message' => 'Botão removido com sucesso!'
+            ));
+
+        } catch (\Exception $e) {
+            error_log('Erro ao remover botão de tour: ' . $e->getMessage());
+            return $this->json(array('success' => false, 'message' => 'Erro interno. Tente novamente.'));
+        }
     }
 }

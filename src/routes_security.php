@@ -156,6 +156,8 @@ $security->delete('empreendimentos-sistema/delete/{id}', 'Security\Empreendiment
 $security->post('empreendimentos-sistema/galeria/remove', 'Security\Empreendimentos::removeGaleriaImage')->bind('s_empreendimentos_remove_galeria_image');
 $security->post('empreendimentos-sistema/beneficio/adicionar', 'Security\Empreendimentos::adicionarBeneficio')->bind('s_empreendimentos_adicionar_beneficio');
 $security->post('empreendimentos-sistema/beneficio/remover', 'Security\Empreendimentos::removerBeneficio')->bind('s_empreendimentos_remover_beneficio');
+$security->post('empreendimentos-sistema/tour-botao/adicionar', 'Security\Empreendimentos::adicionarBotaoTour')->bind('s_empreendimentos_adicionar_botao_tour');
+$security->post('empreendimentos-sistema/tour-botao/remover', 'Security\Empreendimentos::removerBotaoTour')->bind('s_empreendimentos_remover_botao_tour');
 
 // Galeria de Empreendimentos
 $security->match('empreendimentos/{empreendimento_id}/galeria', 'Security\EmpreendimentosGaleria::index')->method('GET|POST')->bind('s_empreendimentos_galeria');

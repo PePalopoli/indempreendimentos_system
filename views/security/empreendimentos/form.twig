@@ -491,6 +491,174 @@
 				</div>
 			</div>
 
+			<!-- SEÇÃO: BOTÕES DE TOUR -->
+			<div class="card card-warning">
+				<div class="card-header">
+					<h3 class="card-title">
+						<i class="fas fa-mouse-pointer"></i>
+						Botões de Tour Virtual
+					</h3>
+					<div class="card-tools">
+						<button type="button" class="btn btn-tool" data-card-widget="collapse">
+							<i class="fas fa-minus"></i>
+						</button>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-8">
+							<!-- Formulário para adicionar botão -->
+							<div class="border p-3 mb-3" style="border-radius: 8px; background-color: #fff3cd;">
+								<h5><i class="fas fa-plus-circle text-warning"></i> Adicionar Botão de Tour</h5>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="texto_botao">Texto do Botão</label>
+											<input type="text" id="texto_botao" class="form-control" maxlength="100" placeholder="Ex: Tour Virtual 360°">
+											<small class="form-text text-muted">Máximo 100 caracteres</small>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="url_destino">URL de Destino</label>
+											<input type="url" id="url_destino" class="form-control" maxlength="500" placeholder="https://exemplo.com/tour">
+											<small class="form-text text-muted">URL completa com http:// ou https://</small>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-3">
+										<div class="form-group">
+											<label for="cor_fundo_botao">Cor de Fundo</label>
+											<div class="row">
+												<div class="col-6">
+													<input type="color" id="cor_fundo_botao" class="form-control" value="#007bff" title="Cor de fundo">
+												</div>
+												<div class="col-6">
+													<div class="input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text">#</span>
+														</div>
+														<input type="text" id="cor_fundo_hex" class="form-control" value="007BFF" 
+															   maxlength="6" placeholder="007BFF" 
+															   pattern="[0-9A-Fa-f]{6}" 
+															   title="Cor de fundo em hexadecimal">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label for="cor_texto_botao">Cor do Texto</label>
+											<div class="row">
+												<div class="col-6">
+													<input type="color" id="cor_texto_botao" class="form-control" value="#ffffff" title="Cor do texto">
+												</div>
+												<div class="col-6">
+													<div class="input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text">#</span>
+														</div>
+														<input type="text" id="cor_texto_hex" class="form-control" value="FFFFFF" 
+															   maxlength="6" placeholder="FFFFFF" 
+															   pattern="[0-9A-Fa-f]{6}" 
+															   title="Cor do texto em hexadecimal">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label for="icone_botao">Ícone (opcional)</label>
+											<input type="text" id="icone_botao" class="form-control" maxlength="50" placeholder="fas fa-vr-cardboard">
+											<small class="form-text text-muted">Classes do FontAwesome</small>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>&nbsp;</label>
+											<div>
+												<button type="button" id="btn_adicionar_tour" class="btn btn-warning btn-block">
+													<i class="fas fa-plus"></i> Adicionar Botão
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<div class="form-check">
+												<input type="checkbox" id="target_blank" class="form-check-input" checked>
+												<label class="form-check-label" for="target_blank">
+													Abrir em nova aba/janela
+												</label>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<!-- Preview do botão -->
+							<div class="border p-3" style="border-radius: 8px; background-color: #f8f9fa;">
+								<h6><i class="fas fa-eye"></i> Preview do Botão</h6>
+								<div id="botao_tour_preview" class="text-center" style="min-height: 80px; display: flex; align-items: center; justify-content: center;">
+									<button type="button" class="btn" style="background-color: #007bff; color: #ffffff;">
+										<i class="fas fa-mouse-pointer"></i> Exemplo de Botão
+									</button>
+								</div>
+								<small class="text-muted mt-2 d-block">O preview será atualizado conforme você preenche os campos</small>
+							</div>
+						</div>
+					</div>
+
+					<!-- Lista de botões adicionados -->
+					<div class="mt-4">
+						<h5><i class="fas fa-list"></i> Botões de Tour Adicionados</h5>
+						<div id="botoes_tour_lista" class="row">
+							<!-- Botões existentes (em edição) -->
+							{% if botoes_tour_selecionados is defined and botoes_tour_selecionados|length > 0 %}
+								{% for botao in botoes_tour_selecionados %}
+									<div class="col-md-6 mb-3 botao-tour-item" data-id="{{ botao.id }}">
+										<div class="card">
+											<div class="card-body p-3">
+												<div class="row align-items-center">
+													<div class="col-8">
+														<h6 class="mb-1">{{ botao.texto_botao }}</h6>
+														<small class="text-muted d-block">{{ botao.url_destino }}</small>
+														<div class="mt-2">
+															<button type="button" class="btn btn-sm" 
+																	style="background-color: {{ botao.cor_fundo }}; color: {{ botao.cor_texto }};">
+																{% if botao.icone_class %}
+																	<i class="{{ botao.icone_class }}"></i> 
+																{% endif %}
+																{{ botao.texto_botao }}
+															</button>
+														</div>
+													</div>
+													<div class="col-4 text-right">
+														<button type="button" class="btn btn-sm btn-danger btn-remover-tour" data-id="{{ botao.id }}">
+															<i class="fas fa-times"></i>
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							{% endif %}
+						</div>
+						<div id="botoes_tour_empty" class="text-center text-muted" {% if botoes_tour_selecionados is defined and botoes_tour_selecionados|length > 0 %}style="display: none;"{% endif %}>
+							<i class="fas fa-info-circle fa-2x mb-3"></i>
+							<br>Nenhum botão de tour adicionado ainda
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div class="row">
 				<div class="col-md-12">
 					<div class="card">
@@ -1291,6 +1459,281 @@ var imagesToRemove = [];
 			notification.alert('close');
 		}, 5000);
 	}
+
+	// ========================================
+	// GESTÃO DE BOTÕES DE TOUR
+	// ========================================
+
+	// Sincronizar cores de fundo
+	$('#cor_fundo_botao').on('change input', function() {
+		var color = $(this).val();
+		var hex = color.replace('#', '').toUpperCase();
+		$('#cor_fundo_hex').val(hex);
+		atualizarPreviewBotaoTour();
+	});
+
+	$('#cor_fundo_hex').on('input', function() {
+		var hex = $(this).val().replace('#', '');
+		if (/^[0-9A-Fa-f]{6}$/.test(hex)) {
+			$(this).removeClass('is-invalid').addClass('is-valid');
+			$('#cor_fundo_botao').val('#' + hex);
+			atualizarPreviewBotaoTour();
+		} else if (hex.length === 0) {
+			$(this).removeClass('is-invalid is-valid');
+		} else {
+			$(this).removeClass('is-valid').addClass('is-invalid');
+		}
+	});
+
+	$('#cor_fundo_hex').on('blur', function() {
+		var hex = $(this).val().replace('#', '');
+		if (hex.length > 0) {
+			if (!/^[0-9A-Fa-f]{6}$/.test(hex)) {
+				var currentColor = $('#cor_fundo_botao').val();
+				var currentHex = currentColor.replace('#', '').toUpperCase();
+				$(this).val(currentHex);
+				$(this).removeClass('is-invalid').addClass('is-valid');
+			} else {
+				$(this).val(hex.toUpperCase());
+				$(this).removeClass('is-invalid').addClass('is-valid');
+			}
+		}
+	});
+
+	// Sincronizar cores de texto
+	$('#cor_texto_botao').on('change input', function() {
+		var color = $(this).val();
+		var hex = color.replace('#', '').toUpperCase();
+		$('#cor_texto_hex').val(hex);
+		atualizarPreviewBotaoTour();
+	});
+
+	$('#cor_texto_hex').on('input', function() {
+		var hex = $(this).val().replace('#', '');
+		if (/^[0-9A-Fa-f]{6}$/.test(hex)) {
+			$(this).removeClass('is-invalid').addClass('is-valid');
+			$('#cor_texto_botao').val('#' + hex);
+			atualizarPreviewBotaoTour();
+		} else if (hex.length === 0) {
+			$(this).removeClass('is-invalid is-valid');
+		} else {
+			$(this).removeClass('is-valid').addClass('is-invalid');
+		}
+	});
+
+	$('#cor_texto_hex').on('blur', function() {
+		var hex = $(this).val().replace('#', '');
+		if (hex.length > 0) {
+			if (!/^[0-9A-Fa-f]{6}$/.test(hex)) {
+				var currentColor = $('#cor_texto_botao').val();
+				var currentHex = currentColor.replace('#', '').toUpperCase();
+				$(this).val(currentHex);
+				$(this).removeClass('is-invalid').addClass('is-valid');
+			} else {
+				$(this).val(hex.toUpperCase());
+				$(this).removeClass('is-invalid').addClass('is-valid');
+			}
+		}
+	});
+
+	// Atualizar preview quando campos mudarem
+	$('#texto_botao, #icone_botao').on('input', atualizarPreviewBotaoTour);
+
+	// Função para atualizar preview do botão
+	function atualizarPreviewBotaoTour() {
+		var preview = $('#botao_tour_preview');
+		var texto = $('#texto_botao').val() || 'Exemplo de Botão';
+		var corFundo = $('#cor_fundo_botao').val() || '#007bff';
+		var corTexto = $('#cor_texto_botao').val() || '#ffffff';
+		var icone = $('#icone_botao').val().trim();
+
+		var iconeHtml = '';
+		if (icone) {
+			iconeHtml = '<i class="' + icone + '"></i> ';
+		}
+
+		var botaoHtml = '<button type="button" class="btn" style="background-color: ' + corFundo + '; color: ' + corTexto + '; border-color: ' + corFundo + ';">';
+		botaoHtml += iconeHtml + texto;
+		botaoHtml += '</button>';
+
+		preview.html(botaoHtml);
+	}
+
+	// Adicionar botão de tour
+	$('#btn_adicionar_tour').on('click', function() {
+		var btn = $(this);
+		var textoBotao = $('#texto_botao').val().trim();
+		var urlDestino = $('#url_destino').val().trim();
+		var targetBlank = $('#target_blank').is(':checked') ? 1 : 0;
+		var corFundo = $('#cor_fundo_botao').val();
+		var corTexto = $('#cor_texto_botao').val();
+		var iconeClass = $('#icone_botao').val().trim();
+		var empreendimentoId = getEmpreendimentoId();
+
+		// Validações
+		if (!textoBotao) {
+			alert('Por favor, digite o texto do botão.');
+			$('#texto_botao').focus();
+			return;
+		}
+
+		if (!urlDestino) {
+			alert('Por favor, digite a URL de destino.');
+			$('#url_destino').focus();
+			return;
+		}
+
+		// Validar URL básica
+		if (!urlDestino.match(/^https?:\/\/.+/)) {
+			alert('Por favor, digite uma URL válida começando com http:// ou https://');
+			$('#url_destino').focus();
+			return;
+		}
+
+		if (!empreendimentoId) {
+			alert('Este empreendimento precisa ser salvo antes de adicionar botões de tour.');
+			return;
+		}
+
+		// Desabilitar botão
+		btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Adicionando...');
+
+		// Requisição AJAX
+		$.ajax({
+			url: '{{ path('s_empreendimentos_adicionar_botao_tour') }}',
+			method: 'POST',
+			data: {
+				empreendimento_id: empreendimentoId,
+				texto_botao: textoBotao,
+				url_destino: urlDestino,
+				target_blank: targetBlank,
+				cor_fundo: corFundo,
+				cor_texto: corTexto,
+				icone_class: iconeClass
+			},
+			dataType: 'json',
+			success: function(response) {
+				if (response.success) {
+					// Adicionar à lista
+					adicionarBotaoTourLista(response.data);
+					
+					// Limpar formulário
+					limparFormularioBotaoTour();
+					
+					// Mostrar sucesso
+					showNotification('success', response.message);
+				} else {
+					alert('Erro: ' + response.message);
+				}
+			},
+			error: function(xhr, status, error) {
+				console.error('Erro AJAX:', error);
+				alert('Erro ao adicionar botão de tour. Tente novamente.');
+			},
+			complete: function() {
+				// Reabilitar botão
+				btn.prop('disabled', false).html('<i class="fas fa-plus"></i> Adicionar Botão');
+			}
+		});
+	});
+
+	// Função para adicionar botão à lista
+	function adicionarBotaoTourLista(data) {
+		var iconeHtml = '';
+		if (data.icone_class) {
+			iconeHtml = '<i class="' + data.icone_class + '"></i> ';
+		}
+
+		var html = '<div class="col-md-6 mb-3 botao-tour-item" data-id="' + data.id + '">';
+		html += '<div class="card">';
+		html += '<div class="card-body p-3">';
+		html += '<div class="row align-items-center">';
+		html += '<div class="col-8">';
+		html += '<h6 class="mb-1">' + data.texto_botao + '</h6>';
+		html += '<small class="text-muted d-block">' + data.url_destino + '</small>';
+		html += '<div class="mt-2">';
+		html += '<button type="button" class="btn btn-sm" style="background-color: ' + data.cor_fundo + '; color: ' + data.cor_texto + ';">';
+		html += iconeHtml + data.texto_botao;
+		html += '</button>';
+		html += '</div>';
+		html += '</div>';
+		html += '<div class="col-4 text-right">';
+		html += '<button type="button" class="btn btn-sm btn-danger btn-remover-tour" data-id="' + data.id + '">';
+		html += '<i class="fas fa-times"></i>';
+		html += '</button>';
+		html += '</div>';
+		html += '</div>';
+		html += '</div>';
+		html += '</div>';
+		html += '</div>';
+
+		$('#botoes_tour_lista').append(html);
+		$('#botoes_tour_empty').hide();
+	}
+
+	// Função para limpar formulário
+	function limparFormularioBotaoTour() {
+		$('#texto_botao').val('');
+		$('#url_destino').val('');
+		$('#icone_botao').val('');
+		$('#target_blank').prop('checked', true);
+		$('#cor_fundo_botao').val('#007bff');
+		$('#cor_fundo_hex').val('007BFF').removeClass('is-invalid is-valid');
+		$('#cor_texto_botao').val('#ffffff');
+		$('#cor_texto_hex').val('FFFFFF').removeClass('is-invalid is-valid');
+		atualizarPreviewBotaoTour();
+	}
+
+	// Remover botão de tour (delegação de eventos)
+	$(document).on('click', '.btn-remover-tour', function() {
+		var btn = $(this);
+		var id = btn.data('id');
+		var botaoItem = btn.closest('.botao-tour-item');
+
+		if (!confirm('Tem certeza que deseja remover este botão de tour?')) {
+			return;
+		}
+
+		// Desabilitar botão
+		btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
+
+		// Requisição AJAX
+		$.ajax({
+			url: '{{ path('s_empreendimentos_remover_botao_tour') }}',
+			method: 'POST',
+			data: {
+				id: id
+			},
+			dataType: 'json',
+			success: function(response) {
+				if (response.success) {
+					// Remover da lista com animação
+					botaoItem.fadeOut(400, function() {
+						$(this).remove();
+						
+						// Verificar se lista ficou vazia
+						if ($('#botoes_tour_lista .botao-tour-item').length === 0) {
+							$('#botoes_tour_empty').show();
+						}
+					});
+					
+					// Mostrar sucesso
+					showNotification('success', response.message);
+				} else {
+					alert('Erro: ' + response.message);
+					btn.prop('disabled', false).html('<i class="fas fa-times"></i>');
+				}
+			},
+			error: function(xhr, status, error) {
+				console.error('Erro AJAX:', error);
+				alert('Erro ao remover botão de tour. Tente novamente.');
+				btn.prop('disabled', false).html('<i class="fas fa-times"></i>');
+			}
+		});
+	});
+
+	// Inicializar preview
+	atualizarPreviewBotaoTour();
 
 	}); // Fechamento da função principal $(function () {
 	</script>
