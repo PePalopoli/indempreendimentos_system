@@ -405,15 +405,15 @@
 											<label for="cor_beneficio">Cor do Ícone</label>
 											<div class="row">
 												<div class="col-6">
-													<input type="color" id="cor_beneficio" class="form-control" value="#000000" title="Seletor de cor">
+													<input type="color" id="cor_beneficio" class="form-control" value="#0D873A" title="Seletor de cor">
 												</div>
 												<div class="col-6">
 													<div class="input-group">
 														<div class="input-group-prepend">
 															<span class="input-group-text">#</span>
 														</div>
-														<input type="text" id="cor_hex_input" class="form-control" value="000000" 
-															   maxlength="6" placeholder="000000" 
+														<input type="text" id="cor_hex_input" class="form-control" value="0D873A" 
+															   maxlength="6" placeholder="0D873A" 
 															   pattern="[0-9A-Fa-f]{6}" 
 															   title="Digite o código hexadecimal (6 caracteres)">
 													</div>
@@ -1330,6 +1330,17 @@ var imagesToRemove = [];
 			var titulo = selectedOption.data('titulo');
 			var svgCode = selectedOption.data('svg');
 			
+			// Definir valores padrão quando um benefício é selecionado
+			var valorAtual = $('#valor_personalizado').val();
+			if (!valorAtual) {
+				$('#valor_personalizado').val(titulo);
+			}
+			
+			// Definir cor padrão se ainda não foi alterada
+			if ($('#cor_beneficio').val() === '#0D873A' || $('#cor_beneficio').val() === '#0d873a') {
+				cor = '#0D873A';
+			}
+			
 			var previewHtml = '<div style="color: ' + cor + ';">' + svgCode + '</div>';
 			previewHtml += '<h6 class="mt-2">' + titulo + '</h6>';
 			
@@ -1499,8 +1510,8 @@ var imagesToRemove = [];
 	function limparFormularioBeneficio() {
 		$('#beneficio_select').val('').trigger('change');
 		$('#valor_personalizado').val('');
-		$('#cor_beneficio').val('#000000');
-		$('#cor_hex_input').val('000000').removeClass('is-invalid is-valid');
+		$('#cor_beneficio').val('#0D873A');
+		$('#cor_hex_input').val('0D873A').removeClass('is-invalid is-valid');
 		$('#beneficio_preview').html('<span class="text-muted"><i class="fas fa-star fa-2x"></i><br><small>Selecione um benefício</small></span>');
 	}
 
