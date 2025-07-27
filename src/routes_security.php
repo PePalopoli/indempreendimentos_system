@@ -154,6 +154,8 @@ $security->match('empreendimentos-sistema/create', 'Security\Empreendimentos::cr
 $security->match('empreendimentos-sistema/edit/{id}', 'Security\Empreendimentos::edit')->method('GET|POST')->bind('s_empreendimentos_edit');
 $security->delete('empreendimentos-sistema/delete/{id}', 'Security\Empreendimentos::delete')->bind('s_empreendimentos_delete');
 $security->post('empreendimentos-sistema/galeria/remove', 'Security\Empreendimentos::removeGaleriaImage')->bind('s_empreendimentos_remove_galeria_image');
+$security->post('empreendimentos-sistema/beneficio/adicionar', 'Security\Empreendimentos::adicionarBeneficio')->bind('s_empreendimentos_adicionar_beneficio');
+$security->post('empreendimentos-sistema/beneficio/remover', 'Security\Empreendimentos::removerBeneficio')->bind('s_empreendimentos_remover_beneficio');
 
 // Galeria de Empreendimentos
 $security->match('empreendimentos/{empreendimento_id}/galeria', 'Security\EmpreendimentosGaleria::index')->method('GET|POST')->bind('s_empreendimentos_galeria');

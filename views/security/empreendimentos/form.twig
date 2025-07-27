@@ -358,6 +358,139 @@
 			</div>
 		</div>
 
+			<!-- SEÇÃO: BENEFÍCIOS DO EMPREENDIMENTO -->
+			<div class="card card-success">
+				<div class="card-header">
+					<h3 class="card-title">
+						<i class="fas fa-star"></i>
+						Benefícios do Empreendimento
+					</h3>
+					<div class="card-tools">
+						<button type="button" class="btn btn-tool" data-card-widget="collapse">
+							<i class="fas fa-minus"></i>
+						</button>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-8">
+							<!-- Formulário para adicionar benefício -->
+							<div class="border p-3 mb-3" style="border-radius: 8px; background-color: #f8f9fa;">
+								<h5><i class="fas fa-plus-circle text-success"></i> Adicionar Benefício</h5>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="beneficio_select">Benefício</label>
+											<select id="beneficio_select" class="form-control">
+												<option value="">Selecione um benefício...</option>
+												{% for beneficio in beneficios_disponiveis %}
+													<option value="{{ beneficio.id }}" data-titulo="{{ beneficio.titulo }}" data-svg="{{ beneficio.svg_code|e('html_attr') }}">
+														{{ beneficio.titulo }}
+													</option>
+												{% endfor %}
+											</select>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="valor_personalizado">Valor Personalizado</label>
+											<input type="text" id="valor_personalizado" class="form-control" maxlength="120" placeholder="Ex: A partir de R$ 250.000">
+											<small class="form-text text-muted">Máximo 120 caracteres</small>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="cor_beneficio">Cor do Ícone</label>
+											<div class="row">
+												<div class="col-6">
+													<input type="color" id="cor_beneficio" class="form-control" value="#000000" title="Seletor de cor">
+												</div>
+												<div class="col-6">
+													<div class="input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text">#</span>
+														</div>
+														<input type="text" id="cor_hex_input" class="form-control" value="000000" 
+															   maxlength="6" placeholder="000000" 
+															   pattern="[0-9A-Fa-f]{6}" 
+															   title="Digite o código hexadecimal (6 caracteres)">
+													</div>
+												</div>
+											</div>
+											<small class="form-text text-muted">Use o seletor de cor ou digite o código hexadecimal</small>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>&nbsp;</label>
+											<div>
+												<button type="button" id="btn_adicionar_beneficio" class="btn btn-success btn-block">
+													<i class="fas fa-plus"></i> Adicionar Benefício
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<!-- Preview do benefício selecionado -->
+							<div class="border p-3" style="border-radius: 8px; background-color: #e9ecef;">
+								<h6><i class="fas fa-eye"></i> Preview</h6>
+								<div id="beneficio_preview" class="text-center" style="min-height: 100px; display: flex; align-items: center; justify-content: center;">
+									<span class="text-muted">
+										<i class="fas fa-star fa-2x"></i>
+										<br><small>Selecione um benefício</small>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Lista de benefícios adicionados -->
+					<div class="mt-4">
+						<h5><i class="fas fa-list"></i> Benefícios Adicionados</h5>
+						<div id="beneficios_lista" class="row">
+							<!-- Benefícios existentes (em edição) -->
+							{% if beneficios_selecionados is defined and beneficios_selecionados|length > 0 %}
+								{% for beneficio in beneficios_selecionados %}
+									<div class="col-md-6 mb-3 beneficio-item" data-id="{{ beneficio.id }}">
+										<div class="card">
+											<div class="card-body p-3">
+												<div class="row align-items-center">
+													<div class="col-2 text-center">
+														<div style="width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; color: {{ beneficio.cor_hex }};">
+															{{ beneficio.svg_code|raw }}
+														</div>
+													</div>
+													<div class="col-7">
+														<h6 class="mb-1">{{ beneficio.titulo }}</h6>
+														{% if beneficio.valor_personalizado %}
+															<small class="text-muted">{{ beneficio.valor_personalizado }}</small>
+														{% endif %}
+													</div>
+													<div class="col-3 text-right">
+														<button type="button" class="btn btn-sm btn-danger btn-remover-beneficio" data-id="{{ beneficio.id }}">
+															<i class="fas fa-times"></i>
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							{% endif %}
+						</div>
+						<div id="beneficios_empty" class="text-center text-muted" {% if beneficios_selecionados is defined and beneficios_selecionados|length > 0 %}style="display: none;"{% endif %}>
+							<i class="fas fa-info-circle fa-2x mb-3"></i>
+							<br>Nenhum benefício adicionado ainda
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div class="row">
 				<div class="col-md-12">
 					<div class="card">
@@ -902,6 +1035,262 @@ $(document).on('click', '.btn-remove-image', function(e) {
 // Backup dos arrays originais
 var selectedImages = [];
 var imagesToRemove = [];
+
+	// ========================================
+	// GESTÃO DE BENEFÍCIOS
+	// ========================================
+
+	// Preview do benefício selecionado
+	$('#beneficio_select').on('change', function() {
+		var selectedOption = $(this).find('option:selected');
+		var preview = $('#beneficio_preview');
+		var cor = $('#cor_beneficio').val();
+		
+		if (selectedOption.val()) {
+			var titulo = selectedOption.data('titulo');
+			var svgCode = selectedOption.data('svg');
+			
+			var previewHtml = '<div style="color: ' + cor + ';">' + svgCode + '</div>';
+			previewHtml += '<h6 class="mt-2">' + titulo + '</h6>';
+			
+			var valor = $('#valor_personalizado').val();
+			if (valor) {
+				previewHtml += '<small class="text-muted">' + valor + '</small>';
+			}
+			
+			preview.html(previewHtml);
+		} else {
+			preview.html('<span class="text-muted"><i class="fas fa-star fa-2x"></i><br><small>Selecione um benefício</small></span>');
+		}
+	});
+
+	// Atualizar preview quando cor ou valor mudar
+	$('#cor_beneficio, #cor_hex_input, #valor_personalizado').on('change input', function() {
+		$('#beneficio_select').trigger('change');
+	});
+
+	// Sincronizar color picker com input hex
+	$('#cor_beneficio').on('change input', function() {
+		var color = $(this).val();
+		var hex = color.replace('#', '').toUpperCase();
+		$('#cor_hex_input').val(hex);
+	});
+
+	// Sincronizar input hex com color picker
+	$('#cor_hex_input').on('input', function() {
+		var hex = $(this).val().replace('#', '');
+		
+		// Validar se é um hex válido (6 caracteres hexadecimais)
+		if (/^[0-9A-Fa-f]{6}$/.test(hex)) {
+			$(this).removeClass('is-invalid').addClass('is-valid');
+			$('#cor_beneficio').val('#' + hex);
+		} else if (hex.length === 0) {
+			$(this).removeClass('is-invalid is-valid');
+		} else {
+			$(this).removeClass('is-valid').addClass('is-invalid');
+		}
+	});
+
+	// Validação adicional no blur para garantir formato correto
+	$('#cor_hex_input').on('blur', function() {
+		var hex = $(this).val().replace('#', '');
+		
+		if (hex.length > 0) {
+			// Se não for válido, reverter para a cor atual do color picker
+			if (!/^[0-9A-Fa-f]{6}$/.test(hex)) {
+				var currentColor = $('#cor_beneficio').val();
+				var currentHex = currentColor.replace('#', '').toUpperCase();
+				$(this).val(currentHex);
+				$(this).removeClass('is-invalid').addClass('is-valid');
+			} else {
+				// Padronizar para maiúsculo
+				$(this).val(hex.toUpperCase());
+				$(this).removeClass('is-invalid').addClass('is-valid');
+			}
+		}
+	});
+
+	// Função para obter ID do empreendimento
+	function getEmpreendimentoId() {
+		{% if empreendimento_id %}
+			return {{ empreendimento_id }};
+		{% else %}
+			return null;
+		{% endif %}
+	}
+
+	// Adicionar benefício
+	$('#btn_adicionar_beneficio').on('click', function() {
+		var btn = $(this);
+		var beneficioId = $('#beneficio_select').val();
+		var valorPersonalizado = $('#valor_personalizado').val();
+		var corHex = $('#cor_beneficio').val();
+		var empreendimentoId = getEmpreendimentoId();
+
+		// Validações
+		if (!beneficioId) {
+			alert('Por favor, selecione um benefício.');
+			return;
+		}
+
+		if (!empreendimentoId) {
+			alert('Este empreendimento precisa ser salvo antes de adicionar benefícios.');
+			return;
+		}
+
+		// Verificar se já existe
+		var existente = $('#beneficios_lista').find('[data-beneficio-id="' + beneficioId + '"]');
+		if (existente.length > 0) {
+			alert('Este benefício já foi adicionado ao empreendimento.');
+			return;
+		}
+
+		// Desabilitar botão
+		btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Adicionando...');
+
+		// Requisição AJAX
+		$.ajax({
+			url: '{{ path('s_empreendimentos_adicionar_beneficio') }}',
+			method: 'POST',
+			data: {
+				empreendimento_id: empreendimentoId,
+				beneficio_id: beneficioId,
+				valor_personalizado: valorPersonalizado,
+				cor_hex: corHex
+			},
+			dataType: 'json',
+			success: function(response) {
+				if (response.success) {
+					// Adicionar à lista
+					adicionarBeneficioLista(response.data);
+					
+					// Limpar formulário
+					limparFormularioBeneficio();
+					
+					// Mostrar sucesso
+					showNotification('success', response.message);
+				} else {
+					alert('Erro: ' + response.message);
+				}
+			},
+			error: function(xhr, status, error) {
+				console.error('Erro AJAX:', error);
+				alert('Erro ao adicionar benefício. Tente novamente.');
+			},
+			complete: function() {
+				// Reabilitar botão
+				btn.prop('disabled', false).html('<i class="fas fa-plus"></i> Adicionar Benefício');
+			}
+		});
+	});
+
+	// Função para adicionar benefício à lista
+	function adicionarBeneficioLista(data) {
+		var html = '<div class="col-md-6 mb-3 beneficio-item" data-id="' + data.id + '" data-beneficio-id="' + data.beneficio_id + '">';
+		html += '<div class="card">';
+		html += '<div class="card-body p-3">';
+		html += '<div class="row align-items-center">';
+		html += '<div class="col-2 text-center">';
+		html += '<div style="width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; color: ' + data.cor_hex + ';">';
+		html += data.svg_code;
+		html += '</div>';
+		html += '</div>';
+		html += '<div class="col-7">';
+		html += '<h6 class="mb-1">' + data.titulo + '</h6>';
+		if (data.valor_personalizado) {
+			html += '<small class="text-muted">' + data.valor_personalizado + '</small>';
+		}
+		html += '</div>';
+		html += '<div class="col-3 text-right">';
+		html += '<button type="button" class="btn btn-sm btn-danger btn-remover-beneficio" data-id="' + data.id + '">';
+		html += '<i class="fas fa-times"></i>';
+		html += '</button>';
+		html += '</div>';
+		html += '</div>';
+		html += '</div>';
+		html += '</div>';
+		html += '</div>';
+
+		$('#beneficios_lista').append(html);
+		$('#beneficios_empty').hide();
+	}
+
+	// Função para limpar formulário
+	function limparFormularioBeneficio() {
+		$('#beneficio_select').val('').trigger('change');
+		$('#valor_personalizado').val('');
+		$('#cor_beneficio').val('#000000');
+		$('#cor_hex_input').val('000000').removeClass('is-invalid is-valid');
+		$('#beneficio_preview').html('<span class="text-muted"><i class="fas fa-star fa-2x"></i><br><small>Selecione um benefício</small></span>');
+	}
+
+	// Remover benefício (delegação de eventos)
+	$(document).on('click', '.btn-remover-beneficio', function() {
+		var btn = $(this);
+		var id = btn.data('id');
+		var beneficioItem = btn.closest('.beneficio-item');
+
+		if (!confirm('Tem certeza que deseja remover este benefício?')) {
+			return;
+		}
+
+		// Desabilitar botão
+		btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i>');
+
+		// Requisição AJAX
+		$.ajax({
+			url: '{{ path('s_empreendimentos_remover_beneficio') }}',
+			method: 'POST',
+			data: {
+				id: id
+			},
+			dataType: 'json',
+			success: function(response) {
+				if (response.success) {
+					// Remover da lista com animação
+					beneficioItem.fadeOut(400, function() {
+						$(this).remove();
+						
+						// Verificar se lista ficou vazia
+						if ($('#beneficios_lista .beneficio-item').length === 0) {
+							$('#beneficios_empty').show();
+						}
+					});
+					
+					// Mostrar sucesso
+					showNotification('success', response.message);
+				} else {
+					alert('Erro: ' + response.message);
+					btn.prop('disabled', false).html('<i class="fas fa-times"></i>');
+				}
+			},
+			error: function(xhr, status, error) {
+				console.error('Erro AJAX:', error);
+				alert('Erro ao remover benefício. Tente novamente.');
+				btn.prop('disabled', false).html('<i class="fas fa-times"></i>');
+			}
+		});
+	});
+
+	// Função auxiliar para mostrar notificações
+	function showNotification(type, message) {
+		var alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+		var iconClass = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
+		
+		var notification = $('<div class="alert ' + alertClass + ' alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;">' +
+			'<i class="fas ' + iconClass + '"></i> ' + message +
+			'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+			'<span aria-hidden="true">&times;</span>' +
+			'</button>' +
+			'</div>');
+		
+		$('body').append(notification);
+		
+		// Auto-remover após 5 segundos
+		setTimeout(function() {
+			notification.alert('close');
+		}, 5000);
+	}
 
 	}); // Fechamento da função principal $(function () {
 	</script>

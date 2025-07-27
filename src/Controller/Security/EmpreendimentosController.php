@@ -50,6 +50,150 @@ class EmpreendimentosController extends ContainerAware
     }
 
     /**
+     * @return array
+     */
+    private function getBeneficiosDisponiveis()
+    {
+        return $this->db()->fetchAll('
+            SELECT id, titulo, svg_code 
+            FROM `beneficios_empreendimentos` 
+            WHERE `enabled` = 1 
+            ORDER BY `order` ASC, `titulo` ASC
+        ');
+    }
+
+    /**
+     * @param int $empreendimento_id
+     * @return array
+     */
+    private function getBeneficiosEmpreendimento($empreendimento_id)
+    {
+        return $this->db()->fetchAll('
+            SELECT eb.*, be.titulo, be.svg_code 
+            FROM `empreendimentos_beneficios` eb
+            INNER JOIN `beneficios_empreendimentos` be ON eb.beneficio_id = be.id
+            WHERE eb.empreendimento_id = ? AND eb.enabled = 1
+            ORDER BY eb.order ASC
+        ', array($empreendimento_id));
+    }
+
+    /**
+     * Adicionar benefício ao empreendimento
+     */
+    public function adicionarBeneficioAction(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->json(array('success' => false, 'message' => 'Requisição inválida'));
+        }
+
+        $empreendimento_id = $request->request->get('empreendimento_id');
+        $beneficio_id = $request->request->get('beneficio_id');
+        $valor_personalizado = $request->request->get('valor_personalizado');
+        $cor_hex = $request->request->get('cor_hex');
+
+        // Validações
+        if (!$empreendimento_id || !$beneficio_id) {
+            return $this->json(array('success' => false, 'message' => 'Dados obrigatórios não fornecidos'));
+        }
+
+        // Verificar se empreendimento existe
+        $empreendimento = $this->db()->fetchAssoc('SELECT id FROM `empreendimentos` WHERE id = ?', array($empreendimento_id));
+        if (!$empreendimento) {
+            return $this->json(array('success' => false, 'message' => 'Empreendimento não encontrado'));
+        }
+
+        // Verificar se benefício existe
+        $beneficio = $this->db()->fetchAssoc('SELECT id, titulo, svg_code FROM `beneficios_empreendimentos` WHERE id = ? AND enabled = 1', array($beneficio_id));
+        if (!$beneficio) {
+            return $this->json(array('success' => false, 'message' => 'Benefício não encontrado'));
+        }
+
+        // Verificar se já existe
+        $existente = $this->db()->fetchAssoc('SELECT id FROM `empreendimentos_beneficios` WHERE empreendimento_id = ? AND beneficio_id = ?', array($empreendimento_id, $beneficio_id));
+        if ($existente) {
+            return $this->json(array('success' => false, 'message' => 'Este benefício já foi adicionado ao empreendimento'));
+        }
+
+        // Validar cor hexadecimal
+        if (!$cor_hex || !preg_match('/^#[0-9A-Fa-f]{6}$/', $cor_hex)) {
+            $cor_hex = '#000000';
+        }
+
+        // Validar valor personalizado
+        if (strlen($valor_personalizado) > 120) {
+            $valor_personalizado = substr($valor_personalizado, 0, 120);
+        }
+
+        // Obter próxima ordem
+        $max_order = $this->db()->fetchAssoc('SELECT MAX(`order`) as max_order FROM `empreendimentos_beneficios` WHERE empreendimento_id = ?', array($empreendimento_id));
+        $next_order = ($max_order['max_order'] ? $max_order['max_order'] : 0) + 1;
+
+        try {
+            // Inserir no banco
+            $insert_query = 'INSERT INTO `empreendimentos_beneficios` 
+                (`empreendimento_id`, `beneficio_id`, `valor_personalizado`, `cor_hex`, `order`, `enabled`, `created_at`, `updated_at`) 
+                VALUES (?, ?, ?, ?, ?, 1, NOW(), NOW())';
+            
+            $this->db()->executeUpdate($insert_query, array(
+                $empreendimento_id,
+                $beneficio_id,
+                $valor_personalizado,
+                $cor_hex,
+                $next_order
+            ));
+
+            $novo_id = $this->db()->lastInsertId();
+
+            return $this->json(array(
+                'success' => true,
+                'message' => 'Benefício adicionado com sucesso',
+                'data' => array(
+                    'id' => $novo_id,
+                    'beneficio_id' => $beneficio_id,
+                    'titulo' => $beneficio['titulo'],
+                    'svg_code' => $beneficio['svg_code'],
+                    'valor_personalizado' => $valor_personalizado,
+                    'cor_hex' => $cor_hex,
+                    'order' => $next_order
+                )
+            ));
+        } catch (\Exception $e) {
+            return $this->json(array('success' => false, 'message' => 'Erro ao adicionar benefício: ' . $e->getMessage()));
+        }
+    }
+
+    /**
+     * Remover benefício do empreendimento
+     */
+    public function removerBeneficioAction(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->json(array('success' => false, 'message' => 'Requisição inválida'));
+        }
+
+        $id = $request->request->get('id');
+
+        if (!$id) {
+            return $this->json(array('success' => false, 'message' => 'ID não fornecido'));
+        }
+
+        try {
+            // Verificar se existe
+            $beneficio = $this->db()->fetchAssoc('SELECT id FROM `empreendimentos_beneficios` WHERE id = ?', array($id));
+            if (!$beneficio) {
+                return $this->json(array('success' => false, 'message' => 'Benefício não encontrado'));
+            }
+
+            // Remover
+            $this->db()->executeUpdate('DELETE FROM `empreendimentos_beneficios` WHERE id = ? LIMIT 1', array($id));
+
+            return $this->json(array('success' => true, 'message' => 'Benefício removido com sucesso'));
+        } catch (\Exception $e) {
+            return $this->json(array('success' => false, 'message' => 'Erro ao remover benefício: ' . $e->getMessage()));
+        }
+    }
+
+    /**
      * Processar múltiplas imagens da galeria
      */
     private function processarGaleriaImagens($galeria_imagens, $empreendimento_id)
@@ -277,6 +421,8 @@ class EmpreendimentosController extends ContainerAware
     {
         $empreendimento = array(
             'etapas_choices' => $this->getChoiceEtapas(),
+            'beneficios_disponiveis' => $this->getBeneficiosDisponiveis(),
+            'beneficios_selecionados' => array(),
         );
 
         $form = $this->createForm(new EmpreendimentosForm(), $empreendimento, array(
@@ -384,6 +530,9 @@ class EmpreendimentosController extends ContainerAware
 
         return $this->render('create.twig', array(
             'form' => $form->createView(),
+            'beneficios_disponiveis' => $this->getBeneficiosDisponiveis(),
+            'beneficios_selecionados' => array(),
+            'empreendimento_id' => null,
         ));
     }
 
@@ -409,6 +558,8 @@ class EmpreendimentosController extends ContainerAware
         $empreendimento['enabled'] = (bool) $empreendimento['enabled'];
 
         $empreendimento['etapas_choices'] = $this->getChoiceEtapas();
+        $empreendimento['beneficios_disponiveis'] = $this->getBeneficiosDisponiveis();
+        $empreendimento['beneficios_selecionados'] = $this->getBeneficiosEmpreendimento($id);
 
         $form = $this->createForm(new EmpreendimentosForm(), $empreendimento, array(
             'action' => $this->get('url_generator')->generate('s_empreendimentos_edit', array('id' => $id)),
@@ -545,6 +696,9 @@ class EmpreendimentosController extends ContainerAware
             'form' => $form->createView(),
             'id' => $id,
             'galeria_existente' => $galeria_existente,
+            'beneficios_disponiveis' => $this->getBeneficiosDisponiveis(),
+            'beneficios_selecionados' => $this->getBeneficiosEmpreendimento($id),
+            'empreendimento_id' => $id,
         ));
     }
 
