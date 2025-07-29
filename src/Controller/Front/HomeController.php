@@ -19,7 +19,7 @@ class HomeController extends ContainerAware
         $banner_mobile = $this->get('db')->fetchAll("SELECT * FROM banner where enabled = 2 and type=1 order by id ");        
 
         $empreendimentos = $this->get('db')->fetchAll("SELECT e.*,oe.titulo as titulo_obra, oe.cor_hex FROM empreendimentos e inner join obra_etapas oe on oe.id = e.etapa_id where e.enabled = 1 order by e.`order`");        
-
+        $depoimentos = $this->get('db')->fetchAll("SELECT * FROM depoimentos where enabled = 1 order by rand() limit 3 ");     
         
         $this->get('db')->close();
         //dd($baixar_facil);
@@ -28,6 +28,7 @@ class HomeController extends ContainerAware
             'banner' => $banner,
             'banner_mobile' => $banner_mobile,
             'empreendimentos' => $empreendimentos,
+            'depoimentos' => $depoimentos,
 
         ));
     }

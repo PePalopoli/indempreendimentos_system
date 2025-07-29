@@ -893,6 +893,8 @@
       font-style: normal;
       font-weight: 700;
       line-height: 124.777%; /* 29.947px */
+      min-height: 60px;
+      display: block;
       
     }
     .texto-depoimento p{
@@ -901,7 +903,8 @@
       font-size: 20px;
       font-style: normal;
       font-weight: 400;
-      line-height: 190%; /* 38px */
+      line-height: 30px;
+      margin-top: 2%;
     }
 
     .iframe-depoimento iframe{

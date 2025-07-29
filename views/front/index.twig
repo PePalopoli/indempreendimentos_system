@@ -254,40 +254,24 @@
             </div>
 
             <div class="lista-depoimentos row py-5 px-0">
+                {% for item in depoimentos %}
                 <div class="cada-depoimento col-md-4 col-lg-4 col-sm-12">
                     <div class="iframe-depoimento">
-                        <iframe width="100%" height="600" src="https://www.youtube.com/embed/GB10PuR4qR4" title="Depoimento 8 Bella Vista I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <iframe width="100%" height="600" src="https://www.youtube.com/embed/{{item.youtube_id}}" title="{{item.titulo}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                     <div class="texto-depoimento py-3">
-                        <span>Lorem ipsum</span>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id metus id dolor rutrum rhoncus sit amet ut elit. Maecenas auctor sollicitudin lectus sed vulputate. </p>
+                        <span>{{item.titulo|raw}}</span>
+                        {{item.texto|raw}}
                     </div>
                 </div>
+                {% endfor %}
 
-                <div class="cada-depoimento col-md-4 col-lg-4 col-sm-12">
-                    <div class="iframe-depoimento">
-                        <iframe width="100%" height="600" src="https://www.youtube.com/embed/GB10PuR4qR4" title="Depoimento 8 Bella Vista I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="texto-depoimento py-3">
-                        <span>Lorem ipsum</span>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id metus id dolor rutrum rhoncus sit amet ut elit. Maecenas auctor sollicitudin lectus sed vulputate. </p>
-                    </div>
-                </div>
 
-                <div class="cada-depoimento col-md-4 col-lg-4 col-sm-12">
-                    <div class="iframe-depoimento">
-                        <iframe width="100%" height="600" src="https://www.youtube.com/embed/GB10PuR4qR4" title="Depoimento 8 Bella Vista I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-                    <div class="texto-depoimento py-3">
-                        <span>Lorem ipsum</span>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id metus id dolor rutrum rhoncus sit amet ut elit. Maecenas auctor sollicitudin lectus sed vulputate. </p>
-                    </div>
-                </div>
-            </div>
+               
 
             <div class="posicao-btn-ver-todos py-0">
                 <div class="col-md-3 col-lg-3 col-10 btn-ver-todos-empreendimentos">
-                    <a href="">Ver mais depoimentos</a>
+                    <a href="https://www.youtube.com/watch?v=GB10PuR4qR4&list=PLxdG_rs20o3odGBwdveJVGKk4DBLnvsQB" target="_blank">Ver mais depoimentos</a>
                 </div>
             </div>
         </div>

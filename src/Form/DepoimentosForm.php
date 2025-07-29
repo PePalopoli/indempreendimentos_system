@@ -99,11 +99,8 @@ class DepoimentosForm extends AbstractType
                 'constraints' => array(
                     new Assert\Image($image_valid),
                 ),
-            ))
-            ->add('destaque', 'checkbox', array(
-                'required' => false,
-                'label' => 'Depoimento em Destaque',
-            ))
+            ))            
+            ->add('destaque', new StatusType())
             ->add('enabled', new StatusType())
         ;
     }
