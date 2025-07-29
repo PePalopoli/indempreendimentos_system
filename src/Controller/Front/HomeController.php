@@ -34,6 +34,135 @@ class HomeController extends ContainerAware
     }
 
 
+    public function SobreAction ()
+    {        
+        
+        $this->get('db')->close();
+        //dd($baixar_facil);
+
+        return $this->render('/front/sobre_nos.twig', array(
+            
+
+        ));
+    }
+
+    public function ContatoAction ()
+    {        
+        
+        $this->get('db')->close();
+        //dd($baixar_facil);
+
+        return $this->render('/front/contato.twig', array(
+            
+
+        ));
+    }
+
+    public function TodasNoticiasAction ()
+    {        
+        $noticias = $this->get('db')->fetchAll("SELECT bp.*, bc.titulo as categoria_titulo FROM blog_post bp inner join blog_categoria bc on bc.id = bp.categoria_id where bp.enabled = 1 order by id desc");
+        $noticias_destaque = $this->get('db')->fetchAll("SELECT bp.*, bc.titulo as categoria_titulo FROM blog_post bp inner join blog_categoria bc on bc.id = bp.categoria_id where bp.enabled = 1 and bp.destaque = 1 order by id desc");
+        $this->get('db')->close();
+        //dd($baixar_facil);
+
+        return $this->render('/front/todas_noticias.twig', array(
+            'noticias' => $noticias,
+            'noticias_destaque' => $noticias_destaque,
+        ));
+    }
+
+    public function InternaNoticiaAction ($url_blog)
+    {        
+        $noticia = $this->get('db')->fetchAssoc("SELECT bp.*, bc.titulo as categoria_titulo FROM blog_post bp inner join blog_categoria bc on bc.id = bp.categoria_id where bp.enabled = 1 and bp.slug = ?", array($url_blog));
+        $noticias = $this->get('db')->fetchAll("SELECT bp.*, bc.titulo as categoria_titulo FROM blog_post bp inner join blog_categoria bc on bc.id = bp.categoria_id where bp.enabled = 1 order by id desc");
+        $this->get('db')->close();
+        //dd($baixar_facil);
+        // $this->seo()->setTitle($noticia['titulo']);
+        // $this->seo()->setDescription($noticia['resumo']);
+        // $this->seo()->setCanonical($this->request->getUri());
+        // $this->seo()->setImage($noticia['imagem_capa']);
+        // $this->seo()->setTwitterCard('summary_large_image');
+        // $this->seo()->setTwitterImage($noticia['imagem_capa']);
+        
+
+        return $this->render('/front/interna_noticia.twig', array(
+            'noticia' => $noticia,            
+            'noticias' => $noticias,
+        ));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     public function MobileMarketingAction ()
     {

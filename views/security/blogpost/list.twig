@@ -28,9 +28,9 @@
 										<th>Título</th>
 										<th>Categoria</th>
 										<th>Autor</th>
-										<th>Views</th>
+										
 										<th>Destaque</th>
-										<th>Status</th>
+										
 										<th>Data Publicação</th>
 										<th>Data última alteração</th>
 										<th class="cell-actions">Ações</th>
@@ -42,9 +42,9 @@
 										<th>Título</th>
 										<th>Categoria</th>
 										<th>Autor</th>
-										<th>Views</th>
+										
 										<th>Destaque</th>
-										<th>Status</th>
+										
 										<th>Data Publicação</th>
 										<th>Data última alteração</th>
 										<th class="cell-actions">Ações</th>
@@ -56,9 +56,9 @@
 											<tr>
 												<td>{{ item.id }}</td>
 												<td>{{ item.titulo }}</td>
-												<td>{{ item.categoria ? item.categoria.nome : 'Sem categoria' }}</td>
+												<td>{{ item.categoria_titulo ? item.categoria_titulo : 'Sem categoria' }}</td>
 												<td>{{ item.autor }}</td>
-												<td><span class="badge badge-info">{{ item.views }}</span></td>
+												
 												<td>
 													{% if item.destaque %}
 														<span class="label label-warning">Destaque</span>
@@ -66,13 +66,7 @@
 														<span class="label label-secondary">Normal</span>
 													{% endif %}
 												</td>
-												<td>
-													{% if item.publicado %}
-														<span class="label label-success">Publicado</span>
-													{% else %}
-														<span class="label label-danger">Rascunho</span>
-													{% endif %}
-												</td>
+												
 												<td>{{ item.data_publicacao|date('d/m/Y h:i:s') }}</td>
 												<td>{{ item.updated_at|date('d/m/Y h:i:s') }}</td>
 												<td>

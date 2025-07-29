@@ -72,7 +72,7 @@
                         <ul class="col-12 navbar-nav lista-menus-texto">
 
                             <li class="nav-item">
-                                <a class="nav-link" href="#" data-scroll-nav="1">
+                                <a class="nav-link" href="{{path('web_home')}}" data-scroll-nav="1">
                                     <div class="nav-link-top">
                                         <span class="text-wrapper-2">Home</span>
                                     </div>
@@ -80,7 +80,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="#" data-scroll-nav="1">
+                                <a class="nav-link" href="{{path('web_sobre')}}" data-scroll-nav="1">
                                     <div class="nav-link-top">
                                         <span class="text-wrapper-2">Sobre nós</span>
                                     </div>
@@ -107,7 +107,7 @@
 
 
                             <li class="nav-item">
-                                <a class="nav-link" href="#" data-scroll-nav="1">
+                                <a class="nav-link" href="{{path('web_todas_noticias')}}">
                                     <div class="nav-link-top">
                                         <span class="text-wrapper-2">Notícias</span>
                                     </div>
@@ -132,7 +132,7 @@
 
 
                             <li class="nav-item">
-                                <a class="nav-link" href="#" data-scroll-nav="1">
+                                <a class="nav-link" href="{{ getUrlBoleto()|raw }}" target="_blank" >
                                     <div class="nav-link-top-btn">
                                         <div class="text-wrapper-3">2ª Via de Boletos</div>
                                     </div>
@@ -140,7 +140,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="#" data-scroll-nav="1">
+                                <a class="nav-link" href="{{ getUrlSistema()|raw }}" target="_blank" >
                                     <div class="nav-link-top-btn">
                                         <div class="text-wrapper-3">Portal do Cliente</div>
                                     </div>
@@ -266,16 +266,16 @@
                 </div>
                 <div class="bloco-menus-footer">
                     <div class="col-12 cada-menu-footer">
-                        <a href="">Home</a>
+                        <a href="{{path('web_home')}}">Home</a>
                     </div>
                     <div class="col-12 cada-menu-footer">
-                        <a href="">Sobre nós</a>
+                        <a href="{{path('web_sobre')}}">Sobre nós</a>
                     </div>
                     <div class="col-12 cada-menu-footer">
                         <a href="">Empreendimentos</a>
                     </div>
                     <div class="col-12 cada-menu-footer">
-                        <a href="">Contato</a>
+                        <a href="{{path('web_contato')}}">Contato</a>
                     </div>
                 </div>
             </div>
@@ -286,10 +286,10 @@
                 </div>
                 <div class="bloco-menus-footer">
                     <div class="col-12 cada-menu-footer">
-                        <a href="">2ª via de boletos</a>
+                        <a href="{{ getUrlBoleto()|raw }}" target="_blank">2ª via de boletos</a>
                     </div>
                     <div class="col-12 cada-menu-footer">
-                        <a href="">Portal do cliente</a>
+                        <a href="{{ getUrlSistema()|raw }}" target="_blank">Portal do cliente</a>
                     </div>
                     <div class="col-12 cada-menu-footer">
                         <a href="">Notícias</a>

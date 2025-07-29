@@ -24,6 +24,8 @@ class AssetTwigFunction extends TwigContainerAware
             new \Twig_SimpleFunction('asset', array($this, 'find')),
             new \Twig_SimpleFunction('format_date', array($this, 'format_date')),
             new \Twig_SimpleFunction('formatCSRF', array($this, 'formatCSRF')),
+            new \Twig_SimpleFunction('getUrlBoleto', array($this, 'getUrlBoleto')),
+            new \Twig_SimpleFunction('getUrlSistema', array($this, 'getUrlSistema')),
         );
     }
 
@@ -67,4 +69,13 @@ class AssetTwigFunction extends TwigContainerAware
         $token = base64_encode($data . ':' . hash_hmac('sha256', $data, $secret));
         return $token;
     }
+    public function getUrlBoleto()
+    {        
+        return "https://fidelixadvogados.com.br/boletos/index.php";
+    }
+    public function getUrlSistema()
+    {        
+        return "https://indempreendimentos.cvcrm.com.br/cliente";
+    }
+    
 }

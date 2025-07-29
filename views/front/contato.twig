@@ -2,60 +2,128 @@
 {% extends 'front/layout.twig' %}
 
 {% block content %}
-<!-- Contact Hero Section -->
-    <section class="contact-hero-section">
-        <div class="contact-hero-container">
-            <div class="contact-hero-content">
-                <h2 class="contact-hero-subtitle">NÃO BASTA<br>SER BOM.</h2>
-                <h1 class="contact-hero-title">É PRECISO SER<br><span>Booster.</span></h1>
-            </div>
-        </div>
-    </section>
+<section class="section-contato-interna" data-scroll-index='1'>
+    <div class="container">
+        <div class="conteudo-todo-contato-interna row">
+            <div class="col-md-6 col-lg-6 col-12 contato-form">
+                <div class="col-12 chamada-paginas-h2">
+                    <h2>Nossa equipe está à disposição para atendê-lo</h2>
+                </div>
 
-    <!-- Contact Form & Info Section -->
-    <section class="contact-form-info-section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <!-- Coluna de Informações (Esquerda) -->
-                <div class="col-lg-6 contact-info-col">
-                    <h2 class="info-title" data-aos="fade-up" data-aos-duration="1000">Conectamos seu app ao público certo.<br><strong>Aquele que fica.</strong></h2>
-                    <p class="info-text" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-                        Você está prestes a ter a melhor estratégia para sua marca. Mas para isso, basta responder algumas perguntas para que nosso time entre em contato.
+                <div class="col-12 chamada-paginas-p">
+                    <p>
+                        Para receber o atendimento do nosso time, por favor, preencha os dados abaixo.
                     </p>
-                    <hr class="info-divider" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
-                    <div class="address-block" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
-                        <h4>São Paulo/SP</h4>
-                        <p>Avenida Paulista, 302, 9º andar<br>Bela Vista<br>CEP: 01310-000</p>
-                    </div>
-                    <div class="address-block" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
-                        <h4>Presidente Prudente/SP</h4>
-                        <p>Rua Nicolau Cacciatori, 489<br>Jardim dos Pioneiros<br>CEP: 19050-340</p>
-                    </div>
                 </div>
-                <!-- Coluna do Formulário (Direita) -->
-                <div class="col-lg-6 contact-form-col">
-                    <form class="main-contact-form" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="500" action="{{path('web_contato_send')}}" method="post">
-                        <div class="form-group mb-3">
-                            <label for="contactName" class="form-label">Nome:</label>
-                            <input type="text" class="form-control"  name="iNome" id="iNome" required>
+
+
+                <form action="#" method="post" id="form-contato-{{menu_pagina}}" name="form-contato-{{menu_pagina}}">
+                    <div class="form-row">
+                        <div class="form-group col-md-12 col-lg-12 col-12">
+                            <label for="iName">Nome:<span>*</span></label>
+                            <input type="text" class="form-control" id="iName" name="iName" placeholder="DIGITE SEU NOME AQUI">
                         </div>
-                        <div class="form-group mb-3">
-                            <label for="contactEmail" class="form-label">E-mail:</label>
-                            <input type="email" class="form-control"  name="iEmail" id="iEmail" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-lg-6 col-12">
+                            <label for="iEmail">Email:<span>*</span></label>
+                            <input type="text" class="form-control" id="iEmail" name="iEmail" placeholder="DIGITE SEU E-MAIL AQUI">
                         </div>
-                        <div class="form-group mb-3">
-                            <label for="contactPhone" class="form-label">Telefone:</label>
-                            <input type="tel" class="form-control"  name="iTelefone" id="iTelefone" required>
+                        <div class="form-group col-md-6 col-lg-6 col-12">
+                            <label for="iTelefone">Whatasapp:<span>*</span></label>
+                            <input type="text" class="form-control" id="iTelefone" name="iTelefone" placeholder="DIGITE SEU WHATSAPP AQUI">
                         </div>
-                        <div class="form-group mb-4">
-                            <label for="contactCompany" class="form-label">Nome da Empresa:</label>
-                            <input type="text" class="form-control"  name="iEmpresa" id="iEmpresa" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12 col-lg-12 col-12">
+                            <label for="iMsg">Assunto:<span>*</span></label>
+                            <textarea class="form-control" id="iMsg" name="iMsg" placeholder="DIGITE O QUE GOSTARIA DE NOS FALAR AQUI" rows="4"></textarea>
+
                         </div>
-                        <button type="submit" class="btn btn-primary contact-submit-btn">ENVIAR ></button>
-                    </form>
-                </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enviar mensagem</button>
+                </form>
+
             </div>
+            <div class="col-md-6 col-lg-6 col-12 bloco-img-interna-contato">
+                <img src="{{asset('imgs/img_contato_interna.png')}}" alt="" class="img-fluid">
+
+            </div>
+
+            <div class="linha-quebra"></div>
         </div>
-    </section>
+    </div>
+</section>
+
+<section class="section-contato-interna" data-scroll-index='1'>
+    <div class="container">
+        <div class="conteudo-todo-contato-interna row">
+            <div class="col-md-7 col-lg-7 col-12 bloco-mapa">
+
+                <div class="col-12 chamada-paginas-h2">
+                    <h2>Onde estamos</h2>
+                </div>
+
+                <div class="iframe-mapa">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3695.9172411436407!2d-51.42416538815012!3d-22.129130879725725!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9494738598346bd9%3A0x7b585f04fb8355a8!2sInd%20Empreendimentos!5e0!3m2!1spt-BR!2sbr!4v1747506855612!5m2!1spt-BR!2sbr" 
+                        width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+
+            </div>
+
+            <div class="col-md-5 col-lg-5 col-12 bloco-atendimetnos">
+                <div class="col-12 chamada-paginas-h2">
+                    <h2>Atendimento</h2>
+                </div>
+
+                <div class="bloco-contatos-contato">
+
+                    <div class="cada-contato-interno">
+                        <div class=" icone-contato-interno">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M1.24375 3.39531L3.73984 0.901563C3.91592 0.724712 4.1252 0.584392 4.35567 0.488665C4.58614 0.392938 4.83325 0.34369 5.08281 0.34375C5.5914 0.34375 6.06953 0.542969 6.42812 0.901563L9.11406 3.5875C9.29091 3.76358 9.43123 3.97286 9.52696 4.20333C9.62269 4.4338 9.67193 4.68091 9.67187 4.93047C9.67187 5.43906 9.47266 5.91719 9.11406 6.27578L7.15 8.23984C7.60974 9.25319 8.24893 10.175 9.03672 10.9609C9.82253 11.7506 10.7443 12.3922 11.7578 12.8547L13.7219 10.8906C13.898 10.7138 14.1072 10.5735 14.3377 10.4777C14.5682 10.382 14.8153 10.3328 15.0648 10.3328C15.5734 10.3328 16.0516 10.532 16.4102 10.8906L19.0984 13.5742C19.2755 13.7506 19.4159 13.9603 19.5117 14.1912C19.6074 14.4221 19.6565 14.6696 19.6562 14.9195C19.6562 15.4281 19.457 15.9062 19.0984 16.2648L16.607 18.7562C16.0352 19.3305 15.2453 19.6562 14.4344 19.6562C14.2633 19.6562 14.0992 19.6422 13.9375 19.6141C10.7781 19.0938 7.64453 17.4133 5.11562 14.8867C2.58906 12.3625 0.910936 9.23125 0.383593 6.0625C0.224218 5.09453 0.545311 4.09844 1.24375 3.39531Z" fill="#0D873A" />
+                            </svg>
+                        </div>
+                        <div class="texto-contato-interna">
+                            <p>(18) 99644-9986</p>
+                        </div>
+                    </div>
+
+
+                    <div class="cada-contato-interno">
+                        <div class=" icone-contato-interno">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="16" viewBox="0 0 21 16" fill="none">
+                                <path d="M2.6437 0.799805H18.5437C20.0437 0.799805 20.7997 1.5078 20.7997 2.9478V13.0518C20.7997 14.4798 20.0437 15.1998 18.5437 15.1998H2.6437C1.1437 15.1998 0.387695 14.4798 0.387695 13.0518V2.9478C0.387695 1.5078 1.1437 0.799805 2.6437 0.799805ZM10.5877 11.1198L18.6757 4.4838C18.9637 4.2438 19.1917 3.6918 18.8317 3.1998C18.4837 2.7078 17.8477 2.6958 17.4277 2.9958L10.5877 7.6278L3.7597 2.9958C3.3397 2.6958 2.7037 2.7078 2.3557 3.1998C1.9957 3.6918 2.2237 4.2438 2.5117 4.4838L10.5877 11.1198Z" fill="#0D873A" />
+                            </svg>
+                        </div>
+                        <div class="texto-contato-interna">
+                            <p>comercial@indempreendimentos.com.br</p>
+                        </div>
+                    </div>
+
+                    <div class="cada-contato-interno">
+                        <div class=" icone-contato-interno">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M10 0C8.02219 0 6.08879 0.58649 4.4443 1.6853C2.79981 2.78412 1.51809 4.3459 0.761209 6.17316C0.00433284 8.00042 -0.1937 10.0111 0.192152 11.9509C0.578004 13.8907 1.53041 15.6725 2.92894 17.0711C4.32746 18.4696 6.10929 19.422 8.0491 19.8078C9.98891 20.1937 11.9996 19.9957 13.8268 19.2388C15.6541 18.4819 17.2159 17.2002 18.3147 15.5557C19.4135 13.9112 20 11.9778 20 10C20 7.34783 18.9464 4.8043 17.0711 2.92893C15.1957 1.05357 12.6522 0 10 0ZM13.7692 13.7692C13.6974 13.8405 13.6121 13.8969 13.5184 13.9352C13.4247 13.9735 13.3243 13.9929 13.2231 13.9923C13.1218 13.9929 13.0215 13.9735 12.9278 13.9352C12.834 13.8969 12.7488 13.8405 12.6769 13.7692L9.45385 10.5462C9.38256 10.4743 9.32615 10.389 9.28787 10.2953C9.24959 10.2016 9.23019 10.1012 9.23077 10V3.84615C9.23077 3.64214 9.31182 3.44648 9.45607 3.30222C9.60033 3.15797 9.79599 3.07692 10 3.07692C10.204 3.07692 10.3997 3.15797 10.5439 3.30222C10.6882 3.44648 10.7692 3.64214 10.7692 3.84615V9.67692L13.7692 12.6692C13.8425 12.7409 13.9007 12.8264 13.9405 12.9209C13.9802 13.0153 14.0007 13.1168 14.0007 13.2192C14.0007 13.3217 13.9802 13.4231 13.9405 13.5176C13.9007 13.612 13.8425 13.6976 13.7692 13.7692Z" fill="#0D873A" />
+                            </svg>
+                        </div>
+                        <div class="texto-contato-interna">
+                            <p>Segunda a sexta: 8h às 12h | 13h30 às 18h
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+
+
 
 {% endblock %}

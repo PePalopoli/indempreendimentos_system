@@ -103,19 +103,20 @@ class BlogPostForm extends AbstractType
                     )),
                 ),
             ))
-            ->add('data_publicacao', 'datetime', array(
-                'required' => false,
-                'label' => 'Data de Publicação',
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd HH:mm',
-                'attr' => array(
-                    'class' => 'form-control',
-                ),
-            ))
-            ->add('destaque', 'checkbox', array(
-                'required' => false,
-                'label' => 'Post em Destaque',
-            ))
+            // ->add('data_publicacao', 'datetime', array(
+            //     'required' => false,
+            //     'label' => 'Data de Publicação',
+            //     'widget' => 'single_text',
+            //     'format' => 'yyyy-MM-dd HH:mm',
+            //     'attr' => array(
+            //         'class' => 'form-control',
+            //     ),
+            // ))
+            // ->add('destaque', 'checkbox', array(
+            //     'required' => false,
+            //     'label' => 'Post em Destaque',
+            // ))
+            ->add('destaque', new StatusType())
             
             // Campos SEO
             ->add('meta_title', 'text', array(

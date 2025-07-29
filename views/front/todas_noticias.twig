@@ -1,0 +1,90 @@
+{% set menu_pagina = 'noticias' %}
+{% extends 'front/layout.twig' %}
+
+{% block content %}
+<section class="section-noticias" data-scroll-index='1'>
+    <div class="container">
+        <div class="conteudo-todo-noticias row">
+            <div class="chamada-noticias">
+                <h2>Em destaque</h2>
+            </div>
+
+            {% for item in noticias_destaque %}
+
+            <div class="bloco-destaque">
+                <div class="col-md-7 col-lg-7 col-12 div-img-destaque">
+                    <img src="{{path('imagem', {'path': 'blog', 'imagem': item.imagem_capa, 'w': 674, 'h': 480, 'fit': 'crop'})}}" alt="" class="img-fluid">
+                </div>
+                <div class="col-md-5 col-lg-5 col-12 div-conteudo-destaque">
+                    <div class="primeira-linha">
+                        <span>{{item.categoria_titulo}}</span>
+                        <p>20 jan 2025</p>
+                    </div>
+                    <div class="segunda-linha">                        
+                        <p>{{item.titulo}}</p>
+                    </div>
+
+                    <div class="terceira-linha">                        
+                        <p>{{item.resumo}}</p>
+                    </div>
+
+                    <div class="quarta-linha">                        
+                        <a href="{{path('web_noticia_interna', {'url_blog': item.slug})}}">+ ver matéria completa</a>
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="linha-quebra-noticias"></div>
+        </div>
+    </div>
+</section>
+
+<section class="section-noticias" data-scroll-index='2'>
+    <div class="container">
+        <div class="conteudo-todo-noticias-recentes row">
+            <div class="chamada-noticias">
+                <h2>Em destaque</h2>
+            </div>
+
+            <div class="bloco-lista-noticias row">
+
+                {% for item in noticias %}
+                    
+                
+                    
+                
+
+                <div class="col-md-4 col-lg-4 col-12 cada-noticia">
+                    <div class="img-cada-noticia">
+                        <img src="{{path('imagem', {'path': 'blog', 'imagem': item.imagem_capa, 'w': 370, 'h': 250, 'fit': 'crop'})}}" alt="" class="img-banner-full-bloco">
+                    </div>
+
+                    <div class="categoria-noticia">
+                        <p>{{item.categoria_titulo}}</p>
+                    </div>
+
+                    <div class="titulo-noticia">
+                        <p>{{item.titulo}}</p>
+                    </div>
+                    <div class="chamada-noticia">
+                        <p>{{item.resumo}}</p>
+                    </div>
+
+                    <div class="link-noticia">                        
+                        <a href="{{path('web_noticia_interna', {'url_blog': item.slug})}}">+ ver matéria completa</a>
+                    </div>
+
+                </div>
+
+                {% endfor %}
+            </div>
+            
+        </div>
+    </div>
+</section>
+{% include  'containers/contato_paginas_internas.twig' %}
+
+
+{% endblock %}
