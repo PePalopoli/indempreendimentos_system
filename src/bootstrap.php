@@ -6,6 +6,8 @@
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
+use Palopoli\PaloSystem\Service\SeoService;
+
 
 $app = new Application();
 
@@ -90,6 +92,7 @@ if ($app['debug']) {
     ));
 }
 
+
 // http://twig.sensiolabs.org/doc/advanced.html#creating-an-extension
 $app['twig']->addExtension(new Palopoli\PaloSystem\Twig\AssetTwigFunction($app));
 
@@ -110,5 +113,13 @@ $app['twig']->addExtension(new Cocur\Slugify\Bridge\Twig\SlugifyExtension(Cocur\
 
 // http://silex.sensiolabs.org/doc/providers/security.html
 $app->register(new Palopoli\PaloSystem\Provider\SecurityServiceProvider());
+
+
+
+
+$app['seo'] = $app->share(function () {
+    return new SeoService();
+});
+// $this->app['twig']->addGlobal('seo', $this->get('seo')->all());
 
 return $app;

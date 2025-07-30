@@ -24,22 +24,24 @@
         integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
     
-    <title>{{ title|default('.:IND EMPREENDIMENTOS:.') }}</title>
-    <meta name="description" content="{{ description|default('Há mais de 30 anos atuando no ramo da construção civil com projetos e soluções de infraestrutura e terraplenagem para residências e empresas de toda a região.') }}">
-    <meta name="keywords" content="{{ keywords|default('Lotes, Terrenos, Empreendimentos, Construção, Infraestrutura, Terraplenagem, Presidente Prudente, São Paulo') }}">
-    <meta name="robots" content="{{ robots|default('index, follow') }}">
-    <link rel="canonical" href="{{ canonical|default(app.request.uri) }}"/>
+    <title>{{ seo.title|default('.:IND EMPREENDIMENTOS:.') }}</title>
+    <meta name="description" content="{{ seo.description|default('Há mais de 30 anos atuando no ramo da construção civil com projetos e soluções de infraestrutura e terraplenagem para residências e empresas de toda a região.') }}">
+    <meta name="keywords" content="{{ seo.keywords|default('Lotes, Terrenos, Empreendimentos, Construção, Infraestrutura, Terraplenagem, Presidente Prudente, São Paulo') }}">
+    <meta name="robots" content="{{ seo.robots|default('index, follow') }}">
+    <meta name="image" content="{{ seo.image|default('imgs/logotipo_ind.svg') }}">
+    <link rel="canonical" href="{{ seo.canonical|default(app.request.uri) }}"/>
+
 
     <!-- Open Graph -->
-    <meta property="og:title" content="{{ title|default('.:IND EMPREENDIMENTOS:.') }}">
-    <meta property="og:description" content="{{ description|default('Há mais de 30 anos atuando no ramo da construção civil com projetos e soluções de infraestrutura e terraplenagem para residências e empresas de toda a região.') }}">
-    <meta property="og:url" content="{{ canonical|default(app.request.uri) }}">
+    <meta property="og:title" content="{{ seo.title|default('.:IND EMPREENDIMENTOS:.') }}">
+    <meta property="og:description" content="{{ seo.description|default('Há mais de 30 anos atuando no ramo da construção civil com projetos e soluções de infraestrutura e terraplenagem para residências e empresas de toda a região.') }}">
+    <meta property="og:url" content="{{ seo.canonical|default(app.request.uri) }}">
     <meta property="og:type" content="website">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ title|default('.:IND EMPREENDIMENTOS:.') }}">
-    <meta name="twitter:description" content="{{ description|default('Há mais de 30 anos atuando no ramo da construção civil com projetos e soluções de infraestrutura e terraplenagem para residências e empresas de toda a região.') }}">
+    <meta name="twitter:title" content="{{ seo.title|default('.:IND EMPREENDIMENTOS:.') }}">
+    <meta name="twitter:description" content="{{ seo.description|default('Há mais de 30 anos atuando no ramo da construção civil com projetos e soluções de infraestrutura e terraplenagem para residências e empresas de toda a região.') }}">
 </head>
 
 <body>

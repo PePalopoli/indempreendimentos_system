@@ -77,17 +77,27 @@ class HomeController extends ContainerAware
         $noticias = $this->get('db')->fetchAll("SELECT bp.*, bc.titulo as categoria_titulo FROM blog_post bp inner join blog_categoria bc on bc.id = bp.categoria_id where bp.enabled = 1 order by id desc");
         $this->get('db')->close();
         //dd($baixar_facil);
-        // $this->seo()->setTitle($noticia['titulo']);
-        // $this->seo()->setDescription($noticia['resumo']);
-        // $this->seo()->setCanonical($this->request->getUri());
-        // $this->seo()->setImage($noticia['imagem_capa']);
-        // $this->seo()->setTwitterCard('summary_large_image');
-        // $this->seo()->setTwitterImage($noticia['imagem_capa']);
+        $this->get('seo')->setTitle($noticia['meta_title']);
+        $this->get('seo')->setDescription($noticia['meta_description']);
+        $this->get('seo')->setImage($noticia['imagem_capa']);
+        $this->get('seo')->setTwitterCard('summary_large_image');
+        $this->get('seo')->setTwitterImage($noticia['imagem_capa']);
+        $this->get('seo')->setKeywords($noticia['meta_keywords']);
+        
+
+        
+
+        //dd($this->get('seo')->all());
+        
+
+
+
         
 
         return $this->render('/front/interna_noticia.twig', array(
             'noticia' => $noticia,            
             'noticias' => $noticias,
+            'seo' => $this->get('seo')->all(),
         ));
     }
 
