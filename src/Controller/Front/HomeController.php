@@ -103,6 +103,21 @@ class HomeController extends ContainerAware
 
 
 
+    public function TodosEmpreendimentosAction ()
+    {        
+        $empreendimentos = $this->get('db')->fetchAll("SELECT e.*,oe.titulo as titulo_obra, oe.cor_hex FROM empreendimentos e inner join obra_etapas oe on oe.id = e.etapa_id where e.enabled = 1 order by e.`order`");        
+        $etapas = $this->get('db')->fetchAll("SELECT * FROM obra_etapas where enabled = 1 order by id asc");
+        $this->get('db')->close();
+        //dd($baixar_facil);
+
+        return $this->render('/front/todos_empreendimentos.twig', array(
+            'empreendimentos' => $empreendimentos,
+            'etapas' => $etapas,
+        ));
+    }
+
+
+
 
 
 

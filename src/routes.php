@@ -19,7 +19,8 @@ $route->get('img/{path}/{imagem}', function (Silex\Application $app, Symfony\Com
  $route->get('/sobre-nos/', 'Front\Home::Sobre')->bind('web_sobre');
  $route->get('/contato/', 'Front\Home::Contato')->bind('web_contato');
  $route->get('/noticias/', 'Front\Home::TodasNoticias')->bind('web_todas_noticias');
- $route->get('/noticias/{url_blog}', 'Front\Home::InternaNoticia')->bind('web_noticia_interna');
+ $route->get('/noticias/{url_blog}/', 'Front\Home::InternaNoticia')->bind('web_noticia_interna');
+ $route->get('/empreendimentos/', 'Front\Home::TodosEmpreendimentos')->bind('web_todos_empreendimentos');
 // $route->get('mobile-marketing', 'Front\Home::MobileMarketing')->bind('web_mobile_marketing');
 // $route->get('hub-parceiros', 'Front\Home::HubParceiros')->bind('web_hub_parceiros');
 // $route->get('empresa', 'Front\Home::Empresa')->bind('web_empresa');

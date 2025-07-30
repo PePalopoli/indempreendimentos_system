@@ -1,0 +1,102 @@
+{% set menu_pagina = 'empreendimentos' %}
+{% extends 'front/layout.twig' %}
+
+{% block content %}
+<section class="section-banner-fluid-interno" data-scroll-index='1'>
+    <img src="{{asset('imgs/banner_empreendimentos.png')}}" alt="" class="img-banner-full-bloco">
+
+</section>
+
+
+<section class="section-empreendimentos-todos" data-scroll-index='2'>
+    <div class="container">
+        <div class="conteudo-todo-empreendimentos row">
+
+            <div class="chamadas-empreendimentos-interna">
+                <div class="col-md-10 col-lg-10 col-12 chamada-empreendimentos">
+                    <h2>Confira nossos projetos e lançamentos para realizar seu <b>sonho da casa própria</b></h2>
+                </div>
+                <div class="col-md-10 col-lg-10 col-12 chamada-empreendimentos">
+                    <p>A Ind desenvolve empreendimentos com alta qualidade para ajudar você a conquistar o sonho de viver bem em um lar com muito conforto e qualidade de vida. Acesse uma das abas abaixo e faça a melhor escolha da sua vida, seja para morar, seja para investir.</p>
+                </div>
+            </div>
+
+            <div class="chamadas-categorias">
+                <a href="{{path('web_todos_empreendimentos')}}" class="{% if app.request.uri == path('web_todos_empreendimentos') %}active{% endif %}">Todos os imóveis</a>
+                {% for item in etapas %}
+                    <a href="{{path('web_todos_empreendimentos', {'etapa': item.slug})}}" class="{% if app.request.uri == path('web_todos_empreendimentos', {'etapa': item.slug}) %}active{% endif %}">{{item.titulo}}</a>
+                {% endfor %}
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-empreendimentos-interna" data-scroll-index='4'>
+    <div class="container">
+        <div class="conteudo-todo-empreendimentos row">
+            
+
+            <div class="lista-empreendimentos">
+
+                <div class="col-md-6 col-lg-6 col-sm-12 cada-empreendimento">
+                    <a href="">
+                        <div class="posicao-categoria">
+                            <div class="categoria-empreendimento">
+                                <p>LANÇAMENTO</p>
+                            </div>
+                        </div>
+
+                        <div class="img-cada-empreendimento">
+                            <img src="{{asset('imgs/capa_residencial_palmeiras.png')}}" alt="" class="img-fluid">
+                        </div>
+                        <div class="chamada-empreendimentos">
+                            <h2>Residencial das Palmeiras</h2>
+                            <p>Pirapozinho/SP</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6 col-lg-6 col-sm-12 cada-empreendimento">
+                    <div class="posicao-categoria">
+                        <div class="categoria-empreendimento">
+                            <p>LANÇAMENTO</p>
+                        </div>
+                    </div>
+
+                    <div class="img-cada-empreendimento">
+                        <img src="{{asset('imgs/capa_residencial_palmeiras.png')}}" alt="" class="img-fluid">
+                    </div>
+                    <div class="chamada-empreendimentos">
+                        <h2>Residencial das Palmeiras</h2>
+                        <p>Pirapozinho/SP</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-6 col-sm-12 cada-empreendimento">
+                    <div class="posicao-categoria">
+                        <div class="categoria-empreendimento">
+                            <p>LANÇAMENTO</p>
+                        </div>
+                    </div>
+
+                    <div class="img-cada-empreendimento">
+                        <img src="{{asset('imgs/capa_residencial_palmeiras.png')}}" alt="" class="img-fluid">
+                    </div>
+                    <div class="chamada-empreendimentos">
+                        <h2>Residencial das Palmeiras</h2>
+                        <p>Pirapozinho/SP</p>
+                    </div>
+                </div>
+
+            </div>
+
+            
+
+        </div>
+    </div>
+</section>
+{% include  'containers/contato_paginas_internas.twig' %}
+
+
+{% endblock %}
