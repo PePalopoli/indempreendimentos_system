@@ -5,7 +5,8 @@
 
 <section class="empreendimento-banner">
     <div class="container-fluid mx-0 px-0">
-        <img src="{{path('imagem', {'path': 'empreendimentos', 'imagem': empreendimento.img_capa, 'w': 1920, 'h': 500, 'fit': 'crop'})}}" alt="Empreendimento" class="img-fluid w-100">
+        <img src="{{path('imagem', {'path': 'empreendimentos', 'imagem': empreendimento.img_capa, 'w': 1920, 'h': 500, 'fit': 'crop'})}}" alt="Empreendimento" class="img-fluid w-100" loading="lazy">        
+        {# <source srcset="{{path('imagem', {'path': 'empreendimentos', 'imagem': empreendimento.img_capa})}}" type="image/webp" alt="Empreendimento" class="img-fluid w-100"> #}
     </div>
 </section>
 
@@ -22,7 +23,7 @@
             </div>
 
             <div class="img-logo-residencial py-5 d-flex justify-content-center">
-                <img src="{{path('imagem', {'path': 'empreendimentos', 'imagem': empreendimento.logo_empreendimento})}}" alt="Logo Residencial" class="img-fluid">
+                <img src="{{path('imagem', {'path': 'empreendimentos', 'imagem': empreendimento.logo_empreendimento})}}" alt="Logo Residencial" class="img-fluid" loading="lazy">
             </div>
 
 
@@ -45,7 +46,7 @@
     <div class="container">
         <h2 class="text-center mb-5 section-title py-4">Informações do empreendimento:</h2>
 
-        <div class="row g-4 mb-5">
+        <div class="row g-4 mb-5 {% if empreendimentos_beneficios|length > 3 %} justify-content-center {% endif %}">
 
         {% for item in empreendimentos_beneficios %}
 
@@ -66,6 +67,8 @@
 
             
         </div>
+
+        {% if empreendimento.acesso_facil %}
 
         <div class="row">
             <div class="col-12">
@@ -88,6 +91,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
 
     </div>
 </section>
@@ -103,7 +107,7 @@
                         <p>{{item.sub_titulo|raw}}</p>
                     </div>
                     <div class="img-planta">
-                        <img src="{{path('imagem', {'path': 'plantas', 'imagem': item.imagem})}}" alt="" class="img-fluid">
+                        <img src="{{path('imagem', {'path': 'plantas', 'imagem': item.imagem})}}" alt="" class="img-fluid" loading="lazy">
                     </div>
                 </div>
             {% endfor %}
@@ -128,7 +132,7 @@
         <div class="row mb-4">
             <div class="col-12">
                 <div class="main-image-container text-center position-relative">
-                    <img src="{{path('imagem', {'path': 'empreendimentos_galeria', 'imagem': galeria[0].imagem})}}" alt="Imagem Principal" class="img-fluid main-gallery-image" id="mainImage">
+                    <img src="{{path('imagem', {'path': 'empreendimentos_galeria', 'imagem': galeria[0].imagem})}}" alt="Imagem Principal" class="img-fluid main-gallery-image" id="mainImage" loading="lazy">
                     
                     <!-- Setas de navegação -->
                     <button class="gallery-nav-btn gallery-prev" onclick="previousImage()">

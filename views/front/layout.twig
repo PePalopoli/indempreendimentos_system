@@ -74,7 +74,7 @@
                         <ul class="col-12 navbar-nav lista-menus-texto">
 
                             <li class="nav-item">
-                                <a class="nav-link" href="{{path('web_home')}}" data-scroll-nav="1">
+                                <a class="nav-link" href="{{path('web_home')}}" >
                                     <div class="nav-link-top">
                                         <span class="text-wrapper-2">Home</span>
                                     </div>
@@ -82,7 +82,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="{{path('web_sobre')}}" data-scroll-nav="1">
+                                <a class="nav-link" href="{{path('web_sobre')}}" >
                                     <div class="nav-link-top">
                                         <span class="text-wrapper-2">Sobre nós</span>
                                     </div>
@@ -178,8 +178,8 @@
                     <div class="nav-menu-submenu collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav lista-itens-menu-mobile">
 
-                            <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="1">Home</a> </li>
-                            <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="1">Sobre nós</a> </li>
+                            <li class="nav-item"> <a class="nav-link" href="{{path('web_home')}}" >Home</a> </li>
+                            <li class="nav-item"> <a class="nav-link" href="{{path('web_sobre')}}" >Sobre nós</a> </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="nav-link-top">
@@ -195,7 +195,7 @@
                                     <li><a class="dropdown-item" href="{{path('web_todos_empreendimentos')}}">Ver todos</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="1">Notícias</a> </li>
+                            <li class="nav-item"> <a class="nav-link" href="{{path('web_todas_noticias')}}" >Notícias</a> </li>
 
 
 
@@ -208,7 +208,7 @@
             <div class=" navbar-collapse">
                 <ul class="navbar-nav botoes-mobile nav-btns-mobile">
                     <li class="col-6 nav-item">
-                        <a class="nav-link" href="#" data-scroll-nav="1">
+                        <a class="nav-link" href="{{ getUrlBoleto()|raw }}" >
                             <div class="nav-link-top-btn">
                                 <div class="text-wrapper-3">2ª Via de Boletos</div>
                             </div>
@@ -216,7 +216,7 @@
                     </li>
 
                     <li class="col-6 nav-item">
-                        <a class="nav-link" href="#" data-scroll-nav="1">
+                        <a class="nav-link" href="{{ getUrlSistema()|raw }}" >
                             <div class="nav-link-top-btn">
                                 <div class="text-wrapper-3">Portal do Cliente</div>
                             </div>
@@ -244,17 +244,17 @@
                 </div>
                 <div class="col-12 redes-sociais">
                     <div class="col-1 cada-rede">
-                        <a href="">
+                        <a href="https://www.facebook.com/ind.empreendimentos?mibextid=LQQJ4d" target="_blank">
                             <img src="{{asset('imgs/logo-rede-face.svg')}}" alt="" class="img fluid">
                         </a>
                     </div>
                     <div class="col-1 cada-rede">
-                        <a href="">
+                        <a href="http://www.linkedin.com/in/ind-empreendimentos-659b93186" target="_blank">
                             <img src="{{asset('imgs/logo-rede-linkedin.svg')}}" alt="" class="img fluid">
                         </a>
                     </div>
                     <div class="col-1 cada-rede">
-                        <a href="">
+                        <a href="https://www.instagram.com/ind.empreendimentos/profilecard/?igsh=bmtvcDZpNXUxNHF3" target="_blank">
                             <img src="{{asset('imgs/logo-rede-instagran.svg')}}" alt="" class="img fluid">
                         </a>
                     </div>
@@ -294,7 +294,7 @@
                         <a href="{{ getUrlSistema()|raw }}" target="_blank">Portal do cliente</a>
                     </div>
                     <div class="col-12 cada-menu-footer">
-                        <a href="">Notícias</a>
+                        <a href="{{path('web_todas_noticias')}}">Notícias</a>
                     </div>
                 </div>
             </div>
@@ -355,7 +355,7 @@
                 </div>
 
                 <div class="col-md-1 col-lg-1 col-12 footer-whats">
-                    <a href="">
+                    <a href="https://wa.me/5518996449986" target="_blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="71" height="71" viewBox="0 0 71 71" fill="none">
                             <rect width="70.4576" height="70.4576" rx="14" fill="#28C562" />
                             <path d="M10.5919 60.3266L14.0219 47.8929C11.7925 44.0342 10.5919 39.7467 10.5919 35.2877C10.5919 21.7393 21.7394 10.5918 35.3735 10.5918C49.0077 10.5918 60.3267 21.7393 60.3267 35.2877C60.3267 48.836 49.0078 60.3266 35.3735 60.3266C31.0861 60.3266 26.9701 58.9546 23.2828 56.8966L10.5919 60.3266Z" fill="#EDEDED" />
