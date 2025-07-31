@@ -22,9 +22,9 @@
             </div>
 
             <div class="chamadas-categorias">
-                <a href="{{path('web_todos_empreendimentos')}}" class="{% if app.request.uri == path('web_todos_empreendimentos') %}active{% endif %}">Todos os imóveis</a>
+                <a href="{{path('web_todos_empreendimentos')}}" class="{% if app.request.getRequestUri() == path('web_todos_empreendimentos') %}active{% endif %}">Todos os imóveis</a>
                 {% for item in etapas %}
-                    <a href="{{path('web_todos_empreendimentos', {'etapa': item.slug})}}" class="{% if app.request.uri == path('web_todos_empreendimentos', {'etapa': item.slug}) %}active{% endif %}">{{item.titulo}}</a>
+                    <a href="{{path('web_todos_empreendimentos_categoria', {'url_categoria': item.slug})}}" class="{% if app.request.getRequestUri() == path('web_todos_empreendimentos_categoria', {'url_categoria': item.slug}) %}active{% endif %}">{{item.titulo}}</a>
                 {% endfor %}
                 
             </div>
@@ -39,23 +39,27 @@
 
             <div class="lista-empreendimentos">
 
+                {% for item in empreendimentos %}
                 <div class="col-md-6 col-lg-6 col-sm-12 cada-empreendimento">
                     <a href="">
                         <div class="posicao-categoria">
-                            <div class="categoria-empreendimento">
-                                <p>LANÇAMENTO</p>
+                            <div class="categoria-empreendimento" style="background-color: {{item.cor_hex}};">
+                                <p class="text-uppercase" >{{item.titulo_etapa}}</p>
                             </div>
                         </div>
 
                         <div class="img-cada-empreendimento">
-                            <img src="{{asset('imgs/capa_residencial_palmeiras.png')}}" alt="" class="img-fluid">
+                            <img src="{{path('imagem', {'path': 'empreendimentos', 'imagem': item.img_capa, 'w': 567, 'h': 400, 'fit': 'crop'})}}" alt="" class="img-fluid" style="border-radius: 15px;">
                         </div>
                         <div class="chamada-empreendimentos">
-                            <h2>Residencial das Palmeiras</h2>
-                            <p>Pirapozinho/SP</p>
+                            <h2>{{item.nome}}</h2>
+                            <p>{{item.cidade_estado}}</p>
                         </div>
                     </a>
                 </div>
+                {% endfor %}
+
+                
 
                 <div class="col-md-6 col-lg-6 col-sm-12 cada-empreendimento">
                     <div class="posicao-categoria">
@@ -72,23 +76,7 @@
                         <p>Pirapozinho/SP</p>
                     </div>
                 </div>
-
-                <div class="col-md-6 col-lg-6 col-sm-12 cada-empreendimento">
-                    <div class="posicao-categoria">
-                        <div class="categoria-empreendimento">
-                            <p>LANÇAMENTO</p>
-                        </div>
-                    </div>
-
-                    <div class="img-cada-empreendimento">
-                        <img src="{{asset('imgs/capa_residencial_palmeiras.png')}}" alt="" class="img-fluid">
-                    </div>
-                    <div class="chamada-empreendimentos">
-                        <h2>Residencial das Palmeiras</h2>
-                        <p>Pirapozinho/SP</p>
-                    </div>
-                </div>
-
+            
             </div>
 
             

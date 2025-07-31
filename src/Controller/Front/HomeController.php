@@ -105,7 +105,7 @@ class HomeController extends ContainerAware
 
     public function TodosEmpreendimentosAction ()
     {        
-        $empreendimentos = $this->get('db')->fetchAll("SELECT e.*,oe.titulo as titulo_obra, oe.cor_hex FROM empreendimentos e inner join obra_etapas oe on oe.id = e.etapa_id where e.enabled = 1 order by e.`order`");        
+        $empreendimentos = $this->get('db')->fetchAll("SELECT e.*,oe.titulo as titulo_etapa, oe.cor_hex FROM empreendimentos e inner join obra_etapas oe on oe.id = e.etapa_id where e.enabled = 1 order by e.`order`");        
         $etapas = $this->get('db')->fetchAll("SELECT * FROM obra_etapas where enabled = 1 order by id asc");
         $this->get('db')->close();
         //dd($baixar_facil);
@@ -113,6 +113,51 @@ class HomeController extends ContainerAware
         return $this->render('/front/todos_empreendimentos.twig', array(
             'empreendimentos' => $empreendimentos,
             'etapas' => $etapas,
+        ));
+    }
+
+    public function TodosEmpreendimentosCategoriaAction ($url_categoria)
+    {        
+        $empreendimentos = $this->get('db')->fetchAll("SELECT e.*,oe.titulo as titulo_etapa, oe.cor_hex FROM empreendimentos e inner join obra_etapas oe on oe.id = e.etapa_id where e.enabled = 1 and oe.slug = ? order by e.`order`", array($url_categoria));        
+        $etapas = $this->get('db')->fetchAll("SELECT * FROM obra_etapas where enabled = 1 order by id asc");
+        $this->get('db')->close();
+        //dd($baixar_facil);
+
+        return $this->render('/front/todos_empreendimentos.twig', array(
+            'empreendimentos' => $empreendimentos,
+            'etapas' => $etapas,
+        ));
+    }
+
+    public function InternaEmpreendimentoAction ($url_empreendimento)
+    {        
+        $empreendimento = $this->get('db')->fetchAssoc("SELECT * FROM empreendimentos where enabled = 1 and slug = ?", array($url_empreendimento));
+        $etapas = $this->get('db')->fetchAll("SELECT * FROM obra_etapas where enabled = 1 order by id asc");
+        $galeria = $this->get('db')->fetchAll("SELECT * FROM empreendimentos_galeria where empreendimento_id = ?", array($empreendimento['id']));
+        $empreendimentos_beneficios = $this->get('db')->fetchAll("SELECT * FROM empreendimentos_beneficios where empreendimento_id = ?", array($empreendimento['id']));
+        $empreendimentos_tour_botoes = $this->get('db')->fetchAll("SELECT * FROM empreendimentos_tour_botoes where empreendimento_id = ?", array($empreendimento['id']));
+        $empreendimentos_plantas = $this->get('db')->fetchAll("SELECT * FROM empreendimentos_plantas where empreendimento_id = ?", array($empreendimento['id']));
+
+        $this->get('seo')->setTitle($empreendimento['meta_title']);
+        $this->get('seo')->setDescription($empreendimento['meta_description']);
+        $this->get('seo')->setImage($empreendimento['imagem_capa']);
+        $this->get('seo')->setTwitterCard('summary_large_image');
+        $this->get('seo')->setTwitterImage($empreendimento['imagem_capa']);
+        $this->get('seo')->setKeywords($empreendimento['meta_keywords']);
+
+
+        $this->get('db')->close();
+        //dd($baixar_facil);
+
+        return $this->render('/front/interna_empreendimento.twig', array(
+            'empreendimento' => $empreendimento,
+            'etapas' => $etapas,
+            'galeria' => $galeria,
+            'empreendimentos_beneficios' => $empreendimentos_beneficios,
+            'empreendimentos_tour_botoes' => $empreendimentos_tour_botoes,
+            'empreendimentos_plantas' => $empreendimentos_plantas,
+            'seo' => $this->get('seo')->all(),
+            
         ));
     }
 
