@@ -1,0 +1,107 @@
+<section class="section-simulacao-interna" data-scroll-index='1'>
+    <div class="container">
+        <div class="conteudo-todo-simulacao-interna row d-flex justify-content-center">
+            <div class="col-md-6 col-lg-6 col-12 simulacao-form">
+                <div class="chamada-simulacao-h2">
+                    <h2>Faça uma simulação</h2>
+                </div>
+
+                <div class="chamada-simulacao-p">
+                    <p>
+                        Envie suas informações para receber nosso contato. Estamos prontos para atender você.
+                    </p>
+                </div>
+
+                <form action="#" method="post" class="form-simulacao" id="form-empreendimento-{{menu_pagina}}" name="form-empreendimento-{{menu_pagina}}">
+                    <div class="form-row">
+                        <div class="form-group col-md-12 col-lg-12 col-12">
+                            <label for="iName">Nome:*</label>
+                            <input type="text" class="form-control" id="iName" name="iName" placeholder="DIGITE SEU NOME AQUI">
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-lg-6 col-12">
+                            <label for="iDataNasc">Data de nascimento:*</label>
+                            <input type="date" class="form-control" id="iDataNasc" name="iDataNasc">
+                        </div>
+
+                        <div class="form-group col-md-6 col-lg-6 col-12">
+                            <label for="iWhatsapp">WhatsApp:*</label>
+                            <input type="text" class="form-control" id="iWhatsapp" name="iWhatsapp" placeholder="DIGITE SEU WHATSAPP AQUI">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-lg-6 col-12">
+                            <label for="iEmail">E-mail:*</label>
+                            <input type="email" class="form-control" id="iEmail" name="iEmail" placeholder="DIGITE SEU E-MAIL AQUI">
+                        </div>
+                        <div class="form-group col-md-6 col-lg-6 col-12">
+                            <label for="iEstadoCivil">Estado civil:*</label>
+                            <select class="form-control" id="iEstadoCivil" name="iEstadoCivil">
+                                <option value="">SELECIONE</option>
+                                <option value="solteiro">Solteiro(a)</option>
+                                <option value="casado">Casado(a)</option>
+                                <option value="divorciado">Divorciado(a)</option>
+                                <option value="viuvo">Viúvo(a)</option>
+                                <option value="uniao_estavel">União Estável</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-lg-6 col-12">
+                            <label for="iFilhos">Número de filhos menores:*</label>
+                            <select class="form-control" id="iFilhos" name="iFilhos">
+                                <option value="">SELECIONE</option>
+                                <option value="0">Nenhum</option>
+                                <option value="1">1 filho</option>
+                                <option value="2">2 filhos</option>
+                                <option value="3">3 filhos</option>
+                                <option value="4+">4 ou mais filhos</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6 col-lg-6 col-12">
+                            <label for="iRendaFixa">Possui renda fixa?*</label>
+                            <select class="form-control" id="iRendaFixa" name="iRendaFixa">
+                                <option value="">SELECIONE</option>
+                                <option value="sim">Sim</option>
+                                <option value="nao">Não</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12 col-lg-12 col-12">
+                            <label for="iRendaFamiliar">Valor da renda bruta familiar (a comprova/e de renda é familiar e não individual):*</label>
+                            <input type="text" class="form-control" id="iRendaFamiliar" name="iRendaFamiliar" placeholder="DIGITE O VALOR DA RENDA AQUI">
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12 col-lg-12 col-12">
+                            <label for="iEmpreendimento">Empreendimento:*</label>
+                            <select class="form-control" id="iEmpreendimento" name="iEmpreendimento">
+                                <option value="">SELECIONE</option>
+                                <option value="residencial_palmeiras">Residencial das Palmeiras</option>
+                                <option value="outro">Outro empreendimento</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-simulacao">Enviar mensagem</button>
+                </form>
+
+            </div>
+            <div class="col-md-6 col-lg-6 col-10 bloco-img-interna-simulacao">
+                <img src="{{asset('imgs/img_contato_empreendimentos.png')}}" alt="Família feliz" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</section>

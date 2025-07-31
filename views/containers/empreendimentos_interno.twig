@@ -1,0 +1,42 @@
+<section class="section-empreendimentos empreendimentos-interno" >
+    <div class="container">
+        <div class="conteudo-todo-empreendimentos row">
+
+            <div class="col-md-4 col-lg-4 col-12 titulo-empreendimentos">
+                <h2>Conheça <b>nossos empreendimentos</b></h2>
+            </div>
+
+            <div class="lista-empreendimentos">
+
+                {% for item in lista_empreendimentos %}
+
+                    <div class="col-md-6 col-lg-6 col-sm-12 cada-empreendimento">
+                        <a href="{{path('web_interna_empreendimento', {'url_empreendimento': item.slug})}}">
+                            <div class="posicao-categoria">
+                                <div class="categoria-empreendimento" style="background-color: {{item.cor_hex}};">
+                                    <p>{{item.titulo_obra}}</p>
+                                </div>
+                            </div>
+
+                            <div class="img-cada-empreendimento">
+                                <img src="{{path('imagem',{'path':'empreendimentos',imagem:item.img_capa,'fit':'crop','h':400,'w':567})}}" alt="" class="img-fluid" style="border-radius: 25px;">
+                            </div>
+                            <div class="chamada-empreendimentos text-white">
+                                <h2 class="text-white">{{item.nome|raw}}</h2>
+                                <p class="text-white">{{item.cidade_estado|raw}}</p>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}             
+
+            </div>
+
+            <div class="posicao-btn-ver-todos">
+                <div class="col-md-3 col-lg-3 col-10 btn-ver-todos-empreendimentos">
+                    <a href="{{path('web_todos_empreendimentos')}}">Ver todos empreendimentos</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

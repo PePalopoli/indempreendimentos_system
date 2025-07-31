@@ -41,7 +41,7 @@
 
                 {% for item in empreendimentos %}
                 <div class="col-md-6 col-lg-6 col-sm-12 cada-empreendimento">
-                    <a href="">
+                    <a href="{{path('web_interna_empreendimento', {'url_empreendimento': item.slug})}}">
                         <div class="posicao-categoria">
                             <div class="categoria-empreendimento" style="background-color: {{item.cor_hex}};">
                                 <p class="text-uppercase" >{{item.titulo_etapa}}</p>
@@ -61,7 +61,7 @@
 
                 
 
-                <div class="col-md-6 col-lg-6 col-sm-12 cada-empreendimento">
+                {# <div class="col-md-6 col-lg-6 col-sm-12 cada-empreendimento">
                     <div class="posicao-categoria">
                         <div class="categoria-empreendimento">
                             <p>LANÇAMENTO</p>
@@ -75,7 +75,7 @@
                         <h2>Residencial das Palmeiras</h2>
                         <p>Pirapozinho/SP</p>
                     </div>
-                </div>
+                </div> #}
             
             </div>
 

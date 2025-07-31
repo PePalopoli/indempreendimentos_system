@@ -209,7 +209,7 @@
                 {% for item in empreendimentos %}
 
                 <div class="col-md-6 col-lg-6 col-sm-12 cada-empreendimento">
-                    <a href="">
+                    <a href="{{path('web_interna_empreendimento', {'url_empreendimento': item.slug})}}">
                         <div class="posicao-categoria">
                             <div class="categoria-empreendimento" style="background-color: {{item.cor_hex}};">
                                 <p>{{item.titulo_obra}}</p>
@@ -233,7 +233,7 @@
 
             <div class="posicao-btn-ver-todos">
                 <div class="col-md-3 col-lg-3 col-10 btn-ver-todos-empreendimentos">
-                    <a href="">Ver todos empreendimentos</a>
+                    <a href="{{path('web_todos_empreendimentos')}}">Ver todos empreendimentos</a>
                 </div>
             </div>
 

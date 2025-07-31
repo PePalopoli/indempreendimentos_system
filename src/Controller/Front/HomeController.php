@@ -12,13 +12,18 @@ class HomeController extends ContainerAware
 {
 
 
+    private function GetEmpreendimentos()
+    {
+        return $this->get('db')->fetchAll("SELECT e.*,oe.titulo as titulo_obra, oe.cor_hex FROM empreendimentos e inner join obra_etapas oe on oe.id = e.etapa_id where e.enabled = 1 order by e.`order`");        
+    }
+
     public function IndexAction ()
     {
 
         $banner = $this->get('db')->fetchAll("SELECT * FROM banner where enabled = 1 and type=1 order by id ");        
         $banner_mobile = $this->get('db')->fetchAll("SELECT * FROM banner where enabled = 2 and type=1 order by id ");        
 
-        $empreendimentos = $this->get('db')->fetchAll("SELECT e.*,oe.titulo as titulo_obra, oe.cor_hex FROM empreendimentos e inner join obra_etapas oe on oe.id = e.etapa_id where e.enabled = 1 order by e.`order`");        
+        //$empreendimentos = $this->get('db')->fetchAll("SELECT e.*,oe.titulo as titulo_obra, oe.cor_hex FROM empreendimentos e inner join obra_etapas oe on oe.id = e.etapa_id where e.enabled = 1 order by e.`order`");        
         $depoimentos = $this->get('db')->fetchAll("SELECT * FROM depoimentos where enabled = 1 order by rand() limit 3 ");     
         
         $this->get('db')->close();
@@ -27,7 +32,7 @@ class HomeController extends ContainerAware
         return $this->render('/front/index.twig', array(
             'banner' => $banner,
             'banner_mobile' => $banner_mobile,
-            'empreendimentos' => $empreendimentos,
+            'empreendimentos' => $this->GetEmpreendimentos(),
             'depoimentos' => $depoimentos,
 
         ));
@@ -131,31 +136,31 @@ class HomeController extends ContainerAware
 
     public function InternaEmpreendimentoAction ($url_empreendimento)
     {        
-        $empreendimento = $this->get('db')->fetchAssoc("SELECT * FROM empreendimentos where enabled = 1 and slug = ?", array($url_empreendimento));
+        $empreendimento = $this->get('db')->fetchAssoc("SELECT e.*,oe.titulo as titulo_etapa, oe.cor_hex FROM empreendimentos e inner join obra_etapas oe on oe.id = e.etapa_id where e.enabled = 1 and e.slug = ?", array($url_empreendimento));
         $etapas = $this->get('db')->fetchAll("SELECT * FROM obra_etapas where enabled = 1 order by id asc");
         $galeria = $this->get('db')->fetchAll("SELECT * FROM empreendimentos_galeria where empreendimento_id = ?", array($empreendimento['id']));
-        $empreendimentos_beneficios = $this->get('db')->fetchAll("SELECT * FROM empreendimentos_beneficios where empreendimento_id = ?", array($empreendimento['id']));
+        $empreendimentos_beneficios = $this->get('db')->fetchAll("SELECT eb.*,ebt.svg_code FROM empreendimentos_beneficios eb inner join beneficios_empreendimentos ebt on ebt.id = eb.beneficio_id where empreendimento_id = ? order by eb.order ", array($empreendimento['id']));
         $empreendimentos_tour_botoes = $this->get('db')->fetchAll("SELECT * FROM empreendimentos_tour_botoes where empreendimento_id = ?", array($empreendimento['id']));
         $empreendimentos_plantas = $this->get('db')->fetchAll("SELECT * FROM empreendimentos_plantas where empreendimento_id = ?", array($empreendimento['id']));
 
         $this->get('seo')->setTitle($empreendimento['meta_title']);
         $this->get('seo')->setDescription($empreendimento['meta_description']);
-        $this->get('seo')->setImage($empreendimento['imagem_capa']);
+        $this->get('seo')->setImage($empreendimento['img_capa']);
         $this->get('seo')->setTwitterCard('summary_large_image');
-        $this->get('seo')->setTwitterImage($empreendimento['imagem_capa']);
+        $this->get('seo')->setTwitterImage($empreendimento['img_capa']);
         $this->get('seo')->setKeywords($empreendimento['meta_keywords']);
-
-
         $this->get('db')->close();
-        //dd($baixar_facil);
+        
+        //dd($galeria);
 
-        return $this->render('/front/interna_empreendimento.twig', array(
+        return $this->render('/front/interna_empreendimentos.twig', array(
             'empreendimento' => $empreendimento,
             'etapas' => $etapas,
             'galeria' => $galeria,
             'empreendimentos_beneficios' => $empreendimentos_beneficios,
             'empreendimentos_tour_botoes' => $empreendimentos_tour_botoes,
             'empreendimentos_plantas' => $empreendimentos_plantas,
+            'lista_empreendimentos' => $this->GetEmpreendimentos(),
             'seo' => $this->get('seo')->all(),
             
         ));
