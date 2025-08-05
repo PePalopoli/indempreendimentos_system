@@ -13,7 +13,9 @@
                 </div>
 
 
-                <form action="#" method="post" id="form-contato-{{menu_pagina}}-interna" name="form-contato-{{menu_pagina}}-interna">
+                <form action="{{path('web_contato_send')}}" method="post" id="form-contato-{{menu_pagina}}-interna" name="form-contato-{{menu_pagina}}-interna">
+                    <input type="hidden" name="csrf_token" value="{{formatCSRF()}}" />
+                    <input type="hidden" name="url_empreendimento_retorno" value="{{getCurrentUrl()}}" />
                     <div class="form-row">
                         <div class="form-group col-md-12 col-lg-12 col-12">
                             <label for="iName">Nome:<span>*</span></label>
@@ -27,8 +29,8 @@
                             <input type="text" class="form-control" id="iEmail" name="iEmail" placeholder="DIGITE SEU E-MAIL AQUI">
                         </div>
                         <div class="form-group col-md-6 col-lg-6 col-12">
-                            <label for="iTelefone">Whatasapp:<span>*</span></label>
-                            <input type="text" class="form-control" id="iTelefone" name="iTelefone" placeholder="DIGITE SEU WHATSAPP AQUI">
+                            <label for="iWhatsapp">Whatasapp:<span>*</span></label>
+                            <input type="text" class="form-control" id="iWhatsapp" name="iWhatsapp" placeholder="DIGITE SEU WHATSAPP AQUI">
                         </div>
                     </div>
 

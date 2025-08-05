@@ -12,7 +12,12 @@
                     </p>
                 </div>
 
-                <form action="#" method="post" class="form-simulacao" id="form-empreendimento-{{menu_pagina}}" name="form-empreendimento-{{menu_pagina}}">
+                <form action="{{path('web_empreendimento_send')}}" method="post" class="form-simulacao" id="form-empreendimento-{{menu_pagina}}" name="form-empreendimento-{{menu_pagina}}">
+                    <input type="hidden" name="csrf_token" value="{{formatCSRF()}}" />
+                    <input type="hidden" name="form_type" value="empreendimento" />
+                    <input type="hidden" name="url_empreendimento_retorno" value="{{getCurrentUrl()}}" />
+                    <!-- Campo honeypot para detectar bots -->
+                    <input type="text" name="website" style="display:none;" tabindex="-1" autocomplete="off" />
                     <div class="form-row">
                         <div class="form-group col-md-12 col-lg-12 col-12">
                             <label for="iName">Nome:*</label>

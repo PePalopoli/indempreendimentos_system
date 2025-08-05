@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Interesse em Empreendimento</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #f8f9fa; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
+        .content { background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+        .field { margin-bottom: 15px; }
+        .field strong { display: inline-block; width: 150px; color: #555; }
+        .footer { margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px; font-size: 12px; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>🏢 Novo Interesse em Empreendimento</h2>
+            <p>Um potencial cliente demonstrou interesse em nossos empreendimentos.</p>
+        </div>
+
+        <div class="content">
+            <h3>Dados do Interessado:</h3>
+            
+            <div class="field">
+                <strong>Nome:</strong> {{ data.iName|default('Não informado') }}
+            </div>
+            
+            <div class="field">
+                <strong>E-mail:</strong> {{ data.iEmail|default('Não informado') }}
+            </div>
+            
+            <div class="field">
+                <strong>WhatsApp:</strong> {{ data.iWhatsapp|default('Não informado') }}
+            </div>
+            
+            <div class="field">
+                <strong>Data de Nascimento:</strong> {{ data.iDataNasc|default('Não informado') }}
+            </div>
+            
+            <div class="field">
+                <strong>Estado Civil:</strong> {{ data.iEstadoCivil|default('Não informado') }}
+            </div>
+            
+            <div class="field">
+                <strong>Número de Filhos:</strong> {{ data.iFilhos|default('Não informado') }}
+            </div>
+            
+            <div class="field">
+                <strong>Possui Renda Fixa:</strong> {{ data.iRendaFixa|default('Não informado') }}
+            </div>
+            
+            <div class="field">
+                <strong>Renda Familiar:</strong> {{ data.iRendaFamiliar|default('Não informado') }}
+            </div>
+            
+            <div class="field">
+                <strong>Empreendimento de Interesse:</strong> {{ data.iEmpreendimento|default('Não informado') }}
+            </div>
+
+           
+        </div>
+
+        <div class="footer">
+            <p><strong>Informações do Sistema:</strong></p>
+            <p>
+                Lead ID: {{ lead_id|default('N/A') }}<br>
+                Data/Hora: {{ "now"|date("d/m/Y H:i:s") }}<br>
+                Tipo de Formulário: Empreendimento<br>
+                Sistema de Captação de Leads - Indemepreendimentos
+            </p>
+        </div>
+    </div>
+</body>
+</html>

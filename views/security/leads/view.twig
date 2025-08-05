@@ -1,0 +1,259 @@
+{% extends "security/layout.twig" %}
+
+{% block content %}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Lead #{{lead.id}}</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{path('s_security')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{path('s_leads')}}">Leads</a></li>
+                        <li class="breadcrumb-item active">Lead #{{lead.id}}</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Informações do Lead</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <strong>Nome:</strong> {{lead.nome|default('Não informado')}}<br>
+                                    <strong>Email:</strong> {{lead.email|default('Não informado')}}<br>
+                                    <strong>Telefone:</strong> {{lead.telefone|default('Não informado')}}<br>
+                                    <strong>WhatsApp:</strong> {{lead.whatsapp|default('Não informado')}}<br>
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>Status:</strong> 
+                                    {% set status_colors = {
+                                        'novo': 'primary',
+                                        'contatado': 'warning', 
+                                        'convertido': 'success',
+                                        'perdido': 'danger'
+                                    } %}
+                                    <span class="badge badge-{{status_colors[lead.status]|default('secondary')}}">
+                                        {{lead.status|default('—')}}
+                                    </span><br>
+                                    <strong>Email Enviado:</strong> 
+                                    {% if lead.email_sent %}
+                                        <span class="badge badge-success">Sim</span>
+                                    {% else %}
+                                        <span class="badge badge-danger">Não</span>
+                                    {% endif %}<br>
+                                    <strong>Data/Hora:</strong> {{lead.created_at|date('d/m/Y H:i:s')}}<br>
+                                    <strong>Última Atualização:</strong> {{lead.updated_at|date('d/m/Y H:i:s')}}<br>
+                                </div>
+                            </div>
+                            
+                            {% if lead.assunto %}
+                            <hr>
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>Assunto:</strong><br>
+                                    {{lead.assunto}}
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if lead.mensagem %}
+                            <hr>
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>Mensagem:</strong><br>
+                                    {{lead.mensagem|nl2br}}
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if lead.notes %}
+                            <hr>
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>Observações:</strong><br>
+                                    {{lead.notes|nl2br}}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if form_data %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Dados Completos do Formulário</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    {% for key, value in form_data %}
+                                        {% if key != 'csrf_token' and value %}
+                                        <tr>
+                                            <td><strong>{{key}}</strong></td>
+                                            <td>{{value}}</td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Informações de Origem</h3>
+                        </div>
+                        <div class="card-body">
+                            <strong>Página de Origem:</strong> 
+                            <span class="badge badge-info">{{lead.source_page|default('—')}}</span><br><br>
+                            
+                            <strong>Tipo de Formulário:</strong> 
+                            <span class="badge badge-secondary">{{lead.form_type|default('—')}}</span><br><br>
+                            
+                            <strong>URL de Origem:</strong><br>
+                            {% if lead.source_url %}
+                                <small><a href="{{lead.source_url}}" target="_blank">{{lead.source_url}}</a></small>
+                            {% else %}
+                                Não informado
+                            {% endif %}
+                            <br><br>
+                            
+                            <strong>IP do Usuário:</strong> {{lead.ip_address|default('—')}}<br><br>
+                            
+                            <strong>User Agent:</strong><br>
+                            {% if lead.user_agent %}
+                                <small>{{lead.user_agent}}</small>
+                            {% else %}
+                                Não informado
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if lead.utm_source or lead.utm_campaign or lead.utm_medium %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Parâmetros UTM</h3>
+                        </div>
+                        <div class="card-body">
+                            <strong>UTM Source:</strong> {{lead.utm_source|default('—')}}<br>
+                            <strong>UTM Medium:</strong> {{lead.utm_medium|default('—')}}<br>
+                            <strong>UTM Campaign:</strong> {{lead.utm_campaign|default('—')}}<br>
+                            <strong>UTM Term:</strong> {{lead.utm_term|default('—')}}<br>
+                            <strong>UTM Content:</strong> {{lead.utm_content|default('—')}}<br>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Ações</h3>
+                        </div>
+                        <div class="card-body">
+                            <button type="button" class="btn btn-warning btn-block" onclick="updateStatus({{lead.id}})">
+                                <i class="fas fa-edit"></i> Atualizar Status
+                            </button>
+                            
+                            {% if lead.email %}
+                            <a href="mailto:{{lead.email}}" class="btn btn-info btn-block">
+                                <i class="fas fa-envelope"></i> Enviar Email
+                            </a>
+                            {% endif %}
+                            
+                            {% if lead.whatsapp %}
+                            <a href="https://wa.me/55{{lead.whatsapp|replace({' ': '', '(': '', ')': '', '-': ''})}}" 
+                               target="_blank" class="btn btn-success btn-block">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </a>
+                            {% endif %}
+                            
+                            <a href="{{path('s_leads_delete', {id: lead.id})}}" 
+                               class="btn btn-danger btn-block" 
+                               onclick="return confirm('Tem certeza que deseja excluir este lead?')">
+                                <i class="fas fa-trash"></i> Excluir Lead
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Modal para atualizar status -->
+<div class="modal fade" id="statusModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Atualizar Status do Lead</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <form id="statusForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Status:</label>
+                        <select name="status" class="form-control" required>
+                            <option value="novo" {% if lead.status == 'novo' %}selected{% endif %}>Novo</option>
+                            <option value="contatado" {% if lead.status == 'contatado' %}selected{% endif %}>Contatado</option>
+                            <option value="convertido" {% if lead.status == 'convertido' %}selected{% endif %}>Convertido</option>
+                            <option value="perdido" {% if lead.status == 'perdido' %}selected{% endif %}>Perdido</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Observações:</label>
+                        <textarea name="notes" class="form-control" rows="3" placeholder="Observações sobre o lead...">{{lead.notes}}</textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateStatus(leadId) {
+    $('#statusModal').modal('show');
+}
+
+$('#statusForm').on('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    fetch(`{{ path('s_leads_update_status', {id: lead.id}) }}`, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Erro ao atualizar status: ' + data.message);
+        }
+    })
+    .catch(error => {
+        alert('Erro ao atualizar status');
+        console.error(error);
+    });
+});
+</script>
+{% endblock %}

@@ -77,6 +77,9 @@ $app->register(new Palopoli\PaloSystem\Provider\GlideProvider());
 // S.E.O. Provider
 $app->register(new Palopoli\PaloSystem\Provider\SeoProvider());
 
+// Lead Service Provider
+$app->register(new Palopoli\PaloSystem\Provider\LeadServiceProvider());
+
 // https://github.com/cocur/slugify
 $app->register(new Cocur\Slugify\Bridge\Silex\SlugifyServiceProvider());
 

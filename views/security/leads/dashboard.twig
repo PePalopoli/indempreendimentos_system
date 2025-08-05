@@ -1,0 +1,256 @@
+{% extends "security/layout.twig" %}
+
+{% block content %}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Dashboard de Leads</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{path('s_security')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{path('s_leads')}}">Leads</a></li>
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            
+            <!-- Estatísticas principais -->
+            <div class="row mb-4">
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>{{stats.total}}</h3>
+                            <p>Total de Leads</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>{{stats.hoje}}</h3>
+                            <p>Leads Hoje</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>{{stats.mes}}</h3>
+                            <p>Leads este Mês</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-calendar"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>{{stats.convertidos}}</h3>
+                            <p>Leads Convertidos</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-pie-graph"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Leads por página -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Leads por Página de Origem</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="chartByPage" style="height: 300px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leads por tipo de formulário -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Leads por Tipo de Formulário</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="chartByForm" style="height: 300px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfico de leads dos últimos 30 dias -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Leads dos Últimos 30 Dias</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="chartLast30Days" style="height: 200px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabela de resumo por status -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Resumo por Status</h3>
+                        </div>
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Quantidade</th>
+                                        <th>Percentual</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="badge badge-primary">Novos</span></td>
+                                        <td>{{stats.novos}}</td>
+                                        <td>{{stats.total > 0 ? ((stats.novos / stats.total) * 100)|round(1) : 0}}%</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge badge-success">Convertidos</span></td>
+                                        <td>{{stats.convertidos}}</td>
+                                        <td>{{stats.total > 0 ? ((stats.convertidos / stats.total) * 100)|round(1) : 0}}%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top páginas -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Top Páginas de Origem</h3>
+                        </div>
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Página</th>
+                                        <th>Leads</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for page in stats.por_pagina %}
+                                    <tr>
+                                        <td><span class="badge badge-info">{{page.source_page}}</span></td>
+                                        <td>{{page.total}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="{{asset('plugins/chart.js/Chart.min.js')}}"></script>
+<script>
+$(document).ready(function() {
+    // Dados para os gráficos
+    const pageData = {{stats.por_pagina|json_encode|raw}};
+    const formData = {{stats.por_formulario|json_encode|raw}};
+    const last30DaysData = {{stats.ultimos_30_dias|json_encode|raw}};
+
+    // Gráfico por página
+    const ctxPage = document.getElementById('chartByPage').getContext('2d');
+    new Chart(ctxPage, {
+        type: 'doughnut',
+        data: {
+            labels: pageData.map(item => item.source_page),
+            datasets: [{
+                data: pageData.map(item => item.total),
+                backgroundColor: [
+                    '#007bff', '#28a745', '#ffc107', '#dc3545', '#6c757d', '#17a2b8'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    // Gráfico por formulário
+    const ctxForm = document.getElementById('chartByForm').getContext('2d');
+    new Chart(ctxForm, {
+        type: 'bar',
+        data: {
+            labels: formData.map(item => item.form_type),
+            datasets: [{
+                label: 'Leads',
+                data: formData.map(item => item.total),
+                backgroundColor: '#007bff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Gráfico dos últimos 30 dias
+    const ctx30Days = document.getElementById('chartLast30Days').getContext('2d');
+    new Chart(ctx30Days, {
+        type: 'line',
+        data: {
+            labels: last30DaysData.map(item => {
+                const date = new Date(item.data);
+                return date.toLocaleDateString('pt-BR');
+            }),
+            datasets: [{
+                label: 'Leads por Dia',
+                data: last30DaysData.map(item => item.total),
+                borderColor: '#007bff',
+                backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

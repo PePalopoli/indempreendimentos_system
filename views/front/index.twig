@@ -11,11 +11,11 @@
 <section class="banner banner-section" data-scroll-index='0'>
 
 
-    <div class="banners-home  banner-desk">
+    <div class="banners-home banner-desk">
 
         {% for item in banner %}
             <div>
-                <img src="{{path('imagem',{'path':'banner',imagem:item.image})}}" class="img-fluid" alt="">
+                <img src="{{getBannerImage('banner', item.image, 1920, 700, 90)}}" class="img-fluid" alt="Banner {{loop.index}}" loading="lazy">
             </div>
         {% endfor %}
         
@@ -24,7 +24,7 @@
     <div class="banners-home banner-mobile">
         {% for item in banner_mobile %}
             <div>
-                <img src="{{path('imagem',{'path':'banner',imagem:item.image})}}" class="img-fluid" alt="">
+                <img src="{{getBannerImage('banner', item.image, 768, 400, 85)}}" class="img-fluid" alt="Banner Mobile {{loop.index}}" loading="lazy">
             </div>
         {% endfor %}
     </div>
@@ -217,7 +217,7 @@
                         </div>
 
                         <div class="img-cada-empreendimento">
-                            <img src="{{path('imagem',{'path':'empreendimentos',imagem:item.img_capa,'fit':'crop','h':400,'w':567})}}" alt="" class="img-fluid" style="border-radius: 25px;">
+                            <img src="{{getThumbnailImage('empreendimentos', item.img_capa, 567, 400, 80)}}" alt="{{item.nome}}" class="img-fluid" style="border-radius: 25px;" loading="lazy">
                         </div>
                         <div class="chamada-empreendimentos">
                             <h2>{{item.nome|raw}}</h2>
@@ -322,7 +322,10 @@
 
             <div class="col-md-9 col-lg-9 col-12 bloco-formulario">
                 <div class="col-md-11 offset-md-1 col-lg-11 offset-lg-1 col-12 row">
-                    <form action="#" method="post">
+                    <form action="{{path('web_empreendimento_send')}}" method="post" id="form-empreendimento-index" name="form-empreendimento-index">
+                    <input type="hidden" name="csrf_token" value="{{formatCSRF()}}" />
+                    <input type="hidden" name="url_empreendimento_retorno" value="{{getCurrentUrl()}}" />
+                    <input type="hidden" name="form_type" value="home" />
                         <div class="form-row">
                             <div class="form-group col-md-8 col-lg-8 col-12">
                                 <label for="iName">Nome:<span>*</span></label>
@@ -336,8 +339,8 @@
 
                         <div class="form-row">
                             <div class="form-group col-md-4 col-lg-4 col-12">
-                                <label for="iTelefone">Whatasapp:<span>*</span></label>
-                                <input type="text" class="form-control" id="iTelefone" name="iTelefone" placeholder="DIGITE SEU WHATSAPP AQUI">
+                                <label for="iWhatsapp">Whatasapp:<span>*</span></label>
+                                <input type="text" class="form-control" id="iWhatsapp" name="iWhatsapp" placeholder="DIGITE SEU WHATSAPP AQUI">
                             </div>
                             <div class="form-group col-md-8 col-lg-8 col-12">
                                 <label for="iMsg">Assunto:<span>*</span></label>

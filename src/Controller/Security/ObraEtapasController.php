@@ -59,6 +59,9 @@ class ObraEtapasController extends ContainerAware
                 $insert_query = 'INSERT INTO `obra_etapas` (`titulo`, `cor_hex`, `descricao`, `order`, `enabled`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, ?, NOW(), NOW())';
                 $this->db()->executeUpdate($insert_query, array($data['titulo'], $data['cor_hex'], $data['descricao'], $data['order'], $data['enabled']));
 
+                // Limpar cache de tipos de empreendimentos
+                $this->get('asset_function')->clearTiposEmpreendimentosCache();
+
                 $this->flashMessage()->add('success', array('message' => 'Etapa adicionada com sucesso.'));
 
                 return $this->redirect('s_obra_etapas');
@@ -101,6 +104,9 @@ class ObraEtapasController extends ContainerAware
                 $update_query = 'UPDATE `obra_etapas` SET `titulo` = ?, `cor_hex` = ?, `descricao` = ?, `enabled` = ?, `updated_at` = NOW() WHERE `id` = ? LIMIT 1';
                 $this->get('db')->executeUpdate($update_query, array($data['titulo'], $data['cor_hex'], $data['descricao'], $data['enabled'], $data['id']));
 
+                // Limpar cache de tipos de empreendimentos
+                $this->get('asset_function')->clearTiposEmpreendimentosCache();
+
                 $this->flashMessage()->add('success', array('message' => 'Etapa editada com sucesso.'));
 
                 return $this->redirect('s_obra_etapas');
@@ -135,6 +141,10 @@ class ObraEtapasController extends ContainerAware
                 $this->flashMessage()->add('warning', array('message' => 'Não é possível excluir esta etapa pois há empreendimentos vinculados a ela.'));
             } else {
                 $this->get('db')->executeUpdate('DELETE FROM `obra_etapas` WHERE `id` = ?', array($id));
+                
+                // Limpar cache de tipos de empreendimentos
+                $this->get('asset_function')->clearTiposEmpreendimentosCache();
+                
                 $this->flashMessage()->add('success', array('message' => 'Etapa deletada com sucesso.'));
             }
         }
@@ -160,6 +170,9 @@ class ObraEtapasController extends ContainerAware
         foreach ($orders as $order => $item) {
             $this->get('db')->executeUpdate('UPDATE `obra_etapas` SET `order` = ?, `updated_at` = NOW() WHERE `id` = ? LIMIT 1', array($order, $item));
         }
+
+        // Limpar cache de tipos de empreendimentos após reordenação
+        $this->get('asset_function')->clearTiposEmpreendimentosCache();
 
         return $this->json($orders, 201);
     }

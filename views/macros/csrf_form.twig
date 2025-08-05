@@ -1,0 +1,26 @@
+{# Macro para adicionar CSRF protection a qualquer formulário #}
+
+{% macro csrf_fields(form_type = 'default') %}
+    <input type="hidden" name="csrf_token" value="{{csrf_token(form_type)}}" />
+    <input type="hidden" name="form_type" value="{{form_type}}" />
+{% endmacro %}
+
+{% macro form_start(action, form_type = 'default', method = 'post', class = '', id = '', other_attrs = '') %}
+    <form action="{{action}}" method="{{method}}"{% if class %} class="{{class}}"{% endif %}{% if id %} id="{{id}}"{% endif %}{{other_attrs|raw}}>
+        {{ _self.csrf_fields(form_type) }}
+{% endmacro %}
+
+{% macro form_end() %}
+    </form>
+{% endmacro %}
+
+{# Exemplo de uso:
+{% import 'macros/csrf_form.twig' as form %}
+
+{{ form.form_start(path('web_contato_send'), 'contato', 'post', 'form-contato') }}
+    <!-- campos do formulário aqui -->
+{{ form.form_end() }}
+
+Ou apenas os campos CSRF:
+{{ form.csrf_fields('newsletter') }}
+#}

@@ -1,0 +1,290 @@
+{% extends "security/layout_lte3.twig" %}
+
+{% block content %}
+<div class="">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Gestão de Leads</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        {# <li class="breadcrumb-item"><a href="{{path('s_security')}}">Dashboard</a></li> #}
+                        <li class="breadcrumb-item active">Leads</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            
+            <!-- Estatísticas -->
+            <div class="row mb-4">
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>{{stats.total}}</h3>
+                            <p>Total de Leads</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>{{stats.hoje}}</h3>
+                            <p>Hoje</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>{{stats.novos}}</h3>
+                            <p>Novos</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>{{stats.convertidos}}</h3>
+                            <p>Convertidos</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-pie-graph"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Filtros</h3>
+                    <div class="card-tools">
+                        <a href="{{path('s_leads_export')}}" class="btn btn-success btn-sm">
+                            <i class="fas fa-download"></i> Exportar CSV
+                        </a>
+                        <a href="{{path('s_leads_dashboard')}}" class="btn btn-info btn-sm">
+                            <i class="fas fa-chart-bar"></i> Dashboard
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form method="GET" class="row">
+                        <div class="col-md-2">
+                            <select name="source_page" class="form-control">
+                                {% for key, value in pages_options %}
+                                    <option value="{{key}}" >{{value}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select name="form_type" class="form-control">
+                                {% for key, value in form_types_options %}
+                                    <option value="{{key}}" >{{value}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select name="status" class="form-control">
+                                {% for key, value in status_options %}
+                                    <option value="{{key}}" >{{value}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="date" name="data_inicio" class="form-control" placeholder="Data início">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="date" name="data_fim" class="form-control" placeholder="Data fim">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary">Filtrar</button>
+                            <a href="{{path('s_leads')}}" class="btn btn-secondary">Limpar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Leads ({{total}} registros)</h3>
+                </div>
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Data/Hora</th>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>WhatsApp</th>
+                                <th>Página</th>
+                                <th>Tipo</th>
+                                <th>Status</th>
+                                <th>Email Enviado</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for lead in leads %}
+                            <tr>
+                                <td>{{lead.id}}</td>
+                                <td>{{lead.created_at|date('d/m/Y H:i')}}</td>
+                                <td>{{lead.nome|default('—')}}</td>
+                                <td>{{lead.email|default('—')}}</td>
+                                <td>{{lead.whatsapp|default('—')}}</td>
+                                <td>
+                                    <span class="badge badge-info">{{lead.source_page|default('—')}}</span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-secondary">{{lead.form_type|default('—')}}</span>
+                                </td>
+                                <td>
+                                    {% set status_colors = {
+                                        'novo': 'primary',
+                                        'contatado': 'warning', 
+                                        'convertido': 'success',
+                                        'perdido': 'danger'
+                                    } %}
+                                    <span class="badge badge-{{status_colors[lead.status]|default('secondary')}}">
+                                        {{lead.status|default('—')}}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if lead.email_sent %}
+                                        <span class="badge badge-success">Sim</span>
+                                    {% else %}
+                                        <span class="badge badge-danger">Não</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{path('s_leads_view', {id: lead.id})}}" class="btn btn-info btn-sm" title="Visualizar">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-warning btn-sm" onclick="updateStatus({{lead.id}})" title="Atualizar Status">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <a href="{{path('s_leads_delete', {id: lead.id})}}" 
+                                       class="btn btn-danger btn-sm" 
+                                       onclick="return confirm('Tem certeza que deseja excluir este lead?')" 
+                                       title="Excluir">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="10" class="text-center">Nenhum lead encontrado</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% if totalPages > 1 %}
+                <div class="card-footer clearfix">
+                    <ul class="pagination pagination-sm m-0 float-right">
+                        {% if page > 1 %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{path('s_leads', {page: page - 1})}}">« Anterior</a>
+                            </li>
+                        {% endif %}
+                        
+                        {% for p in range(max(1, page - 2), min(totalPages, page + 2)) %}
+                            <li class="page-item {% if p == page %}active{% endif %}">
+                                <a class="page-link" href="{{path('s_leads', {page: p})}}">{{p}}</a>
+                            </li>
+                        {% endfor %}
+                        
+                        {% if page < totalPages %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{path('s_leads', {page: page + 1})}}">Próximo »</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Modal para atualizar status -->
+<div class="modal fade" id="statusModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Atualizar Status do Lead</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <form id="statusForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Status:</label>
+                        <select name="status" class="form-control" required>
+                            <option value="novo">Novo</option>
+                            <option value="contatado">Contatado</option>
+                            <option value="convertido">Convertido</option>
+                            <option value="perdido">Perdido</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Observações:</label>
+                        <textarea name="notes" class="form-control" rows="3" placeholder="Observações sobre o lead..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentLeadId = null;
+
+function updateStatus(leadId) {
+    currentLeadId = leadId;
+    $('#statusModal').modal('show');
+}
+
+$('#statusForm').on('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    fetch(`{{ path('s_leads_update_status', {id: '__ID__'}) }}`.replace('__ID__', currentLeadId), {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Erro ao atualizar status: ' + data.message);
+        }
+    })
+    .catch(error => {
+        alert('Erro ao atualizar status');
+        console.error(error);
+    });
+});
+</script>
+{% endblock %}

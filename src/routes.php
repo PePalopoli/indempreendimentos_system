@@ -23,6 +23,10 @@ $route->get('img/{path}/{imagem}', function (Silex\Application $app, Symfony\Com
  $route->get('/empreendimentos/', 'Front\Home::TodosEmpreendimentos')->bind('web_todos_empreendimentos');
  $route->get('/empreendimentos/{url_categoria}/', 'Front\Home::TodosEmpreendimentosCategoria')->bind('web_todos_empreendimentos_categoria');
  $route->get('/empreendimento/{url_empreendimento}/', 'Front\Home::InternaEmpreendimento')->bind('web_interna_empreendimento');
+
+// Rotas para envio de formulários
+$route->post('/contato-send/', 'Front\Home::ContatoSend')->bind('web_contato_send');
+$route->post('/empreendimento-send/', 'Front\Home::ContatoSend')->bind('web_empreendimento_send');
 // $route->get('mobile-marketing', 'Front\Home::MobileMarketing')->bind('web_mobile_marketing');
 // $route->get('hub-parceiros', 'Front\Home::HubParceiros')->bind('web_hub_parceiros');
 // $route->get('empresa', 'Front\Home::Empresa')->bind('web_empresa');

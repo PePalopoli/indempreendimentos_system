@@ -154,6 +154,14 @@ $security->match('empreendimentos-sistema/create', 'Security\Empreendimentos::cr
 $security->match('empreendimentos-sistema/edit/{id}', 'Security\Empreendimentos::edit')->method('GET|POST')->bind('s_empreendimentos_edit');
 $security->delete('empreendimentos-sistema/delete/{id}', 'Security\Empreendimentos::delete')->bind('s_empreendimentos_delete');
 $security->post('empreendimentos-sistema/galeria/remove', 'Security\Empreendimentos::removeGaleriaImage')->bind('s_empreendimentos_remove_galeria_image');
+
+// Leads
+$security->match('leads', 'Security\Leads::index')->method('GET|POST')->bind('s_leads');
+$security->get('leads/dashboard', 'Security\Leads::dashboard')->bind('s_leads_dashboard');
+$security->get('leads/view/{id}', 'Security\Leads::view')->bind('s_leads_view');
+$security->post('leads/update-status/{id}', 'Security\Leads::updateStatus')->bind('s_leads_update_status');
+$security->get('leads/export', 'Security\Leads::export')->bind('s_leads_export');
+$security->delete('leads/delete/{id}', 'Security\Leads::delete')->bind('s_leads_delete');
 $security->post('empreendimentos-sistema/beneficio/adicionar', 'Security\Empreendimentos::adicionarBeneficio')->bind('s_empreendimentos_adicionar_beneficio');
 $security->post('empreendimentos-sistema/beneficio/remover', 'Security\Empreendimentos::removerBeneficio')->bind('s_empreendimentos_remover_beneficio');
 $security->post('empreendimentos-sistema/tour-botao/adicionar', 'Security\Empreendimentos::adicionarBotaoTour')->bind('s_empreendimentos_adicionar_botao_tour');

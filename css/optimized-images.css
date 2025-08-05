@@ -1,0 +1,21 @@
+/* CSS minimalista apenas para melhorar performance de imagens */
+/* Não interfere com CSS existente - apenas otimiza carregamento */
+
+/* Suavizar carregamento de imagens com loading="lazy" */
+img[loading="lazy"] {
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Otimizar renderização de imagens */
+img {
+    image-rendering: optimizeQuality;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+}
+
+/* Performance para WebP quando suportado */
+@supports (background-image: url('data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAwA0JaQAA3AA/vuUAAA=')) {
+    img {
+        image-rendering: auto;
+    }
+}

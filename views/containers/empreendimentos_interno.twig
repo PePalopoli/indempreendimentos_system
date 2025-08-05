@@ -19,7 +19,7 @@
                             </div>
 
                             <div class="img-cada-empreendimento">
-                                <img src="{{path('imagem',{'path':'empreendimentos',imagem:item.img_capa,'fit':'crop','h':400,'w':567})}}" alt="" class="img-fluid" style="border-radius: 25px;">
+                                <img src="{{getThumbnailImage('empreendimentos', item.img_capa, 567, 400, 80)}}" alt="{{item.nome}}" class="img-fluid" style="border-radius: 25px;" loading="lazy">
                             </div>
                             <div class="chamada-empreendimentos text-white">
                                 <h2 class="text-white">{{item.nome|raw}}</h2>
